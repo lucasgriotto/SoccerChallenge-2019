@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SoccerChallenge</string>
+    <string name="error_connection">Check your internet connection</string>
 </resources>
