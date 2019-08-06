@@ -50,7 +50,7 @@ class FilterDialogFragment : BaseDialogFragment() {
         dialogView.apply {
 
             mainViewModel.filter.value?.let {
-                adapter.selectedCompetitions = it
+                adapter.selectedCompetitions = HashSet(it)
             } ?: run {
                 btn_select_all.isSelected = true
             }
