@@ -77,9 +77,13 @@ class ResultsFragment : BaseFragment() {
                 }
                 is Resource.Success -> {
                     hideView(loading)
-                    adapter.list = response.data
+                    adapter.setListFirst(response.data)
                 }
             }
+        })
+
+        mainViewModel.filter.observe(viewLifecycleOwner, Observer {
+            adapter.filters = it
         })
     }
 
