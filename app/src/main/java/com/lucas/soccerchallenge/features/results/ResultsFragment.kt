@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.networking.Resource
 import com.lucas.soccerchallenge.base.ui.BaseFragment
-import com.lucas.soccerchallenge.features.MainViewModel
+import com.lucas.soccerchallenge.features.filter.FilterDialogViewModel
 import com.lucas.soccerchallenge.features.results.adapter.ResultsAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.view_network_state.*
@@ -20,7 +20,7 @@ class ResultsFragment : BaseFragment() {
 
     private lateinit var viewModel: ResultsViewModel
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var filterViewModel: FilterDialogViewModel
 
     @Inject
     lateinit var adapter: ResultsAdapter
@@ -37,8 +37,8 @@ class ResultsFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(ResultsViewModel::class.java)
 
-        mainViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(MainViewModel::class.java)
+        filterViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+            .get(FilterDialogViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -59,12 +59,12 @@ class ResultsFragment : BaseFragment() {
         list.adapter = adapter
 
         btn_retry.setOnClickListener {
-            viewModel.getResults()
+           viewModel.getResults()
         }
     }
     private fun subscribeToLiveData() {
 
-        viewModel.getResultsResponse.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.getResultResponse.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Loading -> {
                     hideView(btn_retry)
@@ -77,13 +77,13 @@ class ResultsFragment : BaseFragment() {
                 }
                 is Resource.Success -> {
                     hideView(loading)
-                    adapter.setListFirst(response.data)
+                    adapter.setList(response.data)
                 }
             }
         })
 
-        mainViewModel.filter.observe(viewLifecycleOwner, Observer {
-            adapter.filters = it
+        filterViewModel.filter.observe(viewLifecycleOwner, Observer {
+            adapter.setFilter(it)
         })
     }
 

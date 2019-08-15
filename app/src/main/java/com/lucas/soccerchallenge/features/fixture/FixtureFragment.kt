@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.networking.Resource
 import com.lucas.soccerchallenge.base.ui.BaseFragment
-import com.lucas.soccerchallenge.features.MainViewModel
+import com.lucas.soccerchallenge.features.filter.FilterDialogViewModel
 import com.lucas.soccerchallenge.features.fixture.adapter.FixtureAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.view_network_state.*
@@ -20,7 +20,7 @@ class FixtureFragment : BaseFragment() {
 
     private lateinit var viewModel: FixtureViewModel
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var filterViewModel: FilterDialogViewModel
 
     @Inject
     lateinit var adapter: FixtureAdapter
@@ -37,8 +37,8 @@ class FixtureFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FixtureViewModel::class.java)
 
-        mainViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(MainViewModel::class.java)
+        filterViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+            .get(FilterDialogViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -78,13 +78,13 @@ class FixtureFragment : BaseFragment() {
                 }
                 is Resource.Success -> {
                     hideView(loading)
-                    adapter.setListFirst(response.data)
+                    adapter.setList(response.data)
                 }
             }
         })
 
-        mainViewModel.filter.observe(viewLifecycleOwner, Observer {
-            adapter.filters = it
+        filterViewModel.filter.observe(viewLifecycleOwner, Observer {
+            adapter.setFilter(it)
         })
     }
 

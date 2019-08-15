@@ -46,6 +46,11 @@ dependencies {
     def lifecycle_version = "2.2.0-alpha02"
     def dagger_version = "2.23.2"
     def kotlin_coroutines_version = "1.1.1"
+    // Unit Testing
+    def mockito_version = "2.25.0"
+    def junit_version = "4.12"
+    def arch_core_version = "2.0.1"
+
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -78,7 +83,12 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
-    testImplementation 'junit:junit:4.12'
+    // Unit Testing
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "androidx.arch.core:core-runtime:$arch_core_version"
+    testImplementation "androidx.arch.core:core-testing:$arch_core_version"
+
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

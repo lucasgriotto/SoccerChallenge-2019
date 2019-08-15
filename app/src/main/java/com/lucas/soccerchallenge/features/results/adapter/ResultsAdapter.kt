@@ -4,48 +4,33 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.data.model.Competition
 import com.lucas.soccerchallenge.data.model.Match
+import com.lucas.soccerchallenge.features.filter.MatchFilter
 import javax.inject.Inject
 
 class ResultsAdapter @Inject
-constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+constructor(private val matchFilter: MatchFilter) : RecyclerView.Adapter<MatchResultViewHolder>() {
 
-    private lateinit var fullList: List<Match>
-
-    var filters: HashSet<Competition>? = null
-        set(value) {
-            field = value
-            list = fullList
-        }
-
-    private var list: List<Match> = emptyList()
-        set(value) {
-            field = getFilteredList(value)
-            notifyDataSetChanged()
-        }
-
-    fun setListFirst(list: List<Match>) {
-        fullList = list
-        this.list = list
+    fun setFilter(filters: HashSet<Competition>?){
+        matchFilter.filters = filters
+        notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    fun setList(list: List<Match>) {
+        matchFilter.setList(list)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchResultViewHolder {
         return MatchResultViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as MatchResultViewHolder).bindTo(
-            if (position == 0) null else list[position - 1],
-            list[position]
+    override fun onBindViewHolder(holder: MatchResultViewHolder, position: Int) {
+        holder.bindTo(
+            if (position == 0) null else matchFilter.filteredList[position - 1],
+            matchFilter.filteredList[position]
         )
     }
 
     override fun getItemCount(): Int {
-        return list.size
-    }
-
-    private fun getFilteredList(list: List<Match>): List<Match> {
-        return filters?.let { fil ->
-            list.filter { fil.contains(it.competition) }
-        } ?: list
+        return matchFilter.filteredList.size
     }
 }

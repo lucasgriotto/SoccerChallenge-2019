@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.BaseDialogFragment
-import com.lucas.soccerchallenge.features.MainViewModel
 import com.lucas.soccerchallenge.features.filter.adapter.FilterAdapter
 import kotlinx.android.synthetic.main.view_filter.view.*
 import javax.inject.Inject
@@ -19,7 +18,7 @@ class FilterDialogFragment : BaseDialogFragment() {
 
     private lateinit var dialogView: View
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel: FilterDialogViewModel
 
     @Inject
     lateinit var adapter: FilterAdapter
@@ -36,7 +35,7 @@ class FilterDialogFragment : BaseDialogFragment() {
         setStyle(STYLE_NORMAL, R.style.DialogFullScreen)
 
         mainViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(MainViewModel::class.java)
+            .get(FilterDialogViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -49,7 +48,7 @@ class FilterDialogFragment : BaseDialogFragment() {
 
         dialogView.apply {
 
-            mainViewModel.filter.value?.let {
+            mainViewModel.getFilters()?.let {
                 adapter.selectedCompetitions = HashSet(it)
             } ?: run {
                 btn_select_all.isSelected = true
@@ -70,7 +69,7 @@ class FilterDialogFragment : BaseDialogFragment() {
 
             btn_apply.setOnClickListener {
                 val fil = adapter.selectedCompetitions
-                mainViewModel.filter.postValue(if (fil.isNotEmpty()) fil else null)
+                mainViewModel.setFilters(fil)
                 dismiss()
             }
 

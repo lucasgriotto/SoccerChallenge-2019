@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lucas.soccerchallenge.di.viewmodel.ViewModelFactory
 import com.lucas.soccerchallenge.di.viewmodel.ViewModelKey
-import com.lucas.soccerchallenge.features.MainViewModel
+import com.lucas.soccerchallenge.features.filter.FilterDialogViewModel
 import com.lucas.soccerchallenge.features.fixture.FixtureViewModel
 import com.lucas.soccerchallenge.features.results.ResultsViewModel
 import dagger.Binds
@@ -29,6 +29,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindsMainViewModel(viewModel: MainViewModel): ViewModel
+    @ViewModelKey(FilterDialogViewModel::class)
+    abstract fun bindsMainViewModel(viewModel: FilterDialogViewModel): ViewModel
 }

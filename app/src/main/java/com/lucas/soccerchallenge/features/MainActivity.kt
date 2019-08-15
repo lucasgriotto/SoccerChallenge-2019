@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.ui.BaseActivity
 import com.lucas.soccerchallenge.features.filter.FilterDialogFragment
+import com.lucas.soccerchallenge.features.filter.FilterDialogViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -15,14 +16,14 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewPagerAdapter: MainViewPagerAdapter
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var filterViewModel: FilterDialogViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(MainViewModel::class.java)
+        filterViewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(FilterDialogViewModel::class.java)
 
         initView()
     }
@@ -41,9 +42,9 @@ class MainActivity : BaseActivity() {
         return when (item?.itemId) {
             R.id.action_filter -> {
                 showFilterMenu()
-                false
+                true
             }
-            else -> false
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

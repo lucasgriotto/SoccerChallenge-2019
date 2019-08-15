@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_match_fixture.view.*
 import kotlinx.android.synthetic.main.view_fixture.view.*
 import kotlinx.android.synthetic.main.view_header.view.*
 
-class MatchFixtureViewHolder private constructor(itemView: View) :
+class MatchFixtureViewHolder constructor(itemView: View) :
     RecyclerView.ViewHolder(itemView) {
 
     fun bindTo(previous: Match?, current: Match?) {
