@@ -19,12 +19,14 @@ android {
             minifyEnabled false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField stringConfig, baseUrl, '"https://storage.googleapis.com/cdn-og-test-api/"'
         }
 
         debug {
             minifyEnabled false
             debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField stringConfig, baseUrl, '"https://storage.googleapis.com/cdn-og-test-api/"'
         }
     }
 

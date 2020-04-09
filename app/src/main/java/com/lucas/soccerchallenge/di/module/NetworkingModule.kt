@@ -3,6 +3,7 @@ package com.lucas.soccerchallenge.di.module
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.lucas.soccerchallenge.BuildConfig
+import com.lucas.soccerchallenge.BuildConfig.BASE_URL
 import com.lucas.soccerchallenge.api.SoccerService
 import com.lucas.soccerchallenge.base.networking.CheckConnectivityInterceptor
 import dagger.Module
@@ -18,8 +19,6 @@ import javax.inject.Singleton
 class NetworkingModule {
 
     companion object{
-        const val BASE_URL = "https://storage.googleapis.com/cdn-og-test-api/"
-
         const val DATE_FORMAT_SERVER = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     }
 
