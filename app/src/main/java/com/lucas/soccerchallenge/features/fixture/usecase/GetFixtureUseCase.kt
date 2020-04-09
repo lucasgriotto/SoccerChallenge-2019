@@ -11,11 +11,7 @@ constructor(private val repository: SoccerRepository) : LiveDataUseCase<Unit, Re
 
     override suspend fun getData(params: Unit) {
         repository.getFixture { response ->
-            when (response) {
-                is Resource.Loading -> result.postValue(Resource.Loading())
-                is Resource.Error -> result.postValue(Resource.Error(response.message))
-                is Resource.Success -> result.postValue(Resource.Success(response.data))
-            }
+            result.postValue(response)
         }
     }
 }

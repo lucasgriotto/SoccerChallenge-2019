@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.data.model.Match
@@ -20,9 +21,9 @@ class MatchFixtureViewHolder constructor(itemView: View) :
             current?.let { cur ->
                 if (previous == null || !DateUtils.isSameMonthYear(previous.date, cur.date)) {
                     txt_month_year.text = DateUtils.getMonthYear(cur.date)
-                    header.visibility = View.VISIBLE
+                    header.isVisible = true
                 } else
-                    header.visibility = View.GONE
+                    header.isVisible = false
 
                 txt_competition.text = cur.competition.name
                 txt_venue.text = cur.venueName.plus(" | ")
