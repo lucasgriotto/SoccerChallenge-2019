@@ -3,7 +3,7 @@ package com.lucas.soccerchallenge.features
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.ui.BaseActivity
 import com.lucas.soccerchallenge.features.filter.FilterDialogFragment
@@ -22,7 +22,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        filterViewModel = ViewModelProviders.of(this, viewModelFactory)
+        filterViewModel = ViewModelProvider(this, viewModelFactory)
             .get(FilterDialogViewModel::class.java)
 
         initView()
@@ -38,8 +38,8 @@ class MainActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.action_filter -> {
                 showFilterMenu()
                 true

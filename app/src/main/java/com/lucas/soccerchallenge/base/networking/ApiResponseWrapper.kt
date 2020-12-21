@@ -26,7 +26,7 @@ abstract class ApiResponseWrapper<R>(
             } else
                 onHttpException(response)
         } catch (e: Exception) {
-            Log.e("Networking", e.message)
+            Log.e("Networking", e.message ?: "")
             onResult(Resource.Error(e.message ?: "Error"))
         }
     }

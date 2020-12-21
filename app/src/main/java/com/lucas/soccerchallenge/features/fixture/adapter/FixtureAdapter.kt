@@ -18,6 +18,7 @@ constructor(private val matchFilter: MatchFilter) : RecyclerView.Adapter<MatchFi
 
     fun setList(list: List<Match>) {
         matchFilter.setList(list)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchFixtureViewHolder {

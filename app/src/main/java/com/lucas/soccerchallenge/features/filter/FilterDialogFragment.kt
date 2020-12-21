@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.BaseDialogFragment
 import com.lucas.soccerchallenge.features.filter.adapter.FilterAdapter
@@ -34,7 +34,7 @@ class FilterDialogFragment : BaseDialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.DialogFullScreen)
 
-        mainViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+        mainViewModel = ViewModelProvider(requireActivity(), viewModelFactory)
             .get(FilterDialogViewModel::class.java)
     }
 

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.networking.Resource
 import com.lucas.soccerchallenge.base.ui.BaseFragment
@@ -34,10 +34,10 @@ class FixtureFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(FixtureViewModel::class.java)
 
-        filterViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+        filterViewModel = ViewModelProvider(requireActivity(), viewModelFactory)
             .get(FilterDialogViewModel::class.java)
     }
 
