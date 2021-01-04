@@ -18,9 +18,9 @@ import javax.inject.Singleton
 class NetworkingModule {
 
     companion object {
-        const val BASE_URL = "https://storage.googleapis.com/cdn-og-test-api/"
 
         const val DATE_FORMAT_SERVER = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+
     }
 
     @Provides
@@ -48,7 +48,7 @@ class NetworkingModule {
             .create()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gsonDate))
             .client(httpClient.build())
             .build()
