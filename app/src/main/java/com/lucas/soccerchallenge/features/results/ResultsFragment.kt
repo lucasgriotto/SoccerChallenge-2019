@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.networking.Resource
@@ -59,12 +58,13 @@ class ResultsFragment : BaseFragment() {
         list.adapter = adapter
 
         btn_retry.setOnClickListener {
-           viewModel.getResults()
+            viewModel.fetchMatchResults()
         }
     }
+
     private fun subscribeToLiveData() {
 
-        viewModel.getResultResponse.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.getResultResponse.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> {
                     hideView(btn_retry)
@@ -73,7 +73,7 @@ class ResultsFragment : BaseFragment() {
                 is Resource.Error -> {
                     hideView(loading)
                     showView(btn_retry)
-                    showToast(response.message)
+                    showToast(response.error.message)
                 }
                 is Resource.Success -> {
                     hideView(loading)
@@ -82,7 +82,7 @@ class ResultsFragment : BaseFragment() {
             }
         })
 
-        filterViewModel.filter.observe(viewLifecycleOwner, Observer {
+        filterViewModel.filter.observe(viewLifecycleOwner, {
             adapter.setFilter(it)
         })
     }

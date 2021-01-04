@@ -1,24 +1,24 @@
 package com.lucas.soccerchallenge.features.results
 
 import androidx.lifecycle.ViewModel
-import com.lucas.soccerchallenge.features.results.usecase.GetResultsUseCase
+import com.lucas.soccerchallenge.features.results.usecase.FetchMatchResultsUseCase
 import javax.inject.Inject
 
 class ResultsViewModel @Inject
-constructor(private val getResultsUseCase: GetResultsUseCase) : ViewModel() {
+constructor(private val fetchMatchResultsUseCase: FetchMatchResultsUseCase) : ViewModel() {
 
-    val getResultResponse = getResultsUseCase.observe()
+    val getResultResponse = fetchMatchResultsUseCase.observe()
 
     init {
-        getResults()
+        fetchMatchResults()
     }
 
-    fun getResults() {
-        getResultsUseCase.execute(Unit)
+    fun fetchMatchResults() {
+        fetchMatchResultsUseCase.execute(Unit)
     }
 
     override fun onCleared() {
         super.onCleared()
-        getResultsUseCase.cancel()
+        fetchMatchResultsUseCase.cancel()
     }
 }

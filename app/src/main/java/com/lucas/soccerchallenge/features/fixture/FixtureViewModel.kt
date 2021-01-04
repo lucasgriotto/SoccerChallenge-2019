@@ -1,24 +1,24 @@
 package com.lucas.soccerchallenge.features.fixture
 
 import androidx.lifecycle.ViewModel
-import com.lucas.soccerchallenge.features.fixture.usecase.GetFixtureUseCase
+import com.lucas.soccerchallenge.features.fixture.usecase.FetchFixtureUseCase
 import javax.inject.Inject
 
 class FixtureViewModel @Inject
-constructor(private val getFixtureUseCase: GetFixtureUseCase) : ViewModel() {
+constructor(private val fetchFixtureUseCase: FetchFixtureUseCase) : ViewModel() {
 
-    val getFixtureResponse = getFixtureUseCase.observe()
+    val fixtureResponse = fetchFixtureUseCase.observe()
 
     init {
-        getFixture()
+        fetchFixture()
     }
 
-    fun getFixture(){
-        getFixtureUseCase.execute(Unit)
+    fun fetchFixture(){
+        fetchFixtureUseCase.execute(Unit)
     }
 
     override fun onCleared() {
         super.onCleared()
-        getFixtureUseCase.cancel()
+        fetchFixtureUseCase.cancel()
     }
 }

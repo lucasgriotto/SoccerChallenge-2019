@@ -1,10 +1,9 @@
 package com.lucas.soccerchallenge.di.module
 
-import android.content.Context
 import com.google.gson.GsonBuilder
 import com.lucas.soccerchallenge.BuildConfig
+import com.lucas.soccerchallenge.api.NoConnectionInterceptor
 import com.lucas.soccerchallenge.api.SoccerService
-import com.lucas.soccerchallenge.base.networking.CheckConnectivityInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -17,7 +16,7 @@ import javax.inject.Singleton
 @Module
 class NetworkingModule {
 
-    companion object{
+    companion object {
         const val BASE_URL = "https://storage.googleapis.com/cdn-og-test-api/"
 
         const val DATE_FORMAT_SERVER = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -32,15 +31,16 @@ class NetworkingModule {
     @Provides
     @Singleton
     fun providesRetrofitClient(
-        checkConnectivityInterceptor: CheckConnectivityInterceptor,
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        noConnectionInterceptor: NoConnectionInterceptor
     ): Retrofit {
 
         val httpClient = OkHttpClient.Builder()
-        httpClient.addInterceptor(loggingInterceptor)
-            .addInterceptor(checkConnectivityInterceptor)
-            .connectTimeout(10, TimeUnit.SECONDS)
+        httpClient.connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(noConnectionInterceptor)
+
 
         val gsonDate = GsonBuilder()
             .setDateFormat(DATE_FORMAT_SERVER)
@@ -63,11 +63,5 @@ class NetworkingModule {
                 else
                     HttpLoggingInterceptor.Level.NONE
             )
-    }
-
-    @Provides
-    @Singleton
-    fun providesConnectivityInterceptor(context: Context): CheckConnectivityInterceptor {
-        return CheckConnectivityInterceptor(context)
     }
 }
