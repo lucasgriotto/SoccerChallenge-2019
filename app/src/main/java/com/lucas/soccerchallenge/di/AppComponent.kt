@@ -3,7 +3,7 @@ package com.lucas.soccerchallenge.di
 import android.app.Application
 import com.lucas.soccerchallenge.SoccerChallengeApp
 import com.lucas.soccerchallenge.di.module.ActivityModule
-import com.lucas.soccerchallenge.di.module.AppBindsModule
+import com.lucas.soccerchallenge.di.module.ApplicationModule
 import com.lucas.soccerchallenge.di.module.NetworkingModule
 import com.lucas.soccerchallenge.di.module.ViewModelModule
 import dagger.BindsInstance
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        AppBindsModule::class,
+        ApplicationModule::class,
         ActivityModule::class,
         ViewModelModule::class,
         NetworkingModule::class]

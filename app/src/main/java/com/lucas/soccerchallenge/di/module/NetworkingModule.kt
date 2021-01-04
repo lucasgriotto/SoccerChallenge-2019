@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
+@Suppress("UNUSED")
 class NetworkingModule {
 
     companion object {

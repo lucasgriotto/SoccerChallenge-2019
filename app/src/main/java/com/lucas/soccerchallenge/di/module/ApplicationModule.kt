@@ -8,11 +8,12 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-abstract class AppBindsModule {
+@Suppress("UNUSED")
+abstract class ApplicationModule {
 
     @Binds
     abstract fun bindContext(application: Application): Context
 
     @Binds
-    abstract fun bindSoccerRepositoryImpl(repository: SoccerRepositoryImpl): SoccerRepository
+    abstract fun bindSoccerRepository(repository: SoccerRepositoryImpl): SoccerRepository
 }

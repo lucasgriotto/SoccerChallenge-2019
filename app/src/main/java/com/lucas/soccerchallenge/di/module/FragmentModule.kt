@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
+@Suppress("UNUSED")
 abstract class FragmentModule {
 
     @ContributesAndroidInjector

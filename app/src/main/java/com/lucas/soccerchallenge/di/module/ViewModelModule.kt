@@ -12,6 +12,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
+@Suppress("UNUSED")
 abstract class ViewModelModule {
 
     @Binds
@@ -30,5 +31,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(FilterDialogViewModel::class)
-    abstract fun bindsMainViewModel(viewModel: FilterDialogViewModel): ViewModel
+    abstract fun bindsFilterDialogViewModel(viewModel: FilterDialogViewModel): ViewModel
 }

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
+@Suppress("UNUSED")
 abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = [FragmentModule::class])
