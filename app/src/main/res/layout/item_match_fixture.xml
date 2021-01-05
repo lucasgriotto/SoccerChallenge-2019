@@ -9,6 +9,8 @@
         layout="@layout/view_header"
         android:visibility="gone" />
 
-    <include layout="@layout/view_fixture" />
+    <include
+        android:id="@+id/fixture"
+        layout="@layout/view_fixture" />
 
 </LinearLayout>

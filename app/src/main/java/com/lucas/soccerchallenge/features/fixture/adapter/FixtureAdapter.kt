@@ -8,8 +8,9 @@ import com.lucas.soccerchallenge.features.filter.MatchFilter
 import java.util.*
 import javax.inject.Inject
 
-class FixtureAdapter @Inject
-constructor(private val matchFilter: MatchFilter) : RecyclerView.Adapter<MatchFixtureViewHolder>() {
+class FixtureAdapter @Inject constructor(
+    private val matchFilter: MatchFilter
+) : RecyclerView.Adapter<MatchFixtureViewHolder>() {
 
     fun setFilter(filters: HashSet<Competition>?) {
         matchFilter.filters = filters
@@ -27,8 +28,8 @@ constructor(private val matchFilter: MatchFilter) : RecyclerView.Adapter<MatchFi
 
     override fun onBindViewHolder(holder: MatchFixtureViewHolder, position: Int) {
         holder.bindTo(
-            if (position == 0) null else matchFilter.filteredList[position - 1],
-            matchFilter.filteredList[position]
+            matchFilter.filteredList.getOrNull(position - 1),
+            matchFilter.filteredList.getOrNull(position)
         )
     }
 

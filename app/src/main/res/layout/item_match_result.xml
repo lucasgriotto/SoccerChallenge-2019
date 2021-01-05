@@ -8,6 +8,8 @@
         android:id="@+id/header"
         layout="@layout/view_header" />
 
-    <include layout="@layout/view_result" />
+    <include
+        android:id="@+id/result"
+        layout="@layout/view_result" />
 
 </LinearLayout>

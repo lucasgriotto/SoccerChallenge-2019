@@ -8,8 +8,7 @@ import com.lucas.soccerchallenge.features.fixture.FixtureFragment
 import com.lucas.soccerchallenge.features.results.ResultsFragment
 import javax.inject.Inject
 
-class MainViewPagerAdapter
-@Inject constructor(
+class MainViewPagerAdapter @Inject constructor(
     val context: Context,
     activity: MainActivity
 ) : FragmentStatePagerAdapter(

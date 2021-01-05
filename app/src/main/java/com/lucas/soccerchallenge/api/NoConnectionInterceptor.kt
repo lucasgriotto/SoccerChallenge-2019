@@ -10,8 +10,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NoConnectionInterceptor @Inject
-constructor(private val context: Context) : Interceptor {
+class NoConnectionInterceptor @Inject constructor(
+    private val context: Context
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         return if (!isConnectionOn(context)) {

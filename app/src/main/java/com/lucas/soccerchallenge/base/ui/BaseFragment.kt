@@ -1,27 +1,22 @@
 package com.lucas.soccerchallenge.base.ui
 
-import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.annotation.LayoutRes
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : DaggerFragment(contentLayoutId) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
-
     fun showView(view: View) {
-        view.visibility = View.VISIBLE
+        view.isVisible = true
     }
 
     fun hideView(view: View) {
-        view.visibility = View.GONE
+        view.isVisible = false
     }
 }

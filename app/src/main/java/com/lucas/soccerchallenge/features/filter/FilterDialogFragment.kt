@@ -65,7 +65,7 @@ class FilterDialogFragment : BaseDialogFragment() {
                 btn_select_all.isSelected = false
             }
 
-            list.adapter = adapter
+            main_list.adapter = adapter
 
             btn_apply.setOnClickListener {
                 val fil = adapter.selectedCompetitions

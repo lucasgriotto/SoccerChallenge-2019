@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ResultsAdapter @Inject
 constructor(private val matchFilter: MatchFilter) : RecyclerView.Adapter<MatchResultViewHolder>() {
 
-    fun setFilter(filters: HashSet<Competition>?){
+    fun setFilter(filters: HashSet<Competition>?) {
         matchFilter.filters = filters
         notifyDataSetChanged()
     }
@@ -26,8 +26,8 @@ constructor(private val matchFilter: MatchFilter) : RecyclerView.Adapter<MatchRe
 
     override fun onBindViewHolder(holder: MatchResultViewHolder, position: Int) {
         holder.bindTo(
-            if (position == 0) null else matchFilter.filteredList[position - 1],
-            matchFilter.filteredList[position]
+            matchFilter.filteredList.getOrNull(position - 1),
+            matchFilter.filteredList.getOrNull(position)
         )
     }
 

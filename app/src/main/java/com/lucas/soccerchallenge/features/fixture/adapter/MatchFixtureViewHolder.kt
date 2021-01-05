@@ -4,55 +4,64 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
+import com.lucas.soccerchallenge.base.color
 import com.lucas.soccerchallenge.data.model.Match
+import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
 import com.lucas.soccerchallenge.utils.DateUtils
 import kotlinx.android.synthetic.main.item_match_fixture.view.*
 import kotlinx.android.synthetic.main.view_fixture.view.*
 import kotlinx.android.synthetic.main.view_header.view.*
 
-class MatchFixtureViewHolder constructor(itemView: View) :
-    RecyclerView.ViewHolder(itemView) {
+class MatchFixtureViewHolder constructor(
+    private val binding: ItemMatchFixtureBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bindTo(previous: Match?, current: Match?) {
-        itemView.apply {
+        val context = itemView.context
+
+        binding.header.apply {
             current?.let { cur ->
                 if (previous == null || !DateUtils.isSameMonthYear(previous.date, cur.date)) {
-                    txt_month_year.text = DateUtils.getMonthYear(cur.date)
-                    header.visibility = View.VISIBLE
-                } else
-                    header.visibility = View.GONE
+                    txtMonthYear.text = DateUtils.getMonthYear(cur.date)
+                    root.isVisible = true
+                } else {
+                    root.isVisible = false
+                }
+            }
+        }
 
-                txt_competition.text = cur.competition.name
-                txt_venue.text = cur.venueName.plus(" | ")
-                txt_date.text = DateUtils.getUIFormattedDate(cur.date)
+        binding.fixture.apply {
+            current?.let { cur ->
+                txtCompetition.text = cur.competition.name
+                txtVenue.text = cur.venueName.plus(" | ")
+                txtDate.text = DateUtils.getUIFormattedDate(cur.date)
 
-                txt_team_home.text = cur.homeTeam.name
-                txt_team_away.text = cur.awayTeam.name
+                txtTeamHome.text = cur.homeTeam.name
+                txtTeamAway.text = cur.awayTeam.name
 
-                txt_day_num.text = DateUtils.getMonthDayNumber(cur.date)
-                txt_day_name.text = DateUtils.getWeekDayNameShort(cur.date)
+                txtDayNum.text = DateUtils.getMonthDayNumber(cur.date)
+                txtDayName.text = DateUtils.getWeekDayNameShort(cur.date)
 
                 if (cur.isPostponed()) {
-                    txt_postponed.visibility = View.VISIBLE
-                    txt_date.setTextColor(getColor(R.color.red))
+                    txtPostponed.isVisible = true
+                    txtDate.setTextColor(context.color(R.color.red))
                 } else {
-                    txt_postponed.visibility = View.GONE
-                    txt_date.setTextColor(getColor(R.color.grey))
+                    txtPostponed.isVisible = false
+                    txtDate.setTextColor(context.color(R.color.grey))
                 }
             }
         }
     }
 
-    private fun getColor(colorId: Int) = ContextCompat.getColor(itemView.context, colorId)
-
     companion object {
 
         fun create(parent: ViewGroup): MatchFixtureViewHolder {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            val view = layoutInflater.inflate(R.layout.item_match_fixture, parent, false)
-            return MatchFixtureViewHolder(view)
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = ItemMatchFixtureBinding.inflate(inflater, parent, false)
+            return MatchFixtureViewHolder(binding)
         }
     }
 }

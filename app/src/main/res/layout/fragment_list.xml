@@ -6,12 +6,13 @@
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
+        android:id="@+id/main_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <include
+        android:id="@+id/network_state"
         layout="@layout/view_network_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
