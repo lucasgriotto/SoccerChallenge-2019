@@ -14,7 +14,6 @@ import com.lucas.soccerchallenge.data.model.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
 import com.lucas.soccerchallenge.features.filter.FilterDialogViewModel
 import com.lucas.soccerchallenge.features.results.adapter.ResultsAdapter
-import kotlinx.android.synthetic.main.view_network_state.*
 import javax.inject.Inject
 
 class ResultsFragment : BaseFragment(R.layout.fragment_list) {

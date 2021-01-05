@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.base
+package com.lucas.soccerchallenge.base.extension
 
 import com.lucas.soccerchallenge.base.networking.AppError
 import retrofit2.HttpException

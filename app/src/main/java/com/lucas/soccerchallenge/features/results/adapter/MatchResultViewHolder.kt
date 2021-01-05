@@ -1,21 +1,14 @@
 package com.lucas.soccerchallenge.features.results.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
-import com.lucas.soccerchallenge.base.color
+import com.lucas.soccerchallenge.base.extension.color
 import com.lucas.soccerchallenge.data.model.Match
-import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
 import com.lucas.soccerchallenge.databinding.ItemMatchResultBinding
-import com.lucas.soccerchallenge.features.fixture.adapter.MatchFixtureViewHolder
 import com.lucas.soccerchallenge.utils.DateUtils
-import kotlinx.android.synthetic.main.item_match_result.view.*
-import kotlinx.android.synthetic.main.view_header.view.*
-import kotlinx.android.synthetic.main.view_result.view.*
 
 class MatchResultViewHolder constructor(
     private val binding: ItemMatchResultBinding
