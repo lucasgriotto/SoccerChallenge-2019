@@ -3,7 +3,7 @@ package com.lucas.soccerchallenge
 import com.lucas.soccerchallenge.data.model.Competition
 import com.lucas.soccerchallenge.data.model.Match
 import com.lucas.soccerchallenge.data.model.Team
-import com.lucas.soccerchallenge.features.filter.MatchFilter
+import com.lucas.soccerchallenge.features.main.filter.MatchFilter
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

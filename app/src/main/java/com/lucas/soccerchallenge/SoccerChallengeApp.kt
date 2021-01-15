@@ -23,6 +23,7 @@ class SoccerChallengeApp : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

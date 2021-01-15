@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.data.model.Competition
 import com.lucas.soccerchallenge.data.model.Match
-import com.lucas.soccerchallenge.features.filter.MatchFilter
+import com.lucas.soccerchallenge.features.main.filter.MatchFilter
 import java.util.*
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class FixtureAdapter @Inject constructor(
     private val matchFilter: MatchFilter
 ) : RecyclerView.Adapter<MatchFixtureViewHolder>() {
 
-    fun setFilter(filters: HashSet<Competition>?) {
+    fun setFilter(filters: HashSet<Competition>) {
         matchFilter.filters = filters
         notifyDataSetChanged()
     }

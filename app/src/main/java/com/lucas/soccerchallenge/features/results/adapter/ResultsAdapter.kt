@@ -4,13 +4,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.data.model.Competition
 import com.lucas.soccerchallenge.data.model.Match
-import com.lucas.soccerchallenge.features.filter.MatchFilter
+import com.lucas.soccerchallenge.features.main.filter.MatchFilter
 import javax.inject.Inject
 
-class ResultsAdapter @Inject
-constructor(private val matchFilter: MatchFilter) : RecyclerView.Adapter<MatchResultViewHolder>() {
+class ResultsAdapter @Inject constructor(
+    private val matchFilter: MatchFilter
+) : RecyclerView.Adapter<MatchResultViewHolder>() {
 
-    fun setFilter(filters: HashSet<Competition>?) {
+    fun setFilter(filters: HashSet<Competition>) {
         matchFilter.filters = filters
         notifyDataSetChanged()
     }

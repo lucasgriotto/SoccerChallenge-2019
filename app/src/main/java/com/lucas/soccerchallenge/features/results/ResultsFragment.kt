@@ -12,7 +12,7 @@ import com.lucas.soccerchallenge.base.ui.BaseFragment
 import com.lucas.soccerchallenge.base.ui.viewBinding
 import com.lucas.soccerchallenge.data.model.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
-import com.lucas.soccerchallenge.features.filter.FilterDialogViewModel
+import com.lucas.soccerchallenge.features.main.filter.FilterViewModel
 import com.lucas.soccerchallenge.features.results.adapter.ResultsAdapter
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
 
     private val viewModel: ResultsViewModel by viewModels { viewModelFactory }
 
-    private lateinit var filterViewModel: FilterDialogViewModel
+    private lateinit var filterViewModel: FilterViewModel
 
     @Inject
     lateinit var adapter: ResultsAdapter
@@ -38,7 +38,7 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
         super.onCreate(savedInstanceState)
 
         filterViewModel = ViewModelProvider(requireActivity(), viewModelFactory)
-            .get(FilterDialogViewModel::class.java)
+            .get(FilterViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,11 +1,10 @@
-package com.lucas.soccerchallenge.features.filter
+package com.lucas.soccerchallenge.features.main.filter
 
 import com.lucas.soccerchallenge.data.model.Competition
 import com.lucas.soccerchallenge.data.model.Match
 import javax.inject.Inject
 
-class MatchFilter @Inject
-constructor() {
+class MatchFilter @Inject constructor() {
 
     private var fullList: List<Match> = emptyList()
 
@@ -14,9 +13,9 @@ constructor() {
             field = getFilteredList(value)
         }
 
-    var filters: HashSet<Competition>? = null
+    var filters: HashSet<Competition> = hashSetOf(Filters.allFilterCompetition)
         set(value) {
-            field = value
+            field = if (value.isEmpty()) hashSetOf(Filters.allFilterCompetition) else value
             filteredList = fullList
         }
 
@@ -26,8 +25,9 @@ constructor() {
     }
 
     private fun getFilteredList(list: List<Match>): List<Match> {
-        return filters?.let { fil ->
-            list.filter { fil.contains(it.competition) }
-        } ?: list
+        return if (filters.size == 1 && filters.contains(Filters.allFilterCompetition))
+            list
+        else
+            list.filter { filters.contains(it.competition) }
     }
 }

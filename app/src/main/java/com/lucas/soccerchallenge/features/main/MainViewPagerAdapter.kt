@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.features
+package com.lucas.soccerchallenge.features.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment

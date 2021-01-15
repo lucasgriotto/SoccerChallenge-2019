@@ -14,7 +14,7 @@
             android:theme="@style/AppTheme">
 
         <activity
-                android:name="com.lucas.soccerchallenge.features.MainActivity"
+                android:name="com.lucas.soccerchallenge.features.main.MainActivity"
                 android:configChanges="orientation">
 
             <intent-filter>
