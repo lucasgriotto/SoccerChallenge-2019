@@ -42,6 +42,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -53,15 +59,14 @@ dependencies {
     def lifecycle_version = "2.2.0"
     def dagger_version = "2.28.1"
     def timber_version = "4.7.1"
-    def kotlin_coroutines_version = "1.3.7"
+    def kotlin_coroutines_version = "1.4.2"
     def fragment_version = "1.2.5"
     // Unit Testing
-    def mockito_version = "3.1.0"
+    def mockk_version = "1.10.6"
     def junit_version = "4.13"
     def junit_ext_version = '1.1.2'
     def espresso_version = '3.3.0'
     def arch_core_version = "2.1.0"
-
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -101,9 +106,10 @@ dependencies {
 
     // Unit Testing
     testImplementation "junit:junit:$junit_version"
-    testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "androidx.arch.core:core-runtime:$arch_core_version"
     testImplementation "androidx.arch.core:core-testing:$arch_core_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
 
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
