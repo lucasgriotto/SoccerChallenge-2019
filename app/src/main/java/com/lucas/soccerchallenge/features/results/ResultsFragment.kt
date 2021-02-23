@@ -64,7 +64,7 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
                     displayLoadingState()
                 }
                 is Resource.Error -> {
-                    displayErrorState(response.error)
+                    displayErrorState(getAppError(response.error))
                 }
                 is Resource.Success -> {
                     displaySuccessState(response.data)

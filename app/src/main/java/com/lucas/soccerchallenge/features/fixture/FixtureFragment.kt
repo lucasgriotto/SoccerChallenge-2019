@@ -12,8 +12,8 @@ import com.lucas.soccerchallenge.base.ui.BaseFragment
 import com.lucas.soccerchallenge.base.ui.viewBinding
 import com.lucas.soccerchallenge.data.model.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
-import com.lucas.soccerchallenge.features.main.filter.FilterViewModel
 import com.lucas.soccerchallenge.features.fixture.adapter.FixtureAdapter
+import com.lucas.soccerchallenge.features.main.filter.FilterViewModel
 import javax.inject.Inject
 
 class FixtureFragment : BaseFragment(R.layout.fragment_list) {
@@ -64,7 +64,7 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
                     displayLoadingState()
                 }
                 is Resource.Error -> {
-                    displayErrorState(response.error)
+                    displayErrorState(getAppError(response.error))
                 }
                 is Resource.Success -> {
                     displaySuccessState(response.data)

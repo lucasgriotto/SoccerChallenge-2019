@@ -1,7 +1,6 @@
 package com.lucas.soccerchallenge
 
 import android.app.Application
-import android.content.Context
 import com.lucas.soccerchallenge.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -16,14 +15,8 @@ class SoccerChallengeApp : Application(), HasAndroidInjector {
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
-    companion object {
-        lateinit var instance: Context
-            private set
-    }
-
     override fun onCreate() {
         super.onCreate()
-        instance = this
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -35,4 +28,5 @@ class SoccerChallengeApp : Application(), HasAndroidInjector {
             .build()
             .inject(this)
     }
+
 }

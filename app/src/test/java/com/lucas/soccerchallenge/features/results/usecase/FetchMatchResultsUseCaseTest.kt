@@ -73,7 +73,6 @@ class FetchMatchResultsUseCaseTest {
         assertTrue(captors.first() is Resource.Loading)
         val resourceError = captors.getOrNull(1)
         assertTrue(resourceError is Resource.Error)
-        assertTrue((resourceError as Resource.Error).error is AppError.GeneralError)
     }
 
 }

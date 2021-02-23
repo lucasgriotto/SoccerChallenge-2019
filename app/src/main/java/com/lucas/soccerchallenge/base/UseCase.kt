@@ -2,8 +2,6 @@ package com.lucas.soccerchallenge.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.lucas.soccerchallenge.base.networking.AppError
-import com.lucas.soccerchallenge.base.networking.ErrorEntityFactory
 import com.lucas.soccerchallenge.base.networking.Resource
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -22,7 +20,7 @@ abstract class UseCase<R, Params> {
 
     private val handler = CoroutineExceptionHandler { _, e ->
         Timber.e("Caught $e")
-        result.value = Resource.Error(e as? AppError ?: ErrorEntityFactory.getError(e))
+        result.value = Resource.Error(e)
     }
 
     fun execute(params: Params) {

@@ -3,7 +3,8 @@ package com.lucas.soccerchallenge.api
 import android.content.Context
 import com.lucas.soccerchallenge.api.ConnectionUtil.isConnectionOn
 import com.lucas.soccerchallenge.api.ConnectionUtil.isInternetAvailable
-import com.lucas.soccerchallenge.base.networking.AppError
+import com.lucas.soccerchallenge.base.networking.exception.NoInternetException
+import com.lucas.soccerchallenge.base.networking.exception.NoNetworkException
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -16,9 +17,9 @@ class NoConnectionInterceptor @Inject constructor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         return if (!isConnectionOn(context)) {
-            throw AppError.NoNetwork()
+            throw NoNetworkException()
         } else if (!isInternetAvailable()) {
-            throw AppError.NoInternet()
+            throw NoInternetException()
         } else {
             chain.proceed(chain.request())
         }
