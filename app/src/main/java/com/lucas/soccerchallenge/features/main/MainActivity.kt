@@ -11,8 +11,8 @@ import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.base.extension.viewBinding
 import com.lucas.soccerchallenge.base.ui.BaseActivity
 import com.lucas.soccerchallenge.databinding.ActivityMainBinding
-import com.lucas.soccerchallenge.features.main.filter.FilterViewModel
 import com.lucas.soccerchallenge.features.main.filter.FilterAdapter
+import com.lucas.soccerchallenge.features.main.filter.FilterViewModel
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {

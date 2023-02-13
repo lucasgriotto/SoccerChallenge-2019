@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.data.model.Competition
 import com.lucas.soccerchallenge.data.model.Match
 import com.lucas.soccerchallenge.features.main.filter.MatchFilter
-import java.util.*
 import javax.inject.Inject
 
 class FixtureAdapter @Inject constructor(

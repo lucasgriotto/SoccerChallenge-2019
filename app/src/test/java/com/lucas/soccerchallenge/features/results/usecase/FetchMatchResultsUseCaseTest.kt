@@ -2,7 +2,6 @@ package com.lucas.soccerchallenge.features.results.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.lucas.soccerchallenge.base.networking.AppError
 import com.lucas.soccerchallenge.base.networking.Resource
 import com.lucas.soccerchallenge.data.model.Match
 import com.lucas.soccerchallenge.data.toMatch

@@ -4,7 +4,6 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.lucas.soccerchallenge.base.networking.AppError
 import com.lucas.soccerchallenge.base.networking.ErrorFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject

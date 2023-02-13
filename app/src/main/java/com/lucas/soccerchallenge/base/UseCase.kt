@@ -3,7 +3,11 @@ package com.lucas.soccerchallenge.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.lucas.soccerchallenge.base.networking.Resource
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 abstract class UseCase<R, Params> {

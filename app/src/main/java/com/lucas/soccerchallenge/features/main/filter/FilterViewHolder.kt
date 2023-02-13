@@ -1,15 +1,10 @@
 package com.lucas.soccerchallenge.features.main.filter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.data.model.Competition
 import com.lucas.soccerchallenge.databinding.ItemFilterBinding
-import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
-import com.lucas.soccerchallenge.features.fixture.adapter.MatchFixtureViewHolder
-import kotlinx.android.synthetic.main.item_filter.view.*
 
 class FilterViewHolder constructor(
     private val binding: ItemFilterBinding,
