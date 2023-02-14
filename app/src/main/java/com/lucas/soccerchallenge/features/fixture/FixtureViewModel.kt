@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import com.lucas.soccerchallenge.features.fixture.usecase.FetchFixtureUseCase
 import javax.inject.Inject
 
-class FixtureViewModel @Inject
-constructor(private val fetchFixtureUseCase: FetchFixtureUseCase) : ViewModel() {
+class FixtureViewModel @Inject constructor(
+    private val fetchFixtureUseCase: FetchFixtureUseCase
+) : ViewModel() {
 
     val fixtureResponse = fetchFixtureUseCase.observe()
 
@@ -13,7 +14,7 @@ constructor(private val fetchFixtureUseCase: FetchFixtureUseCase) : ViewModel() 
         fetchFixture()
     }
 
-    fun fetchFixture(){
+    fun fetchFixture() {
         fetchFixtureUseCase.execute(Unit)
     }
 

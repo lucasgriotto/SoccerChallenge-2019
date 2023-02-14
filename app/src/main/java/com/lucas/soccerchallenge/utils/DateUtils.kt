@@ -19,18 +19,19 @@ object DateUtils {
         return df.format(date)
     }
 
-    fun getUIFormattedDate(date: Date) : String {
+    fun getUIFormattedDate(date: Date): String {
         val df = SimpleDateFormat("MMM dd, yyyy 'at' kk:mm", Locale.getDefault())
         return df.format(date)
     }
 
-    fun getMonthDayNumber(date: Date) : String {
+    fun getMonthDayNumber(date: Date): String {
         val df = SimpleDateFormat("dd", Locale.getDefault())
         return df.format(date)
     }
 
-    fun getWeekDayNameShort(date: Date) : String {
+    fun getWeekDayNameShort(date: Date): String {
         val df = SimpleDateFormat("EEE", Locale.getDefault())
         return df.format(date)
     }
+
 }

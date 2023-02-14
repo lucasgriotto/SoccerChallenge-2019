@@ -1,7 +1,10 @@
 package com.lucas.soccerchallenge.di.module
 
-import com.lucas.soccerchallenge.features.fixture.FixtureFragment
-import com.lucas.soccerchallenge.features.results.ResultsFragment
+import com.lucas.soccerchallenge.di.scope.FragmentScoped
+import com.lucas.soccerchallenge.features.home.HomeFragment
+import com.lucas.soccerchallenge.features.home.HomeModule
+import com.lucas.soccerchallenge.features.match.MatchDetailFragment
+import com.lucas.soccerchallenge.features.match.MatchDetailModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,9 +12,12 @@ import dagger.android.ContributesAndroidInjector
 @Suppress("UNUSED")
 abstract class FragmentModule {
 
-    @ContributesAndroidInjector
-    abstract fun contributeFixtureFragment(): FixtureFragment
+    @FragmentScoped
+    @ContributesAndroidInjector(modules = [HomeModule::class])
+    abstract fun homeFragment(): HomeFragment
 
-    @ContributesAndroidInjector
-    abstract fun contributeResultsFragment(): ResultsFragment
+    @FragmentScoped
+    @ContributesAndroidInjector(modules = [MatchDetailModule::class])
+    abstract fun matchDetailFragment(): MatchDetailFragment
+
 }

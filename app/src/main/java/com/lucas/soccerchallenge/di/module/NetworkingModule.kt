@@ -2,7 +2,6 @@ package com.lucas.soccerchallenge.di.module
 
 import com.google.gson.GsonBuilder
 import com.lucas.soccerchallenge.BuildConfig
-import com.lucas.soccerchallenge.api.NoConnectionInterceptor
 import com.lucas.soccerchallenge.api.SoccerService
 import dagger.Module
 import dagger.Provides
@@ -17,12 +16,6 @@ import javax.inject.Singleton
 @Suppress("UNUSED")
 class NetworkingModule {
 
-    companion object {
-
-        const val DATE_FORMAT_SERVER = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-
-    }
-
     @Provides
     @Singleton
     fun provideSoccerService(retrofit: Retrofit): SoccerService {
@@ -32,16 +25,12 @@ class NetworkingModule {
     @Provides
     @Singleton
     fun providesRetrofitClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        noConnectionInterceptor: NoConnectionInterceptor
+        loggingInterceptor: HttpLoggingInterceptor
     ): Retrofit {
-
         val httpClient = OkHttpClient.Builder()
         httpClient.connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(noConnectionInterceptor)
-
 
         val gsonDate = GsonBuilder()
             .setDateFormat(DATE_FORMAT_SERVER)
@@ -65,4 +54,9 @@ class NetworkingModule {
                     HttpLoggingInterceptor.Level.NONE
             )
     }
+
+    companion object {
+        private const val DATE_FORMAT_SERVER = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    }
+
 }

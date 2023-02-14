@@ -16,4 +16,5 @@ abstract class ApplicationModule {
 
     @Binds
     abstract fun bindSoccerRepository(repository: SoccerRepositoryImpl): SoccerRepository
+
 }

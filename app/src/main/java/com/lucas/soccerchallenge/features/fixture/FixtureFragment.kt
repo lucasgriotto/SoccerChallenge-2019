@@ -2,18 +2,21 @@ package com.lucas.soccerchallenge.features.fixture
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.lucas.soccerchallenge.R
-import com.lucas.soccerchallenge.base.networking.AppError
-import com.lucas.soccerchallenge.base.networking.Resource
-import com.lucas.soccerchallenge.base.ui.BaseFragment
-import com.lucas.soccerchallenge.base.ui.viewBinding
-import com.lucas.soccerchallenge.data.model.Match
+import com.lucas.soccerchallenge.core.base.BaseFragment
+import com.lucas.soccerchallenge.core.extension.viewBinding
+import com.lucas.soccerchallenge.core.networking.AppError
+import com.lucas.soccerchallenge.core.networking.Resource
+import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
 import com.lucas.soccerchallenge.features.fixture.adapter.FixtureAdapter
-import com.lucas.soccerchallenge.features.main.filter.FilterViewModel
+import com.lucas.soccerchallenge.features.home.HomeFragmentDirections
+import com.lucas.soccerchallenge.features.home.filter.FilterViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FixtureFragment : BaseFragment(R.layout.fragment_list) {
@@ -22,24 +25,10 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
 
     private val viewModel: FixtureViewModel by viewModels { viewModelFactory }
 
-    private lateinit var filterViewModel: FilterViewModel
+    private val filterViewModel: FilterViewModel by activityViewModels { viewModelFactory }
 
     @Inject
     lateinit var adapter: FixtureAdapter
-
-    companion object {
-
-        fun newInstance(): FixtureFragment {
-            return FixtureFragment()
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        filterViewModel = ViewModelProvider(requireActivity(), viewModelFactory)
-            .get(FilterViewModel::class.java)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,17 +37,22 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
     }
 
     private fun initView() {
+        adapter.onMatchClick = {
+            HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(it)
+                .also { navAction ->
+                    findNavController().navigate(navAction)
+                }
+        }
         binding.apply {
-            mainList.adapter = adapter
-            networkState.btnRetry.setOnClickListener {
+            list.adapter = adapter
+            errorRetry.retryBtn.setOnClickListener {
                 viewModel.fetchFixture()
             }
         }
     }
 
     private fun subscribeToLiveData() {
-
-        viewModel.fixtureResponse.observe(viewLifecycleOwner, { response ->
+        viewModel.fixtureResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     displayLoadingState()
@@ -70,34 +64,45 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
                     displaySuccessState(response.data)
                 }
             }
-        })
+        }
 
-        filterViewModel.filter.observe(viewLifecycleOwner, {
-            adapter.setFilter(it)
-        })
+        filterViewModel.filter.observe(viewLifecycleOwner) { filters ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                adapter.setFilter(filters)
+            }
+        }
     }
 
     private fun displayLoadingState() {
-        binding.networkState.apply {
-            hideView(btnRetry)
-            showView(loading)
+        binding.apply {
+            showView(listLoading.root)
+            hideView(errorRetry.root)
         }
     }
 
     private fun displayErrorState(error: AppError) {
-        binding.networkState.apply {
-            hideView(loading)
-            showView(btnRetry)
+        binding.apply {
+            hideView(listLoading.root)
+            errorRetry.errorMessage.text = error.message
+            showView(errorRetry.root)
         }
-        showToast(error.message)
     }
 
     private fun displaySuccessState(matches: List<Match>) {
-        hideView(binding.networkState.loading)
-        adapter.setList(matches)
+        binding.apply {
+            hideView(listLoading.root)
+            hideView(errorRetry.root)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            adapter.setMatches(matches)
+        }
     }
 
-    private fun showToast(msg: String?) {
-        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+    companion object {
+
+        fun newInstance(): FixtureFragment {
+            return FixtureFragment()
+        }
     }
+
 }

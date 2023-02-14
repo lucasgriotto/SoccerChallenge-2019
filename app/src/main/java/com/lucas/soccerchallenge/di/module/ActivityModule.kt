@@ -1,6 +1,6 @@
 package com.lucas.soccerchallenge.di.module
 
-import com.lucas.soccerchallenge.features.main.MainActivity
+import com.lucas.soccerchallenge.features.navigation.NavigationActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,5 +9,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = [FragmentModule::class])
-    abstract fun contributeMainActivity(): MainActivity
+    abstract fun navigationActivity(): NavigationActivity
 }

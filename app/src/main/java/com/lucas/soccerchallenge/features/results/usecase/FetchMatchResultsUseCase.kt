@@ -1,7 +1,7 @@
 package com.lucas.soccerchallenge.features.results.usecase
 
-import com.lucas.soccerchallenge.base.UseCase
-import com.lucas.soccerchallenge.data.model.Match
+import com.lucas.soccerchallenge.core.base.UseCase
+import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.repository.SoccerRepository
 import javax.inject.Inject
 

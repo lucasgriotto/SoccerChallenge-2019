@@ -1,8 +1,8 @@
 package com.lucas.soccerchallenge.repository
 
 import com.lucas.soccerchallenge.api.SoccerService
-import com.lucas.soccerchallenge.base.extension.suspendApiCallWrapper
-import com.lucas.soccerchallenge.data.model.Match
+import com.lucas.soccerchallenge.core.extension.suspendApiCallWrapper
+import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.data.toMatch
 import javax.inject.Inject
 

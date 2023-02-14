@@ -2,19 +2,19 @@
     <string name="app_name">SoccerChallenge</string>
     <string name="retry">Retry</string>
 
+    <string name="matches">Matches</string>
+    <string name="match_detail">Match Detail</string>
+
     <string name="fixture">Fixture</string>
     <string name="results">Results</string>
     <string name="filter">Filter</string>
 
     <string name="competition_filter">Competition Filter</string>
-    <string name="all">All</string>
     <string name="apply">Apply</string>
     <string name="postponed">Postponed</string>
 
-    <string name="error_network">Network not available</string>
-    <string name="error_no_internet">Internet connection not available</string>
-    <string name="error_timeout">Timeout error</string>
-    <string name="error_empty">Empty response</string>
+    <string name="error_connection">Please check your internet connection</string>
+    <string name="error_empty">Wrong response from the server</string>
     <string name="error_general">Something went wrong</string>
     <string name="error_json">Conversion error</string>
 

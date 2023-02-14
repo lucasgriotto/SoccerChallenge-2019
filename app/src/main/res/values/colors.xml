@@ -10,4 +10,8 @@
     <color name="darkBlue">#191679</color>
     <color name="red">#EB0D0D</color>
     <color name="grey">#726F6F</color>
+
+    <color name="filterBg">#FFF9F1</color>
+    <color name="errorMessageBgColor">#313033</color>
+
 </resources>
