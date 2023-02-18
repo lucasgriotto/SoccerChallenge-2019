@@ -25,7 +25,8 @@ abstract class MatchFilterAdapter<T : MatchFilterViewHolder> constructor(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    suspend fun setMatches(newMatches: List<Match>) {
+    suspend fun setMatches(newMatches: List<Match>, currentFilter: Set<Competition>) {
+        matchFilter.filters = currentFilter
         val newFilteredMatches = matchFilter.getFilteredMatches(newMatches)
         matchFilter.matches = newMatches
         val diffCallback = MatchDiffCallBack(matchFilter.filteredMatches, newFilteredMatches)

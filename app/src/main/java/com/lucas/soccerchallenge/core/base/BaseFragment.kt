@@ -21,5 +21,4 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : DaggerFragment(co
         view.isVisible = false
     }
 
-    fun getAppError(e: Throwable) = ErrorFactory.getError(requireContext(), e)
 }

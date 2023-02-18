@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.ViewHolder>() {
 
-    private var selectedCompetitions = Filters.defaultSelectedCompetition.toHashSet()
+    private lateinit var selectedCompetitions: HashSet<Competition>
 
-    var selectedCompetitionsBackUp = selectedCompetitions.toSet()
+    lateinit var selectedCompetitionsBackUp : Set<Competition>
         private set
 
     private val competition = Filters.competitionFilter
@@ -40,6 +40,10 @@ class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.V
     fun restoreSelectedCompetitions() {
         selectedCompetitions = selectedCompetitionsBackUp.toHashSet()
         notifyDataSetChanged()
+    }
+
+    fun setFilters(filter: Set<Competition>) {
+        selectedCompetitions = filter.toHashSet()
     }
 
     fun applyFilters() {

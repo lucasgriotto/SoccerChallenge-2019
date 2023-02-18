@@ -1,18 +1,24 @@
 package com.lucas.soccerchallenge.features.home.filter
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lucas.soccerchallenge.data.Competition
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FilterViewModel @Inject constructor() : ViewModel() {
 
-    private val _filter = MutableLiveData<Set<Competition>>()
-    val filter: LiveData<Set<Competition>> = _filter
+    private val _filter = MutableSharedFlow<Set<Competition>>()
+    val filter: SharedFlow<Set<Competition>> = _filter
+    var currentFilter = Filters.defaultSelectedCompetition
 
     fun setFilters(filter: Set<Competition>) {
-        _filter.postValue(filter)
+        currentFilter = filter
+        viewModelScope.launch {
+            _filter.emit(filter)
+        }
     }
 
 }

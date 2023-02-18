@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.base.BaseFragment
@@ -33,7 +36,19 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        subscribeToLiveData()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.matchResultsResponse.collect { response ->
+                    when (response) {
+                        is Resource.Error -> displayErrorState(response.error)
+                        is Resource.Loading -> displayLoadingState()
+                        is Resource.Success -> displaySuccessState(response.data)
+                        is Resource.Initialize -> Unit
+                    }
+                }
+            }
+        }
     }
 
     private fun initView() {
@@ -51,28 +66,6 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
         }
     }
 
-    private fun subscribeToLiveData() {
-        viewModel.getResultResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    displayLoadingState()
-                }
-                is Resource.Error -> {
-                    displayErrorState(getAppError(response.error))
-                }
-                is Resource.Success -> {
-                    displaySuccessState(response.data)
-                }
-            }
-        }
-
-        filterViewModel.filter.observe(viewLifecycleOwner) {
-            viewLifecycleOwner.lifecycleScope.launch {
-                adapter.setFilter(it)
-            }
-        }
-    }
-
     private fun displayLoadingState() {
         binding.apply {
             showView(listLoading.root)
@@ -81,9 +74,10 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
     }
 
     private fun displayErrorState(error: AppError) {
+        val errorMessage = error.getErrorMessage(requireContext())
         binding.apply {
             hideView(listLoading.root)
-            errorRetry.errorMessage.text = error.message
+            errorRetry.errorMessage.text = errorMessage
             showView(errorRetry.root)
         }
     }
@@ -94,7 +88,13 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
             hideView(errorRetry.root)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            adapter.setMatches(matches)
+            adapter.setMatches(matches, filterViewModel.currentFilter)
+
+            filterViewModel.filter
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect { filters ->
+                    adapter.setFilter(filters)
+                }
         }
     }
 

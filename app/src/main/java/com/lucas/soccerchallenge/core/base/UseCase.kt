@@ -1,42 +1,33 @@
 package com.lucas.soccerchallenge.core.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import com.lucas.soccerchallenge.core.networking.ErrorFactory
 import com.lucas.soccerchallenge.core.networking.Resource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 abstract class UseCase<R, Params> {
 
-    private var job = Job()
+    private val result = MutableStateFlow<Resource<R>>(Resource.Initialize())
 
-    private val result = MediatorLiveData<Resource<R>>()
-
-    private fun getJob(): Job {
-        if (!job.isActive)
-            job = Job()
-        return job
+    private val handler = CoroutineExceptionHandler { _, error ->
+        Timber.e("Caught $error")
+        result.value = Resource.Error(ErrorFactory.getError(error))
     }
 
-    private val handler = CoroutineExceptionHandler { _, e ->
-        Timber.e("Caught $e")
-        result.value = Resource.Error(e)
-    }
-
-    fun execute(params: Params) {
+    fun execute(scope: CoroutineScope, params: Params) {
         result.value = Resource.Loading()
-        CoroutineScope(Dispatchers.Main + getJob()).launch(handler) {
-            result.value = Resource.Success(getData(params))
+        scope.launch(handler) {
+            val results = doWork(params)
+            result.value = Resource.Success(results)
         }
     }
 
-    open fun observe(): LiveData<Resource<R>> = result
+    open fun result(): StateFlow<Resource<R>> = result
 
-    abstract suspend fun getData(e: Params): R
-
-    fun cancel() = job.cancel()
+    abstract suspend fun doWork(params: Params): R
 }
+ 

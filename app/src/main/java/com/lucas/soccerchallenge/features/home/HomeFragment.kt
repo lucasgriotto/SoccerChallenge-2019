@@ -42,6 +42,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 tab.setText(HomeFragmentStateAdapter.tabs[position])
             }.attach()
 
+            filterAdapter.setFilters(filterViewModel.currentFilter)
             homeFilter.mainList.adapter = filterAdapter
             homeFilter.btnApply.setOnClickListener {
                 filterAdapter.applyFilters()

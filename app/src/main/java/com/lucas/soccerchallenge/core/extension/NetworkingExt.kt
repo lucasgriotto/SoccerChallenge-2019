@@ -4,8 +4,8 @@ import com.lucas.soccerchallenge.core.exceptions.NoBodyException
 import retrofit2.HttpException
 import retrofit2.Response
 
-suspend fun <T> suspendApiCallWrapper(f: suspend () -> Response<T>): T {
-    val response = f.invoke()
+internal suspend fun <T> suspendApiCallWrapper(networkCall: suspend () -> Response<T>): T {
+    val response = networkCall.invoke()
     if (response.isSuccessful) {
         response.body()?.let {
             return it
@@ -14,4 +14,3 @@ suspend fun <T> suspendApiCallWrapper(f: suspend () -> Response<T>): T {
         throw HttpException(response)
     }
 }
- 
