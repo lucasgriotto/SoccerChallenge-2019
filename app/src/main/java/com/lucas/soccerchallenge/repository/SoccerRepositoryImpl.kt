@@ -4,6 +4,8 @@ import com.lucas.soccerchallenge.api.SoccerService
 import com.lucas.soccerchallenge.core.extension.suspendApiCallWrapper
 import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.data.toMatch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SoccerRepositoryImpl @Inject constructor(
@@ -11,15 +13,21 @@ class SoccerRepositoryImpl @Inject constructor(
 ) : SoccerRepository {
 
     override suspend fun fetchFixture(): List<Match> {
-        return suspendApiCallWrapper {
+        val fixture = suspendApiCallWrapper {
             service.getFixture()
-        }.map { it.toMatch() }
+        }
+        return withContext(Dispatchers.Default) {
+            fixture.map { it.toMatch() }
+        }
     }
 
     override suspend fun fetchMatchResults(): List<Match> {
-        return suspendApiCallWrapper {
+        val matches = suspendApiCallWrapper {
             service.getResults()
-        }.map { it.toMatch() }
+        }
+        return withContext(Dispatchers.Default) {
+            matches.map { it.toMatch() }
+        }
     }
 
 }
