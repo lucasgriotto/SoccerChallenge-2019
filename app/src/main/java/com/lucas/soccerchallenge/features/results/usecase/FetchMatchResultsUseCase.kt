@@ -9,8 +9,6 @@ class FetchMatchResultsUseCase @Inject constructor(
     private val repository: SoccerRepository
 ) : UseCase<List<Match>, Unit>() {
 
-    override suspend fun doWork(params: Unit): List<Match> {
-        return repository.fetchMatchResults()
-    }
+    override fun getFlow(params: Unit) = repository.fetchMatchResults()
 
 }

@@ -10,7 +10,6 @@ import com.lucas.soccerchallenge.features.results.ResultsFragment
 import com.lucas.soccerchallenge.features.results.ResultsModule
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 

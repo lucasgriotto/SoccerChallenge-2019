@@ -1,11 +1,12 @@
 package com.lucas.soccerchallenge.repository
 
 import com.lucas.soccerchallenge.data.Match
+import kotlinx.coroutines.flow.Flow
 
 interface SoccerRepository {
 
-    suspend fun fetchFixture(): List<Match>
+    fun fetchFixture(): Flow<List<Match>>
 
-    suspend fun fetchMatchResults(): List<Match>
+    fun fetchMatchResults(): Flow<List<Match>>
 
 }
