@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ResultsViewModel @Inject
 constructor(private val fetchMatchResultsUseCase: FetchMatchResultsUseCase) : ViewModel() {
 
-    val matchResultsResponse = fetchMatchResultsUseCase.result()
+    val matchResultsResponse = fetchMatchResultsUseCase.result
 
     init {
         fetchMatchResults()

@@ -9,7 +9,7 @@ class FixtureViewModel @Inject constructor(
     private val fetchFixtureUseCase: FetchFixtureUseCase
 ) : ViewModel() {
 
-    val fixtureResponse = fetchFixtureUseCase.result()
+    val fixtureResponse = fetchFixtureUseCase.result
 
     init {
         fetchFixture()
