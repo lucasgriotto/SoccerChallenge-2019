@@ -22,7 +22,7 @@ class CompetitionFilterViewModel @Inject constructor() : ViewModel() {
 
     var allFilters = CompetitionFilters.competitionFilter.map { competition ->
         competition.toFilterCompetitionDisplayModel(
-            CompetitionFilters.defaultSelectedCompetition.contains(competition)
+            isSelected = CompetitionFilters.defaultSelectedCompetition.contains(competition)
         )
     }
         private set

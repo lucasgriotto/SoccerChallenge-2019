@@ -21,9 +21,8 @@ class ResultsViewModelTest {
     }
 
     @Test
-    fun `test fetchMatchResults observed and executed`() {
-        verify { fetchMatchResultsUseCase.observe() }
-        verify { fetchMatchResultsUseCase.execute(any()) }
+    fun `should fetch results when view model is created`() {
+        verify { fetchMatchResultsUseCase.execute(any(), Unit) }
     }
 
 }

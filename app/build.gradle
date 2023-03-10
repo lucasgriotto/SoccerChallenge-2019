@@ -91,6 +91,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$archCoreVersion"
     testImplementation "io.mockk:mockk:$mockkVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesTestVersion"
+    testImplementation "app.cash.turbine:turbine:$turbineVersion"
 
     androidTestImplementation "androidx.test.ext:junit:$androidxJUnitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"

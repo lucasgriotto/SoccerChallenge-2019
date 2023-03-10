@@ -3,17 +3,20 @@ package com.lucas.soccerchallenge.features.home.matchfilter
 import androidx.lifecycle.ViewModel
 import com.lucas.soccerchallenge.data.Competition
 import com.lucas.soccerchallenge.data.Match
+import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
 import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilters
-import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchHeaderDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.utils.DateUtils
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MatchFilterViewModel @Inject constructor() : ViewModel() {
+class MatchFilterViewModel @Inject constructor(
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+) : ViewModel() {
 
     private var allMatches: List<Match> = emptyList()
 
@@ -25,7 +28,7 @@ class MatchFilterViewModel @Inject constructor() : ViewModel() {
         filters: Set<Competition>,
         matchMapper: (Match) -> MatchItemDisplayModel
     ) {
-        withContext(Dispatchers.Default) {
+        withContext(dispatcher) {
             newMatches?.let { matches ->
                 allMatches = matches
             }

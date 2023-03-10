@@ -21,9 +21,8 @@ class FixtureViewModelTest {
     }
 
     @Test
-    fun `test fetchFixtureUseCase observed and executed`() {
-        verify { fetchFixtureUseCase.observe() }
-        verify { fetchFixtureUseCase.execute(any()) }
+    fun `should fetch fixture when view model is created`() {
+        verify { fetchFixtureUseCase.execute(any(), Unit) }
     }
 
 }

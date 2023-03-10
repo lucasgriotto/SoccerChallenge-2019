@@ -45,5 +45,6 @@ ext {
     androidxJUnitVersion = '1.1.5'
     kotlinCoroutinesTestVersion = '1.6.4'
     espressoCoreVersion = '3.5.1'
-    archCoreVersion = "2.1.0"
+    archCoreVersion = "2.2.0"
+    turbineVersion = "0.12.1"
 }

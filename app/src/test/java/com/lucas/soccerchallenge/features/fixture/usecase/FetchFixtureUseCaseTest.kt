@@ -1,42 +1,32 @@
 package com.lucas.soccerchallenge.features.fixture.usecase
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
+import app.cash.turbine.test
+import com.lucas.soccerchallenge.core.networking.AppError
 import com.lucas.soccerchallenge.core.networking.Resource
-import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.data.entity.toMatch
 import com.lucas.soccerchallenge.repository.SoccerRepository
-import com.lucas.soccerchallenge.utils.MainCoroutineRule
 import com.lucas.soccerchallenge.utils.ModelCreator
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsInstanceOf.instanceOf
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
+import java.net.ConnectException
 
 @ExperimentalCoroutinesApi
 class FetchFixtureUseCaseTest {
-
-    @get:Rule
-    val rule: TestRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var useCase: FetchFixtureUseCase
 
     @MockK
     private lateinit var repository: SoccerRepository
-
-    @MockK
-    private lateinit var observer: Observer<Resource<List<Match>>>
 
     @Before
     fun setUp() {
@@ -45,18 +35,36 @@ class FetchFixtureUseCaseTest {
     }
 
     @Test
-    fun `test execute`() {
+    fun `should await fixture when fetch fixture success`() = runTest {
         val fixture = ModelCreator.fixture.map { it.toMatch() }
-        val captors = mutableListOf<Resource<List<Match>>>()
-        coEvery { repository.fetchFixture() } returns fixture
-        useCase.observe().observeForever(observer)
-        mainCoroutineRule.testDispatcher.runBlockingTest {
-            useCase.execute(Unit)
-            verify(exactly = 2) { observer.onChanged(capture(captors)) }
+        coEvery { repository.fetchFixture() } returns flowOf(fixture)
+        useCase.result.test {
+            val initialize = awaitItem()
+            assertThat(initialize, instanceOf(Resource.Initialize::class.java))
         }
-        assertTrue(captors.first() is Resource.Loading)
-        assertTrue(captors.getOrNull(1) is Resource.Success)
-        assertEquals(fixture, (captors.getOrNull(1) as Resource.Success).data)
+        useCase.execute(this, Unit)
+        useCase.result.test {
+            val loading = awaitItem()
+            assertThat(loading, instanceOf(Resource.Loading::class.java))
+            val success = awaitItem()
+            assertThat(success, instanceOf(Resource.Success::class.java))
+            val data = (success as Resource.Success).data
+            assertEquals(fixture, data)
+        }
+    }
+
+    @Test
+    fun `should await error when fetch fixture fail`() = runTest {
+        coEvery { repository.fetchFixture() } returns flow { throw ConnectException() }
+        useCase.execute(this, Unit)
+        useCase.result.test {
+            val loading = awaitItem()
+            assertThat(loading, instanceOf(Resource.Loading::class.java))
+            val error = awaitItem()
+            assertThat(error, instanceOf(Resource.Error::class.java))
+            val appError = (error as Resource.Error).error
+            assertThat(appError, instanceOf(AppError.Connection::class.java))
+        }
     }
 
 }
