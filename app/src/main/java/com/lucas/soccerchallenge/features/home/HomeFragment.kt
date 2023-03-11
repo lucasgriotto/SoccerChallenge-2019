@@ -41,12 +41,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             TabLayoutMediator(homeTabLayout, homeViewpager) { tab, position ->
                 tab.setText(HomeFragmentStateAdapter.tabs[position])
             }.attach()
-
-            filterAdapter.setFilters(filterViewModel.currentFilter)
+            updateFilterAdapter()
             competitionFilter.filtersList.adapter = filterAdapter
             competitionFilter.applyBtn.setOnClickListener {
-                filterAdapter.applyFilters()
-                filterViewModel.setFilters(filterAdapter.selectedCompetitionsBackUp)
+                filterViewModel.updateFilters(filterAdapter.filters)
                 toggleFilterVisibility()
             }
         }
@@ -80,12 +78,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             TransitionManager.beginDelayedTransition(binding.root, slide)
         }
         val isFilterVisible = binding.competitionFilter.root.isVisible
-        if (isFilterVisible) {
-            filterAdapter.restoreSelectedCompetitions()
-        } else {
-            filterAdapter.backUpSelectedCompetitions()
-        }
         binding.competitionFilter.root.isVisible = !isFilterVisible
+        if (!isFilterVisible) {
+            updateFilterAdapter()
+        }
+    }
+
+    private fun updateFilterAdapter() {
+        filterAdapter.setFilters(filterViewModel.allFilters)
     }
 
 }

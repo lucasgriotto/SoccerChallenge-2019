@@ -105,7 +105,7 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            matchFilterViewModel.filterMatches(matches, filterViewModel.currentFilter) { it.toFixtureDisplayModel() }
+            matchFilterViewModel.filterMatches(matches, filterViewModel.selectedFilters) { it.toFixtureDisplayModel() }
 
             filterViewModel.filter
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)

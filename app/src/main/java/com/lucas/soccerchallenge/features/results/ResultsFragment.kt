@@ -104,7 +104,7 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
             hideView(errorRetry.root)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            matchFilterViewModel.filterMatches(matches, filterViewModel.currentFilter) { it.toResultDisplayModel() }
+            matchFilterViewModel.filterMatches(matches, filterViewModel.selectedFilters) { it.toResultDisplayModel() }
 
             filterViewModel.filter
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)

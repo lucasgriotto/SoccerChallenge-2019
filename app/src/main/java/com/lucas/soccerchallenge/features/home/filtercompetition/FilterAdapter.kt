@@ -3,58 +3,57 @@ package com.lucas.soccerchallenge.features.home.filtercompetition
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.lucas.soccerchallenge.data.Competition
 import com.lucas.soccerchallenge.databinding.ItemFilterBinding
+import com.lucas.soccerchallenge.features.home.filtercompetition.Filters.ALL_FILTER_INDEX
+import com.lucas.soccerchallenge.features.home.filtercompetition.model.FilterCompetitionDisplayModel
 import javax.inject.Inject
 
 class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.ViewHolder>() {
 
-    private lateinit var selectedCompetitions: HashSet<Competition>
+    private val _filters = mutableListOf<FilterCompetitionDisplayModel>()
+    val filters: List<FilterCompetitionDisplayModel>
+        get() {
+            // Copy is created because if we change filter options and we don't press apply we need to restore previous
+            // state of the list
+            return _filters.map { it.copy() }
+        }
 
-    lateinit var selectedCompetitionsBackUp: Set<Competition>
-        private set
-
-    private val competition = Filters.competitionFilter
-
-    private var onFilterSelected: (Competition, Boolean, Int) -> Unit = { comp, isSelected, position ->
+    private var onFilterSelected: (FilterCompetitionDisplayModel) -> Unit = { filter ->
         when {
-            comp.id == Filters.ALL_FILTER_ID -> {
-                selectedCompetitions.clear()
-                selectedCompetitions.add(comp)
-                notifyDataSetChanged()
+            filter.id == Filters.ALL_FILTER_ID -> {
+                // If all is selected, we have to unselect the rest. That logic is handled here
+                _filters.forEachIndexed { index, filterCompetitionDisplayModel ->
+                    if (index != ALL_FILTER_INDEX && filterCompetitionDisplayModel.isSelected) {
+                        filterCompetitionDisplayModel.isSelected = false
+                        notifyItemChanged(index)
+                    } else if (index == ALL_FILTER_INDEX && !filterCompetitionDisplayModel.isSelected) {
+                        filterCompetitionDisplayModel.isSelected = true
+                        notifyItemChanged(index)
+                    }
+                }
             }
-            isSelected -> {
-                selectedCompetitions.remove(competition[0])
-                notifyItemChanged(0)
-                selectedCompetitions.add(comp)
-                notifyItemChanged(position)
+            filter.isSelected -> {
+                if (_filters[ALL_FILTER_INDEX].isSelected) {
+                    _filters[ALL_FILTER_INDEX].isSelected = false
+                    notifyItemChanged(ALL_FILTER_INDEX)
+                }
             }
-            else -> selectedCompetitions.remove(comp)
         }
     }
 
-    fun backUpSelectedCompetitions() {
-        selectedCompetitionsBackUp = selectedCompetitions.toSet()
-    }
-
-    fun restoreSelectedCompetitions() {
-        selectedCompetitions = selectedCompetitionsBackUp.toHashSet()
-        notifyDataSetChanged()
-    }
-
-    fun setFilters(filter: Set<Competition>) {
-        selectedCompetitions = filter.toHashSet()
-    }
-
-    fun applyFilters() {
-        if (selectedCompetitions.size == competition.size - 1) {
-            selectedCompetitions.clear()
-            selectedCompetitions.add(Filters.allFilterCompetition)
-        } else if (selectedCompetitions.isEmpty()) {
-            selectedCompetitions.add(Filters.allFilterCompetition)
+    fun setFilters(newFilters: List<FilterCompetitionDisplayModel>) {
+        if (_filters.isEmpty()) {
+            // Copy is created because if we change filter options and we don't press apply we need to restore previous
+            // state of the list
+            _filters.addAll(newFilters.map { it.copy() })
+        } else {
+            _filters.forEachIndexed { index, filterCompetitionDisplayModel ->
+                if (newFilters[index].isSelected != filterCompetitionDisplayModel.isSelected) {
+                    filterCompetitionDisplayModel.isSelected = newFilters[index].isSelected
+                    notifyItemChanged(index)
+                }
+            }
         }
-        backUpSelectedCompetitions()
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -64,29 +63,28 @@ class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.V
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(
-            selectedCompetitions.contains(competition[position]),
-            competition[position],
-            position
-        )
+        _filters.getOrNull(position)?.let { filter ->
+            holder.bind(filter)
+        }
     }
 
     override fun getItemCount(): Int {
-        return competition.size
+        return _filters.size
     }
 
     inner class ViewHolder(
         private val binding: ItemFilterBinding,
-        private val onFilterSelected: (Competition, Boolean, Int) -> Unit
+        private val onFilterSelected: (FilterCompetitionDisplayModel) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(selectStatus: Boolean, competition: Competition, position: Int) {
+        fun bind(filter: FilterCompetitionDisplayModel) {
             binding.apply {
-                title.text = competition.name
-                selectUnselectBtn.isSelected = selectStatus
+                title.text = filter.name
+                selectUnselectBtn.isSelected = filter.isSelected
                 root.setOnClickListener {
                     selectUnselectBtn.isSelected = !selectUnselectBtn.isSelected
-                    onFilterSelected(competition, selectUnselectBtn.isSelected, position)
+                    filter.isSelected = selectUnselectBtn.isSelected
+                    onFilterSelected(filter)
                 }
             }
         }

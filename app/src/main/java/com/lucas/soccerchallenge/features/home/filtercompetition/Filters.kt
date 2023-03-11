@@ -5,6 +5,7 @@ import com.lucas.soccerchallenge.data.Competition
 object Filters {
 
     const val ALL_FILTER_ID = -1
+    const val ALL_FILTER_INDEX = 0
     val allFilterCompetition = Competition(ALL_FILTER_ID, "All")
 
     val competitionFilter = listOf(

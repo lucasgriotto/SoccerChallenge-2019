@@ -9,15 +9,18 @@ import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.extension.color
 import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
 import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
+import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
 import com.lucas.soccerchallenge.features.home.match.MatchDiffCallBack
 import com.lucas.soccerchallenge.features.home.match.MatchHeaderViewHolder
-import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
-import kotlinx.coroutines.Dispatchers
+import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FixtureAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FixtureAdapter @Inject constructor(
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var onMatchClick: (FixtureDisplayModel) -> Unit
 
@@ -25,9 +28,7 @@ class FixtureAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.V
 
     suspend fun setMatches(newList: List<MatchItemDisplayModel>) {
         val diffCallback = MatchDiffCallBack(matchesWithHeaders, newList)
-        val diffResult = withContext(Dispatchers.Default) {
-            DiffUtil.calculateDiff(diffCallback)
-        }
+        val diffResult = withContext(dispatcher) { DiffUtil.calculateDiff(diffCallback) }
         matchesWithHeaders.clear()
         matchesWithHeaders.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
