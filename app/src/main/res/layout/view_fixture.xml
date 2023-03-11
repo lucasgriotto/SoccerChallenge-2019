@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/txt_competition"
+        android:id="@+id/competition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,30 +20,30 @@
         tools:text="CHAMPIONS LEAGUE" />
 
     <TextView
-        android:id="@+id/txt_venue"
+        android:id="@+id/venue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/grey"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_competition"
+        app:layout_constraintTop_toBottomOf="@+id/competition"
         tools:text="Stamford Bridge | " />
 
     <TextView
-        android:id="@+id/txt_date"
+        android:id="@+id/date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:textColor="@color/grey"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_venue"
+        app:layout_constraintBottom_toBottomOf="@+id/venue"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txt_venue"
-        app:layout_constraintTop_toTopOf="@+id/txt_venue"
+        app:layout_constraintStart_toEndOf="@+id/venue"
+        app:layout_constraintTop_toTopOf="@+id/venue"
         tools:text="Sep 12, 2017 at 20:00" />
 
     <TextView
-        android:id="@+id/txt_postponed"
+        android:id="@+id/postponed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -54,13 +54,13 @@
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_competition"
+        app:layout_constraintBottom_toBottomOf="@+id/competition"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txt_competition"
+        app:layout_constraintTop_toTopOf="@+id/competition"
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/txt_team_home"
+        android:id="@+id/home_team"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -69,11 +69,11 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_venue"
+        app:layout_constraintTop_toBottomOf="@+id/venue"
         tools:text="Chelsea FC" />
 
     <TextView
-        android:id="@+id/txt_team_away"
+        android:id="@+id/away_team"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -82,38 +82,38 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_team_home"
+        app:layout_constraintTop_toBottomOf="@+id/home_team"
         tools:text="Qarabag" />
 
     <View
         style="@style/HorizontalDivider"
-        android:id="@+id/view2"
+        android:id="@+id/bottom_divider"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_team_away" />
+        app:layout_constraintTop_toBottomOf="@+id/away_team" />
 
     <View
         style="@style/VerticalDivider"
-        android:id="@+id/view"
+        android:id="@+id/teams_date_vertical_divider"
         android:layout_height="90dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_team_away"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="@+id/txt_team_home" />
+        app:layout_constraintBottom_toBottomOf="@+id/away_team"
+        app:layout_constraintEnd_toStartOf="@+id/day_num_name_container"
+        app:layout_constraintTop_toTopOf="@+id/home_team" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/day_num_name_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/teams_date_vertical_divider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view">
+        app:layout_constraintTop_toTopOf="@+id/teams_date_vertical_divider">
 
         <TextView
-            android:id="@+id/txt_day_num"
+            android:id="@+id/day_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -126,7 +126,7 @@
             tools:text="12" />
 
         <TextView
-            android:id="@+id/txt_day_name"
+            android:id="@+id/day_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

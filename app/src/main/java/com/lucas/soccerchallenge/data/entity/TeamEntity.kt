@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.data
+package com.lucas.soccerchallenge.data.entity
 
 import com.google.gson.annotations.SerializedName
 

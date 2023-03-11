@@ -5,11 +5,6 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/view_header"
-        android:id="@+id/header"
-        android:visibility="gone" />
-
-    <include
         layout="@layout/view_fixture"
         android:id="@+id/fixture" />
 

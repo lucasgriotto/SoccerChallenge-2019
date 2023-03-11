@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.lucas.soccerchallenge.features.results.usecase.FetchMatchResultsUseCase
 import javax.inject.Inject
 
-class ResultsViewModel @Inject
-constructor(private val fetchMatchResultsUseCase: FetchMatchResultsUseCase) : ViewModel() {
+class ResultsViewModel @Inject constructor(
+    private val fetchMatchResultsUseCase: FetchMatchResultsUseCase
+) : ViewModel() {
 
     val matchResultsResponse = fetchMatchResultsUseCase.result
 

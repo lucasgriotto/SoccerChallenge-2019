@@ -3,11 +3,9 @@ package com.lucas.soccerchallenge.repository
 import com.lucas.soccerchallenge.api.SoccerService
 import com.lucas.soccerchallenge.core.extension.safeApiCall
 import com.lucas.soccerchallenge.data.Match
-import com.lucas.soccerchallenge.data.toMatch
+import com.lucas.soccerchallenge.data.entity.toMatch
 import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
-import com.lucas.soccerchallenge.di.qualifier.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn

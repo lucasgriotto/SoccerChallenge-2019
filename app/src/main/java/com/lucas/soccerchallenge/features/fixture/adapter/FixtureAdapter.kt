@@ -3,61 +3,98 @@ package com.lucas.soccerchallenge.features.fixture.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.extension.color
-import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
-import com.lucas.soccerchallenge.features.home.filter.MatchFilter
-import com.lucas.soccerchallenge.utils.DateUtils
+import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
+import com.lucas.soccerchallenge.features.home.match.MatchDiffCallBack
+import com.lucas.soccerchallenge.features.home.match.MatchHeaderViewHolder
+import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FixtureAdapter @Inject constructor(
-    matchFilter: MatchFilter
-) : MatchFilterAdapter<FixtureAdapter.ViewHolder>(matchFilter) {
+class FixtureAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemMatchFixtureBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
+    lateinit var onMatchClick: (FixtureDisplayModel) -> Unit
+
+    private val matchesWithHeaders = mutableListOf<MatchItemDisplayModel>()
+
+    suspend fun setMatches(newList: List<MatchItemDisplayModel>) {
+        val diffCallback = MatchDiffCallBack(matchesWithHeaders, newList)
+        val diffResult = withContext(Dispatchers.Default) {
+            DiffUtil.calculateDiff(diffCallback)
+        }
+        matchesWithHeaders.clear()
+        matchesWithHeaders.addAll(newList)
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class ViewHolder constructor(
-        private val binding: ItemMatchFixtureBinding
-    ) : MatchFilterViewHolder(binding.root) {
-
-        override fun bind(previous: Match?, current: Match) {
-            val context = itemView.context
-
-            binding.header.apply {
-                if (previous == null || !DateUtils.isSameMonthYear(previous.date, current.date)) {
-                    txtMonthYear.text = DateUtils.getMonthYear(current.date)
-                    root.isVisible = true
-                } else {
-                    root.isVisible = false
-                }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            R.layout.item_match_fixture -> {
+                val binding = ItemMatchFixtureBinding.inflate(inflater, parent, false)
+                MatchViewHolder(binding)
             }
 
+            else -> {
+                val binding = ItemMatchHeaderBinding.inflate(inflater, parent, false)
+                MatchHeaderViewHolder(binding)
+            }
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return matchesWithHeaders.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (matchesWithHeaders.getOrNull(position) is FixtureDisplayModel) {
+            R.layout.item_match_fixture
+        } else {
+            R.layout.item_match_header
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        matchesWithHeaders.getOrNull(position)?.let { item ->
+            when {
+                item is FixtureDisplayModel && holder is MatchViewHolder -> {
+                    holder.bind(item)
+                }
+                item is MatchHeaderDisplayModel && holder is MatchHeaderViewHolder -> {
+                    holder.bind(item)
+                }
+            }
+        }
+    }
+
+    inner class MatchViewHolder constructor(
+        private val binding: ItemMatchFixtureBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(match: FixtureDisplayModel) {
+            val context = itemView.context
             binding.fixture.apply {
                 root.setOnClickListener {
-                    onMatchClick(current)
+                    onMatchClick(match)
                 }
-                txtCompetition.text = current.competition.name
-                txtVenue.text = current.venueName.plus(" | ")
-                txtDate.text = DateUtils.getUIFormattedDate(current.date)
+                competition.text = match.competitionName
+                venue.text = match.venueName.plus(" | ")
+                date.text = match.matchDate
 
-                txtTeamHome.text = current.homeTeam.name
-                txtTeamAway.text = current.awayTeam.name
+                homeTeam.text = match.teamHomeName
+                awayTeam.text = match.teamAwayName
 
-                txtDayNum.text = DateUtils.getMonthDayNumber(current.date)
-                txtDayName.text = DateUtils.getWeekDayNameShort(current.date)
+                dayNum.text = match.dayNum
+                dayName.text = match.dayName
 
-                if (current.isPostponed) {
-                    txtPostponed.isVisible = true
-                    txtDate.setTextColor(context.color(R.color.red))
-                } else {
-                    txtPostponed.isVisible = false
-                    txtDate.setTextColor(context.color(R.color.grey))
-                }
+                postponed.isVisible = match.isPostponed
+                date.setTextColor(context.color(match.matchDateColor))
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.features.home.filter
+package com.lucas.soccerchallenge.features.home.filtercompetition
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.V
 
     private lateinit var selectedCompetitions: HashSet<Competition>
 
-    lateinit var selectedCompetitionsBackUp : Set<Competition>
+    lateinit var selectedCompetitionsBackUp: Set<Competition>
         private set
 
     private val competition = Filters.competitionFilter
@@ -82,11 +82,11 @@ class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.V
 
         fun bind(selectStatus: Boolean, competition: Competition, position: Int) {
             binding.apply {
-                txtTitle.text = competition.name
-                btnSelectUnselect.isSelected = selectStatus
+                title.text = competition.name
+                selectUnselectBtn.isSelected = selectStatus
                 root.setOnClickListener {
-                    btnSelectUnselect.isSelected = !btnSelectUnselect.isSelected
-                    onFilterSelected(competition, btnSelectUnselect.isSelected, position)
+                    selectUnselectBtn.isSelected = !selectUnselectBtn.isSelected
+                    onFilterSelected(competition, selectUnselectBtn.isSelected, position)
                 }
             }
         }

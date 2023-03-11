@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/lbl_competition_filter"
+            android:id="@+id/competition_filter_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -32,21 +32,21 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_competition_filter" />
+            app:layout_constraintTop_toBottomOf="@+id/competition_filter_label" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/main_list"
+            android:id="@+id/filters_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/btn_apply"
+            app:layout_constraintBottom_toTopOf="@+id/apply_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/div" />
 
         <TextView
-            android:id="@+id/btn_apply"
+            android:id="@+id/apply_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"

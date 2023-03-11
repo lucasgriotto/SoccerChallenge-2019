@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.features.home.filter
+package com.lucas.soccerchallenge.features.home.filtercompetition
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

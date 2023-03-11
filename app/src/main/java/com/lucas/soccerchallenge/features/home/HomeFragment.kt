@@ -18,8 +18,8 @@ import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.base.BaseFragment
 import com.lucas.soccerchallenge.core.extension.viewBinding
 import com.lucas.soccerchallenge.databinding.FragmentHomeBinding
-import com.lucas.soccerchallenge.features.home.filter.FilterAdapter
-import com.lucas.soccerchallenge.features.home.filter.FilterViewModel
+import com.lucas.soccerchallenge.features.home.filtercompetition.FilterAdapter
+import com.lucas.soccerchallenge.features.home.filtercompetition.FilterViewModel
 import javax.inject.Inject
 
 private const val FILTER_DURATION_ANIM_MS = 300L
@@ -43,8 +43,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             }.attach()
 
             filterAdapter.setFilters(filterViewModel.currentFilter)
-            homeFilter.mainList.adapter = filterAdapter
-            homeFilter.btnApply.setOnClickListener {
+            competitionFilter.filtersList.adapter = filterAdapter
+            competitionFilter.applyBtn.setOnClickListener {
                 filterAdapter.applyFilters()
                 filterViewModel.setFilters(filterAdapter.selectedCompetitionsBackUp)
                 toggleFilterVisibility()
@@ -76,16 +76,16 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private fun toggleFilterVisibility() {
         Slide(Gravity.END).also { slide ->
             slide.duration = FILTER_DURATION_ANIM_MS
-            slide.addTarget(binding.homeFilter.root)
+            slide.addTarget(binding.competitionFilter.root)
             TransitionManager.beginDelayedTransition(binding.root, slide)
         }
-        val isFilterVisible = binding.homeFilter.root.isVisible
+        val isFilterVisible = binding.competitionFilter.root.isVisible
         if (isFilterVisible) {
             filterAdapter.restoreSelectedCompetitions()
         } else {
             filterAdapter.backUpSelectedCompetitions()
         }
-        binding.homeFilter.root.isVisible = !isFilterVisible
+        binding.competitionFilter.root.isVisible = !isFilterVisible
     }
 
 }

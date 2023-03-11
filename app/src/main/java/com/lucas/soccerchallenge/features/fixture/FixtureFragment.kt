@@ -9,6 +9,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.base.BaseFragment
 import com.lucas.soccerchallenge.core.extension.viewBinding
@@ -17,8 +18,10 @@ import com.lucas.soccerchallenge.core.networking.Resource
 import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
 import com.lucas.soccerchallenge.features.fixture.adapter.FixtureAdapter
+import com.lucas.soccerchallenge.features.fixture.adapter.toFixtureDisplayModel
 import com.lucas.soccerchallenge.features.home.HomeFragmentDirections
-import com.lucas.soccerchallenge.features.home.filter.FilterViewModel
+import com.lucas.soccerchallenge.features.home.filtercompetition.FilterViewModel
+import com.lucas.soccerchallenge.features.home.match.MatchFilterViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +30,8 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
     private val binding by viewBinding(FragmentListBinding::bind)
 
     private val viewModel: FixtureViewModel by viewModels { viewModelFactory }
+
+    private val matchFilterViewModel: MatchFilterViewModel by viewModels { viewModelFactory }
 
     private val filterViewModel: FilterViewModel by activityViewModels { viewModelFactory }
 
@@ -39,12 +44,21 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fixtureResponse.collect { response ->
-                    when (response) {
-                        is Resource.Error -> displayErrorState(response.error)
-                        is Resource.Loading -> displayLoadingState()
-                        is Resource.Success -> displaySuccessState(response.data)
-                        is Resource.Initialize -> Unit
+
+                launch {
+                    viewModel.fixtureResponse.collect { response ->
+                        when (response) {
+                            is Resource.Error -> displayErrorState(response.error)
+                            is Resource.Loading -> displayLoadingState()
+                            is Resource.Success -> displaySuccessState(response.data)
+                            is Resource.Initialize -> Unit
+                        }
+                    }
+                }
+
+                launch {
+                    matchFilterViewModel.filteredMatches.collect { matches ->
+                        adapter.setMatches(matches)
                     }
                 }
             }
@@ -52,12 +66,14 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
     }
 
     private fun initView() {
-        adapter.onMatchClick = {
-            HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(it)
+        adapter.onMatchClick = { matchFixture ->
+            HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(matchFixture = matchFixture)
                 .also { navAction ->
                     findNavController().navigate(navAction)
                 }
         }
+        // To keep scroll position when rotating device
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.apply {
             list.adapter = adapter
             errorRetry.retryBtn.setOnClickListener {
@@ -87,13 +103,14 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
             hideView(listLoading.root)
             hideView(errorRetry.root)
         }
+
         viewLifecycleOwner.lifecycleScope.launch {
-            adapter.setMatches(matches, filterViewModel.currentFilter)
+            matchFilterViewModel.filterMatches(matches, filterViewModel.currentFilter) { it.toFixtureDisplayModel() }
 
             filterViewModel.filter
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collect { filters ->
-                    adapter.setFilter(filters)
+                    matchFilterViewModel.filterMatches(filters = filters) { it.toFixtureDisplayModel() }
                 }
         }
     }

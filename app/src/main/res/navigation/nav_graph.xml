@@ -20,8 +20,15 @@
         android:label="@string/match_detail"
         tools:layout="@layout/fragment_match_detail">
         <argument
-            android:name="match"
-            app:argType="com.lucas.soccerchallenge.data.Match" />
+            android:name="matchFixture"
+            app:argType="com.lucas.soccerchallenge.features.fixture.adapter.FixtureDisplayModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="matchResult"
+            app:argType="com.lucas.soccerchallenge.features.results.adapter.ResultDisplayModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
 </navigation>

@@ -7,12 +7,12 @@
 
     <include
         layout="@layout/view_result"
-        android:id="@+id/match_detail_result"
+        android:id="@+id/result"
         android:visibility="gone" />
 
     <include
         layout="@layout/view_fixture"
-        android:id="@+id/match_detail_fixture"
+        android:id="@+id/fixture"
         android:visibility="gone" />
 
 </FrameLayout>

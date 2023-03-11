@@ -1,6 +1,6 @@
 package com.lucas.soccerchallenge.api
 
-import com.lucas.soccerchallenge.data.MatchEntity
+import com.lucas.soccerchallenge.data.entity.MatchEntity
 import retrofit2.Response
 import retrofit2.http.GET
 

@@ -1,9 +1,9 @@
 package com.lucas.soccerchallenge.features.main.filter
 
 import com.lucas.soccerchallenge.data.Match
-import com.lucas.soccerchallenge.data.toMatch
-import com.lucas.soccerchallenge.features.home.filter.Filters
-import com.lucas.soccerchallenge.features.home.filter.MatchFilter
+import com.lucas.soccerchallenge.data.entity.toMatch
+import com.lucas.soccerchallenge.features.home.filtercompetition.Filters
+import com.lucas.soccerchallenge.features.home.competitionfilter.MatchFilter
 import com.lucas.soccerchallenge.utils.ModelCreator
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail

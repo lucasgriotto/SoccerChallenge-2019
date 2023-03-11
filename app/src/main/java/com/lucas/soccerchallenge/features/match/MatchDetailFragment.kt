@@ -10,8 +10,8 @@ import com.lucas.soccerchallenge.core.base.BaseFragment
 import com.lucas.soccerchallenge.core.extension.color
 import com.lucas.soccerchallenge.core.extension.viewBinding
 import com.lucas.soccerchallenge.databinding.FragmentMatchDetailBinding
-import com.lucas.soccerchallenge.utils.DateUtils
 
+// This fragment was created just to test passing parcelable arguments using navigation jetpack
 class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
 
     private val binding by viewBinding(FragmentMatchDetailBinding::bind)
@@ -22,55 +22,38 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val match = args.match
-        if (match.score != null) {
-            binding.matchDetailResult.apply {
-                txtCompetition.text = match.competition.name
-                txtVenueDate.text = match.venueName
-                    .plus(" | ")
-                    .plus(DateUtils.getUIFormattedDate(match.date))
+        val context = requireContext()
+        args.matchFixture?.let { match ->
+            binding.fixture.apply {
+                competition.text = match.competitionName
+                venue.text = match.venueName.plus(" | ")
+                date.text = match.matchDate
 
-                txtTeamHome.text = match.homeTeam.name
-                txtTeamAway.text = match.awayTeam.name
+                homeTeam.text = match.teamHomeName
+                awayTeam.text = match.teamAwayName
 
-                txtScoreHome.text = match.score.home.toString()
-                txtScoreAway.text = match.score.away.toString()
+                dayNum.text = match.dayNum
+                dayName.text = match.dayName
 
-                when {
-                    match.isHomeWinner -> {
-                        txtScoreHome.setTextColor(requireContext().color(R.color.blue))
-                        txtScoreAway.setTextColor(requireContext().color(R.color.darkBlue))
-                    }
-                    match.isAwayWinner -> {
-                        txtScoreHome.setTextColor(requireContext().color(R.color.darkBlue))
-                        txtScoreAway.setTextColor(requireContext().color(R.color.blue))
-                    }
-                    else -> {
-                        txtScoreHome.setTextColor(requireContext().color(R.color.darkBlue))
-                        txtScoreAway.setTextColor(requireContext().color(R.color.darkBlue))
-                    }
-                }
+                postponed.isVisible = match.isPostponed
+                date.setTextColor(context.color(match.matchDateColor))
                 root.isVisible = true
             }
-        } else {
-            binding.matchDetailFixture.apply {
-                txtCompetition.text = match.competition.name
-                txtVenue.text = match.venueName.plus(" | ")
-                txtDate.text = DateUtils.getUIFormattedDate(match.date)
+        }
 
-                txtTeamHome.text = match.homeTeam.name
-                txtTeamAway.text = match.awayTeam.name
+        args.matchResult?.let { match ->
+            binding.result.apply {
+                competition.text = match.competitionName
+                venueDate.text = match.venueName.plus(" | ").plus(match.matchDate)
 
-                txtDayNum.text = DateUtils.getMonthDayNumber(match.date)
-                txtDayName.text = DateUtils.getWeekDayNameShort(match.date)
+                homeTeam.text = match.teamHomeName
+                awayTeam.text = match.teamAwayName
 
-                if (match.isPostponed) {
-                    txtPostponed.isVisible = true
-                    txtDate.setTextColor(requireContext().color(R.color.red))
-                } else {
-                    txtPostponed.isVisible = false
-                    txtDate.setTextColor(requireContext().color(R.color.grey))
-                }
+                homeTeamScore.text = match.teamHomeScore
+                homeTeamScore.setTextColor(context.color(match.scoreHomeColor))
+
+                awayTeamScore.text = match.teamAwayScore
+                awayTeamScore.setTextColor(context.color(match.scoreAwayColor))
                 root.isVisible = true
             }
         }

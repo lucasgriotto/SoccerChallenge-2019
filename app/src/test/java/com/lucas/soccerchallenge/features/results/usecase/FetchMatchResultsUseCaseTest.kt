@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.lucas.soccerchallenge.core.networking.Resource
 import com.lucas.soccerchallenge.data.Match
-import com.lucas.soccerchallenge.data.toMatch
+import com.lucas.soccerchallenge.data.entity.toMatch
 import com.lucas.soccerchallenge.repository.SoccerRepository
 import com.lucas.soccerchallenge.utils.MainCoroutineRule
 import com.lucas.soccerchallenge.utils.ModelCreator

@@ -2,72 +2,97 @@ package com.lucas.soccerchallenge.features.results.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.extension.color
-import com.lucas.soccerchallenge.data.Match
+import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
 import com.lucas.soccerchallenge.databinding.ItemMatchResultBinding
-import com.lucas.soccerchallenge.features.fixture.adapter.MatchFilterAdapter
-import com.lucas.soccerchallenge.features.fixture.adapter.MatchFilterViewHolder
-import com.lucas.soccerchallenge.features.home.filter.MatchFilter
-import com.lucas.soccerchallenge.utils.DateUtils
+import com.lucas.soccerchallenge.features.home.match.MatchDiffCallBack
+import com.lucas.soccerchallenge.features.home.match.MatchHeaderViewHolder
+import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ResultAdapter @Inject constructor(
-    matchFilter: MatchFilter
-) : MatchFilterAdapter<ResultAdapter.ViewHolder>(matchFilter) {
+class ResultAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemMatchResultBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
+    lateinit var onMatchClick: (ResultDisplayModel) -> Unit
+
+    private val matchesWithHeaders = mutableListOf<MatchItemDisplayModel>()
+
+    suspend fun setMatches(newList: List<MatchItemDisplayModel>) {
+        val diffCallback = MatchDiffCallBack(matchesWithHeaders, newList)
+        val diffResult = withContext(Dispatchers.Default) {
+            DiffUtil.calculateDiff(diffCallback)
+        }
+        matchesWithHeaders.clear()
+        matchesWithHeaders.addAll(newList)
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class ViewHolder constructor(
-        private val binding: ItemMatchResultBinding
-    ) : MatchFilterViewHolder(binding.root) {
-
-        override fun bind(previous: Match?, current: Match) {
-            val context = itemView.context
-
-            binding.header.apply {
-                if (previous == null || !DateUtils.isSameMonthYear(previous.date, current.date)) {
-                    txtMonthYear.text = DateUtils.getMonthYear(current.date)
-                    root.isVisible = true
-                } else {
-                    root.isVisible = false
-                }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            R.layout.item_match_result -> {
+                val binding = ItemMatchResultBinding.inflate(inflater, parent, false)
+                MatchViewHolder(binding)
             }
 
+            else -> {
+                val binding = ItemMatchHeaderBinding.inflate(inflater, parent, false)
+                MatchHeaderViewHolder(binding)
+            }
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return matchesWithHeaders.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (matchesWithHeaders.getOrNull(position) is ResultDisplayModel) {
+            R.layout.item_match_result
+        } else {
+            R.layout.item_match_header
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        matchesWithHeaders.getOrNull(position)?.let { item ->
+            when {
+                item is ResultDisplayModel && holder is MatchViewHolder -> {
+                    holder.bind(item)
+                }
+                item is MatchHeaderDisplayModel && holder is MatchHeaderViewHolder -> {
+                    holder.bind(item)
+                }
+            }
+        }
+    }
+
+    inner class MatchViewHolder constructor(
+        private val binding: ItemMatchResultBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(match: ResultDisplayModel) {
+            val context = itemView.context
             binding.result.apply {
                 root.setOnClickListener {
-                    onMatchClick(current)
+                    onMatchClick(match)
                 }
-                txtCompetition.text = current.competition.name
-                txtVenueDate.text = current.venueName
-                    .plus(" | ")
-                    .plus(DateUtils.getUIFormattedDate(current.date))
+                competition.text = match.competitionName
+                venueDate.text = match.venueName.plus(" | ").plus(match.matchDate)
 
-                txtTeamHome.text = current.homeTeam.name
-                txtTeamAway.text = current.awayTeam.name
+                homeTeam.text = match.teamHomeName
+                awayTeam.text = match.teamAwayName
 
-                txtScoreHome.text = current.score?.home.toString()
-                txtScoreAway.text = current.score?.away.toString()
+                homeTeamScore.text = match.teamHomeScore
+                homeTeamScore.setTextColor(context.color(match.scoreHomeColor))
 
-                when {
-                    current.isHomeWinner -> {
-                        txtScoreHome.setTextColor(context.color(R.color.blue))
-                        txtScoreAway.setTextColor(context.color(R.color.darkBlue))
-                    }
-                    current.isAwayWinner -> {
-                        txtScoreHome.setTextColor(context.color(R.color.darkBlue))
-                        txtScoreAway.setTextColor(context.color(R.color.blue))
-                    }
-                    else -> {
-                        txtScoreHome.setTextColor(context.color(R.color.darkBlue))
-                        txtScoreAway.setTextColor(context.color(R.color.darkBlue))
-                    }
-                }
+                awayTeamScore.text = match.teamAwayScore
+                awayTeamScore.setTextColor(context.color(match.scoreAwayColor))
             }
         }
     }

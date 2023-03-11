@@ -2,7 +2,7 @@ package com.lucas.soccerchallenge.utils
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.lucas.soccerchallenge.data.MatchEntity
+import com.lucas.soccerchallenge.data.entity.MatchEntity
 
 object ModelCreator {
 

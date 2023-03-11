@@ -1,6 +1,10 @@
-package com.lucas.soccerchallenge.data
+package com.lucas.soccerchallenge.data.entity
 
 import com.google.gson.annotations.SerializedName
+import com.lucas.soccerchallenge.data.Competition
+import com.lucas.soccerchallenge.data.Match
+import com.lucas.soccerchallenge.data.Score
+import com.lucas.soccerchallenge.data.Team
 import java.util.*
 
 data class MatchEntity(
