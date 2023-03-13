@@ -5,7 +5,7 @@ import com.lucas.soccerchallenge.di.scope.HomeFragmentScoped
 import com.lucas.soccerchallenge.di.viewmodel.ViewModelKey
 import com.lucas.soccerchallenge.features.fixture.FixtureFragment
 import com.lucas.soccerchallenge.features.fixture.FixtureModule
-import com.lucas.soccerchallenge.features.home.filtercompetition.FilterViewModel
+import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilterViewModel
 import com.lucas.soccerchallenge.features.results.ResultsFragment
 import com.lucas.soccerchallenge.features.results.ResultsModule
 import dagger.Binds
@@ -18,8 +18,8 @@ internal abstract class HomeModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(FilterViewModel::class)
-    abstract fun filterViewModel(viewModel: FilterViewModel): ViewModel
+    @ViewModelKey(CompetitionFilterViewModel::class)
+    abstract fun filterViewModel(viewModel: CompetitionFilterViewModel): ViewModel
 
     @HomeFragmentScoped
     @ContributesAndroidInjector(modules = [FixtureModule::class])

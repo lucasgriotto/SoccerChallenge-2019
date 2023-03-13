@@ -18,8 +18,8 @@ import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.base.BaseFragment
 import com.lucas.soccerchallenge.core.extension.viewBinding
 import com.lucas.soccerchallenge.databinding.FragmentHomeBinding
-import com.lucas.soccerchallenge.features.home.filtercompetition.FilterAdapter
-import com.lucas.soccerchallenge.features.home.filtercompetition.FilterViewModel
+import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilterAdapter
+import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilterViewModel
 import javax.inject.Inject
 
 private const val FILTER_DURATION_ANIM_MS = 300L
@@ -28,10 +28,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
 
-    private val filterViewModel: FilterViewModel by activityViewModels { viewModelFactory }
+    private val competitionFilterViewModel: CompetitionFilterViewModel by activityViewModels { viewModelFactory }
 
     @Inject
-    lateinit var filterAdapter: FilterAdapter
+    lateinit var competitionFilterAdapter: CompetitionFilterAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,9 +42,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 tab.setText(HomeFragmentStateAdapter.tabs[position])
             }.attach()
             updateFilterAdapter()
-            competitionFilter.filtersList.adapter = filterAdapter
+            competitionFilter.filtersList.adapter = competitionFilterAdapter
             competitionFilter.applyBtn.setOnClickListener {
-                filterViewModel.updateFilters(filterAdapter.filters)
+                competitionFilterViewModel.updateFilters(competitionFilterAdapter.filters)
                 toggleFilterVisibility()
             }
         }
@@ -85,7 +85,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun updateFilterAdapter() {
-        filterAdapter.setFilters(filterViewModel.allFilters)
+        competitionFilterAdapter.setFilters(competitionFilterViewModel.allFilters)
     }
 
 }

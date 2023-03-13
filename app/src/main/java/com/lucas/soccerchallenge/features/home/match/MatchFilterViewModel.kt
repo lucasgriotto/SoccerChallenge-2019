@@ -3,7 +3,7 @@ package com.lucas.soccerchallenge.features.home.match
 import androidx.lifecycle.ViewModel
 import com.lucas.soccerchallenge.data.Competition
 import com.lucas.soccerchallenge.data.Match
-import com.lucas.soccerchallenge.features.home.filtercompetition.Filters
+import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilters
 import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
 import com.lucas.soccerchallenge.utils.DateUtils
@@ -29,7 +29,7 @@ class MatchFilterViewModel @Inject constructor() : ViewModel() {
             newMatches?.let { matches ->
                 allMatches = matches
             }
-            val filtered = if (filters.size == 1 && filters.contains(Filters.allFilterCompetition))
+            val filtered = if (filters.size == 1 && filters.contains(CompetitionFilters.allFilterCompetition))
                 allMatches
             else
                 allMatches.filter { filters.contains(it.competition) }

@@ -20,7 +20,7 @@ import com.lucas.soccerchallenge.databinding.FragmentListBinding
 import com.lucas.soccerchallenge.features.fixture.adapter.FixtureAdapter
 import com.lucas.soccerchallenge.features.fixture.adapter.toFixtureDisplayModel
 import com.lucas.soccerchallenge.features.home.HomeFragmentDirections
-import com.lucas.soccerchallenge.features.home.filtercompetition.FilterViewModel
+import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilterViewModel
 import com.lucas.soccerchallenge.features.home.match.MatchFilterViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
 
     private val matchFilterViewModel: MatchFilterViewModel by viewModels { viewModelFactory }
 
-    private val filterViewModel: FilterViewModel by activityViewModels { viewModelFactory }
+    private val competitionFilterViewModel: CompetitionFilterViewModel by activityViewModels { viewModelFactory }
 
     @Inject
     lateinit var adapter: FixtureAdapter
@@ -105,9 +105,11 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            matchFilterViewModel.filterMatches(matches, filterViewModel.selectedFilters) { it.toFixtureDisplayModel() }
+            matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFilters) {
+                it.toFixtureDisplayModel()
+            }
 
-            filterViewModel.filter
+            competitionFilterViewModel.filter
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collect { filters ->
                     matchFilterViewModel.filterMatches(filters = filters) { it.toFixtureDisplayModel() }

@@ -1,8 +1,8 @@
-package com.lucas.soccerchallenge.features.home.filtercompetition
+package com.lucas.soccerchallenge.features.home.competitionfilter
 
 import com.lucas.soccerchallenge.data.Competition
 
-object Filters {
+object CompetitionFilters {
 
     const val ALL_FILTER_ID = -1
     const val ALL_FILTER_INDEX = 0

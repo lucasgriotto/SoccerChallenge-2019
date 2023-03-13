@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.features.home.filtercompetition.model
+package com.lucas.soccerchallenge.features.home.competitionfilter.model
 
 import com.lucas.soccerchallenge.data.Competition
 

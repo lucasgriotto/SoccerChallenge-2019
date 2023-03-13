@@ -1,14 +1,14 @@
-package com.lucas.soccerchallenge.features.home.filtercompetition
+package com.lucas.soccerchallenge.features.home.competitionfilter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.databinding.ItemFilterBinding
-import com.lucas.soccerchallenge.features.home.filtercompetition.Filters.ALL_FILTER_INDEX
-import com.lucas.soccerchallenge.features.home.filtercompetition.model.FilterCompetitionDisplayModel
+import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilters.ALL_FILTER_INDEX
+import com.lucas.soccerchallenge.features.home.competitionfilter.model.FilterCompetitionDisplayModel
 import javax.inject.Inject
 
-class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.ViewHolder>() {
+class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<CompetitionFilterAdapter.ViewHolder>() {
 
     private val _filters = mutableListOf<FilterCompetitionDisplayModel>()
     val filters: List<FilterCompetitionDisplayModel>
@@ -20,7 +20,7 @@ class FilterAdapter @Inject constructor() : RecyclerView.Adapter<FilterAdapter.V
 
     private var onFilterSelected: (FilterCompetitionDisplayModel) -> Unit = { filter ->
         when {
-            filter.id == Filters.ALL_FILTER_ID -> {
+            filter.id == CompetitionFilters.ALL_FILTER_ID -> {
                 // If all is selected, we have to unselect the rest. That logic is handled here
                 _filters.forEachIndexed { index, filterCompetitionDisplayModel ->
                     if (index != ALL_FILTER_INDEX && filterCompetitionDisplayModel.isSelected) {

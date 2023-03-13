@@ -18,7 +18,7 @@ import com.lucas.soccerchallenge.core.networking.Resource
 import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
 import com.lucas.soccerchallenge.features.home.HomeFragmentDirections
-import com.lucas.soccerchallenge.features.home.filtercompetition.FilterViewModel
+import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilterViewModel
 import com.lucas.soccerchallenge.features.home.match.MatchFilterViewModel
 import com.lucas.soccerchallenge.features.results.adapter.ResultAdapter
 import com.lucas.soccerchallenge.features.results.adapter.toResultDisplayModel
@@ -33,7 +33,7 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
 
     private val matchFilterViewModel: MatchFilterViewModel by viewModels { viewModelFactory }
 
-    private val filterViewModel: FilterViewModel by activityViewModels { viewModelFactory }
+    private val competitionFilterViewModel: CompetitionFilterViewModel by activityViewModels { viewModelFactory }
 
     @Inject
     lateinit var adapter: ResultAdapter
@@ -104,9 +104,11 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
             hideView(errorRetry.root)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            matchFilterViewModel.filterMatches(matches, filterViewModel.selectedFilters) { it.toResultDisplayModel() }
+            matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFilters) {
+                it.toResultDisplayModel()
+            }
 
-            filterViewModel.filter
+            competitionFilterViewModel.filter
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collect { filters ->
                     matchFilterViewModel.filterMatches(filters = filters) { it.toResultDisplayModel() }
