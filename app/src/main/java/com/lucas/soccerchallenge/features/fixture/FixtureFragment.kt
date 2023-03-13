@@ -21,7 +21,7 @@ import com.lucas.soccerchallenge.features.fixture.adapter.FixtureAdapter
 import com.lucas.soccerchallenge.features.fixture.adapter.toFixtureDisplayModel
 import com.lucas.soccerchallenge.features.home.HomeFragmentDirections
 import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilterViewModel
-import com.lucas.soccerchallenge.features.home.match.MatchFilterViewModel
+import com.lucas.soccerchallenge.features.home.matchfilter.MatchFilterViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

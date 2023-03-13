@@ -10,10 +10,10 @@ import com.lucas.soccerchallenge.core.extension.color
 import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
 import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
 import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
-import com.lucas.soccerchallenge.features.home.match.MatchDiffCallBack
-import com.lucas.soccerchallenge.features.home.match.MatchHeaderViewHolder
-import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
-import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.MatchDiffCallBack
+import com.lucas.soccerchallenge.features.home.matchfilter.MatchHeaderViewHolder
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchHeaderDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchItemDisplayModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

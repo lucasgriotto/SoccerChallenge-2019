@@ -19,7 +19,7 @@ import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
 import com.lucas.soccerchallenge.features.home.HomeFragmentDirections
 import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilterViewModel
-import com.lucas.soccerchallenge.features.home.match.MatchFilterViewModel
+import com.lucas.soccerchallenge.features.home.matchfilter.MatchFilterViewModel
 import com.lucas.soccerchallenge.features.results.adapter.ResultAdapter
 import com.lucas.soccerchallenge.features.results.adapter.toResultDisplayModel
 import kotlinx.coroutines.launch

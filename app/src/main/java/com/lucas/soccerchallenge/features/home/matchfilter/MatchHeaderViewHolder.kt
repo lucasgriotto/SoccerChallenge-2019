@@ -1,8 +1,8 @@
-package com.lucas.soccerchallenge.features.home.match
+package com.lucas.soccerchallenge.features.home.matchfilter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
-import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchHeaderDisplayModel
 
 class MatchHeaderViewHolder constructor(
     private val binding: ItemMatchHeaderBinding

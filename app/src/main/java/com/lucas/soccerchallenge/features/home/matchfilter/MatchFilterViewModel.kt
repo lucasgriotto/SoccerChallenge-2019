@@ -1,11 +1,11 @@
-package com.lucas.soccerchallenge.features.home.match
+package com.lucas.soccerchallenge.features.home.matchfilter
 
 import androidx.lifecycle.ViewModel
 import com.lucas.soccerchallenge.data.Competition
 import com.lucas.soccerchallenge.data.Match
 import com.lucas.soccerchallenge.features.home.competitionfilter.CompetitionFilters
-import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
-import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchHeaderDisplayModel
 import com.lucas.soccerchallenge.utils.DateUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.annotation.ColorRes
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.data.Match
-import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.utils.DateUtils
 import kotlinx.parcelize.Parcelize
 

@@ -1,9 +1,9 @@
-package com.lucas.soccerchallenge.features.home.match
+package com.lucas.soccerchallenge.features.home.matchfilter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.lucas.soccerchallenge.features.fixture.adapter.FixtureDisplayModel
-import com.lucas.soccerchallenge.features.home.match.model.MatchItemDisplayModel
-import com.lucas.soccerchallenge.features.home.match.model.MatchHeaderDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.features.home.matchfilter.model.MatchHeaderDisplayModel
 import com.lucas.soccerchallenge.features.results.adapter.ResultDisplayModel
 
 class MatchDiffCallBack(
