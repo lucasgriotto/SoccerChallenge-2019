@@ -1,25 +1,25 @@
 # SoccerChallenge
 
 You should implement a one screen application with 2 tabs (fixtures and results)
-  * Fixtures: ​https://storage.googleapis.com/cdn-og-test-api/test-task/fixtures.json 
-  * Results: ​https://storage.googleapis.com/cdn-og-test-api/test-task/results.json
+  * Fixtures: https://storage.googleapis.com/cdn-og-test-api/test-task/fixtures.json 
+  * Results: https://storage.googleapis.com/cdn-og-test-api/test-task/results.json
 
 ![Screenshot](SoccerAppDesign.png?raw=true "Optional Title")
 
-1. Both screens should contains list of matches divided by month.
+1. Both screens should contain list of matches divided by month
 
-2. Every match item must contain following info:\
-    a. Competition name\
-    b. Venue name\
-    c. Match date and time (in user timezone)\
+2. Every match item must contain the following info: \
+    a. Competition name \
+    b. Venue name \
+    c. Match date and time (in user time zone) \
     d. Home and away team names
     
 3. Match item on Fixture page should have additional info: \
-    a. Match day of the month, Match day of the week\
+    a. Match day of the month, Match day of the week \
     b. If match is in postponed state, it must be highlighted
     
 4. Match item on Result page should have additional info \
-    a. Home and Away team scores\
+    a. Home and Away team scores \
     b. Winner team must be highlighted
     
 5. Add possibility to filter matches by competition
