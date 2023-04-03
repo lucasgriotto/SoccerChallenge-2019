@@ -1,6 +1,6 @@
 package com.lucas.soccerchallenge.di.module
 
-import com.lucas.soccerchallenge.features.navigation.NavigationActivity
+import com.lucas.soccerchallenge.ui.navigation.NavigationActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

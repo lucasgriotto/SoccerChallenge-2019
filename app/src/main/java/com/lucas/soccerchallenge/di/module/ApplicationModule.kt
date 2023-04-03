@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
 import com.lucas.soccerchallenge.di.qualifier.IODispatcher
-import com.lucas.soccerchallenge.repository.SoccerRepository
-import com.lucas.soccerchallenge.repository.SoccerRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -18,9 +16,6 @@ abstract class ApplicationModule {
 
     @Binds
     abstract fun bindContext(application: Application): Context
-
-    @Binds
-    abstract fun bindSoccerRepository(repository: SoccerRepositoryImpl): SoccerRepository
 
 
     companion object {
