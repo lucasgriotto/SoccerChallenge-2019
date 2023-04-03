@@ -50,7 +50,7 @@ class MatchFilterViewModelTest {
                 }
             }
         } ?: run {
-            Assert.fail("Competition not found")
+            competitionNotFound()
         }
     }
 
@@ -68,7 +68,7 @@ class MatchFilterViewModelTest {
                 }
             }
         } ?: run {
-            Assert.fail("Competition not found")
+            competitionNotFound()
         }
     }
 
@@ -86,7 +86,7 @@ class MatchFilterViewModelTest {
                 }
             }
         } ?: run {
-            Assert.fail("Competition not found")
+            competitionNotFound()
         }
     }
 
@@ -95,7 +95,7 @@ class MatchFilterViewModelTest {
         CompetitionFilters.competitionFilter.filter { it.name == CARABAO_CUP || it.name == FA_CUP }
             .also { competitions ->
                 if (competitions.isEmpty()) {
-                    Assert.fail("Competitions not found")
+                    competitionNotFound()
                 } else {
                     val filters = competitions.toHashSet()
                     viewModel.filterMatches(matches, filters) { it.toResultDisplayModel() }
@@ -115,6 +115,10 @@ class MatchFilterViewModelTest {
                     }
                 }
             }
+    }
+
+    private fun competitionNotFound() {
+        Assert.fail("Competitions not found")
     }
 
 }
