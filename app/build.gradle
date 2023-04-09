@@ -62,17 +62,18 @@ dependencies {
     implementation "androidx.activity:activity-ktx:$activityKtxVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 
-    // Retrofit & OkHttp
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 
-    // Timber
-    implementation "com.jakewharton.timber:timber:$timberVersion"
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
 
     // Dagger2
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -81,9 +82,16 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+    // Material
+    implementation "com.google.android.material:material:$materialVersion"
+
+    // Retrofit & OkHttp
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
     // Unit Testing
     testImplementation "junit:junit:$junitVersion"

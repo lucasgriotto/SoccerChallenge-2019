@@ -19,7 +19,7 @@ data class MatchResponse(
     @SerializedName("state")
     val state: String? = null,
     @SerializedName("type")
-    val type: String? = null,
+    val type: MatchTypeResponse,
     @SerializedName("competitionStage")
     val competitionStage: CompetitionStageResponse
 )

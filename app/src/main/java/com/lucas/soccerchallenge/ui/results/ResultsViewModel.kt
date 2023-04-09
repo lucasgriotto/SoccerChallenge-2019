@@ -12,11 +12,11 @@ class ResultsViewModel @Inject constructor(
     val matchResultsResponse = fetchMatchResultsUseCase.result
 
     init {
-        fetchMatchResults()
+        fetchMatchResults(false)
     }
 
-    fun fetchMatchResults() {
-        fetchMatchResultsUseCase.execute(viewModelScope, Unit)
+    fun fetchMatchResults(forceRefresh: Boolean) {
+        fetchMatchResultsUseCase.execute(viewModelScope, FetchMatchResultsUseCase.Params(forceRefresh))
     }
 
 }

@@ -1,10 +1,10 @@
 package com.lucas.soccerchallenge.ui.base
 
 import com.lucas.soccerchallenge.utils.errorfactory.ErrorFactory
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -14,20 +14,19 @@ abstract class LoadableUseCase<R, Params> {
 
     val result: Flow<Resource<R>> = _result
 
+    private val handler = CoroutineExceptionHandler { _, error ->
+        Timber.e("Caught $error")
+        _result.value = Resource.Error(ErrorFactory.getError(error))
+    }
+
     fun execute(scope: CoroutineScope, params: Params) {
         _result.value = Resource.Loading()
-        scope.launch {
-            getFlow(params)
-                .catch {
-                    Timber.e("Caught $it")
-                    _result.value = Resource.Error(ErrorFactory.getError(it))
-                }
-                .collect {
-                    _result.value = Resource.Success(it)
-                }
+        scope.launch(handler) {
+            val results = doWork(params)
+            _result.value = Resource.Success(results)
         }
     }
 
-    abstract fun getFlow(params: Params): Flow<R>
+    abstract suspend fun doWork(params: Params): R
 
 }

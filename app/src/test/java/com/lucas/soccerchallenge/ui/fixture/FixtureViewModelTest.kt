@@ -1,5 +1,6 @@
 package com.lucas.soccerchallenge.ui.fixture
 
+import androidx.lifecycle.viewModelScope
 import com.lucas.soccerchallenge.ui.fixture.usecase.FetchFixtureUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -21,8 +22,8 @@ class FixtureViewModelTest {
     }
 
     @Test
-    fun `should fetch fixture when view model is created`() {
-        verify { fetchFixtureUseCase.execute(any(), Unit) }
+    fun `should fetch fixture from local source when view model is created`() {
+        verify { fetchFixtureUseCase.execute(viewModel.viewModelScope, FetchFixtureUseCase.Params(false)) }
     }
 
 }

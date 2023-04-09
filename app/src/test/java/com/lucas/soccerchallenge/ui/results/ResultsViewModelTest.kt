@@ -1,5 +1,6 @@
 package com.lucas.soccerchallenge.ui.results
 
+import androidx.lifecycle.viewModelScope
 import com.lucas.soccerchallenge.ui.results.usecase.FetchMatchResultsUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -21,8 +22,12 @@ class ResultsViewModelTest {
     }
 
     @Test
-    fun `should fetch results when view model is created`() {
-        verify { fetchMatchResultsUseCase.execute(any(), Unit) }
+    fun `should fetch results from local source when view model is created`() {
+        verify {
+            fetchMatchResultsUseCase.execute(
+                viewModel.viewModelScope, FetchMatchResultsUseCase.Params(false)
+            )
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.*
 
 data class Match(
     val id: Int,
+    val type: MatchType,
     val homeTeam: Team,
     val awayTeam: Team,
     val date: Date,

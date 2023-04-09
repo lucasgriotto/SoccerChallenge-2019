@@ -2,6 +2,7 @@ package com.lucas.soccerchallenge.core.network.model.mapper
 
 import com.lucas.soccerchallenge.core.model.Competition
 import com.lucas.soccerchallenge.core.model.Match
+import com.lucas.soccerchallenge.core.model.MatchType
 import com.lucas.soccerchallenge.core.model.Score
 import com.lucas.soccerchallenge.core.model.Team
 import com.lucas.soccerchallenge.utils.ModelCreator
@@ -15,6 +16,7 @@ class MatchResponseMapperTest {
         val matchResponse = ModelCreator.fixture.first()
         val expectedMatch = Match(
             matchResponse.id,
+            MatchType.FIXTURE,
             Team(matchResponse.homeTeam.name),
             Team(matchResponse.awayTeam.name),
             matchResponse.date,
@@ -33,6 +35,7 @@ class MatchResponseMapperTest {
         val matchResponse = ModelCreator.results.first()
         val expectedMatch = Match(
             matchResponse.id,
+            MatchType.RESULT,
             Team(matchResponse.homeTeam.name),
             Team(matchResponse.awayTeam.name),
             matchResponse.date,

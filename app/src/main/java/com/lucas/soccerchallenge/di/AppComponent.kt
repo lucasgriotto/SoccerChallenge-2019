@@ -3,6 +3,7 @@ package com.lucas.soccerchallenge.di
 import android.app.Application
 import com.lucas.soccerchallenge.SoccerChallengeApp
 import com.lucas.soccerchallenge.core.data.di.DataModule
+import com.lucas.soccerchallenge.core.database.di.DatabaseModule
 import com.lucas.soccerchallenge.core.network.di.NetworkModule
 import com.lucas.soccerchallenge.di.module.ActivityModule
 import com.lucas.soccerchallenge.di.module.ApplicationModule
@@ -22,7 +23,9 @@ import javax.inject.Singleton
         ActivityModule::class,
         ViewModelModule::class,
         NetworkModule::class,
-        DataModule::class]
+        DataModule::class,
+        DatabaseModule::class
+    ]
 )
 interface AppComponent : AndroidInjector<DaggerApplication> {
 

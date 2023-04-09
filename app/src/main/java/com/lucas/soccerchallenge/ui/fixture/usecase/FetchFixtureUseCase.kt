@@ -7,8 +7,11 @@ import javax.inject.Inject
 
 class FetchFixtureUseCase @Inject constructor(
     private val repository: SoccerRepository
-) : LoadableUseCase<List<Match>, Unit>() {
+) : LoadableUseCase<List<Match>, FetchFixtureUseCase.Params>() {
 
-    override fun getFlow(params: Unit) = repository.fetchFixture()
+    override suspend fun doWork(params: Params): List<Match> =
+        repository.fetchFixture(params.forceRefresh)
+
+    data class Params(val forceRefresh: Boolean)
 
 }

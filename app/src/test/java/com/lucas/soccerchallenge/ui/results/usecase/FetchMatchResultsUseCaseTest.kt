@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.ui.fixture.usecase
+package com.lucas.soccerchallenge.ui.results.usecase
 
 import app.cash.turbine.test
 import com.lucas.soccerchallenge.core.data.repository.SoccerRepository
@@ -22,29 +22,29 @@ import org.junit.Test
 import java.net.ConnectException
 
 @ExperimentalCoroutinesApi
-class FetchFixtureUseCaseTest {
+class FetchMatchResultsUseCaseTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var useCase: FetchFixtureUseCase
+    private lateinit var useCase: FetchMatchResultsUseCase
 
     @MockK
     private lateinit var repository: SoccerRepository
 
-    private val fixture = ModelCreator.fixture.map { it.toMatch() }
+    private val results = ModelCreator.results.map { it.toMatch() }
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        useCase = FetchFixtureUseCase(repository)
+        useCase = FetchMatchResultsUseCase(repository)
     }
 
     @Test
-    fun `should await fixture when fetch fixture success`() = runTest {
-        coEvery { repository.fetchFixture(true) } returns fixture
+    fun `should await results when fetch results success`() = runTest {
+        coEvery { repository.fetchMatchResults(true) } returns results
         useCase.result.test {
-            useCase.execute(this@runTest, FetchFixtureUseCase.Params(forceRefresh = true))
+            useCase.execute(this@runTest, FetchMatchResultsUseCase.Params(forceRefresh = true))
             val initialize = awaitItem()
             assertThat(initialize, instanceOf(Resource.Initialize::class.java))
             val loading = awaitItem()
@@ -52,16 +52,16 @@ class FetchFixtureUseCaseTest {
             val success = awaitItem()
             assertThat(success, instanceOf(Resource.Success::class.java))
             val data = (success as Resource.Success).data
-            assertEquals(fixture, data)
+            assertEquals(results, data)
         }
     }
 
     @Test
-    fun `should await error when fetch fixture fail`() = runTest {
-        coEvery { repository.fetchFixture(true) } throws ConnectException()
+    fun `should await error when fetch results fail`() = runTest {
+        coEvery { repository.fetchMatchResults(true) } throws ConnectException()
         useCase.result.test {
             supervisorScope {
-                useCase.execute(this, FetchFixtureUseCase.Params(forceRefresh = true))
+                useCase.execute(this, FetchMatchResultsUseCase.Params(forceRefresh = true))
             }
             val initialize = awaitItem()
             assertThat(initialize, instanceOf(Resource.Initialize::class.java))

@@ -2,6 +2,7 @@ package com.lucas.soccerchallenge.ui.results
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -57,9 +58,7 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
                 }
 
                 launch {
-                    matchFilterViewModel.filteredMatches.collect { matches ->
-                        adapter.setMatches(matches)
-                    }
+                    matchFilterViewModel.filteredMatches.collect { matches -> adapter.setMatches(matches) }
                 }
             }
         }
@@ -68,23 +67,23 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
     private fun initView() {
         adapter.onMatchClick = { matchResult ->
             HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(matchResult = matchResult)
-                .also { navAction ->
-                    findNavController().navigate(navAction)
-                }
+                .also { navAction -> findNavController().navigate(navAction) }
         }
         // To keep scroll position when rotating device
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.apply {
+            swipeRefresh.isEnabled = false
+            swipeRefresh.setOnRefreshListener { viewModel.fetchMatchResults(true) }
             list.adapter = adapter
-            errorRetry.retryBtn.setOnClickListener {
-                viewModel.fetchMatchResults()
-            }
+            errorRetry.retryBtn.setOnClickListener { viewModel.fetchMatchResults(true) }
         }
     }
 
     private fun displayLoadingState() {
         binding.apply {
-            showView(listLoading.root)
+            if (!swipeRefresh.isRefreshing) {
+                showView(listLoading.root)
+            }
             hideView(errorRetry.root)
         }
     }
@@ -94,15 +93,25 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
         binding.apply {
             hideView(listLoading.root)
             errorRetry.errorMessage.text = errorMessage
+            errorRetry.retryBtn.isVisible = !swipeRefresh.isRefreshing
             showView(errorRetry.root)
+            if (swipeRefresh.isRefreshing) {
+                errorRetry.root.setOnClickListener { hideView(errorRetry.root) }
+            } else {
+                errorRetry.root.setOnClickListener(null)
+            }
+            swipeRefresh.isRefreshing = false
         }
     }
 
     private fun displaySuccessState(matches: List<Match>) {
         binding.apply {
+            swipeRefresh.isEnabled = true
+            swipeRefresh.isRefreshing = false
             hideView(listLoading.root)
             hideView(errorRetry.root)
         }
+
         viewLifecycleOwner.lifecycleScope.launch {
             matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFilters) {
                 it.toResultDisplayModel()

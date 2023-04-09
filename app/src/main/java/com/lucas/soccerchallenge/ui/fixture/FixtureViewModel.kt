@@ -12,11 +12,11 @@ class FixtureViewModel @Inject constructor(
     val fixtureResponse = fetchFixtureUseCase.result
 
     init {
-        fetchFixture()
+        fetchFixture(false)
     }
 
-    fun fetchFixture() {
-        fetchFixtureUseCase.execute(viewModelScope, Unit)
+    fun fetchFixture(forceRefresh: Boolean) {
+        fetchFixtureUseCase.execute(viewModelScope, FetchFixtureUseCase.Params(forceRefresh))
     }
 
 }
