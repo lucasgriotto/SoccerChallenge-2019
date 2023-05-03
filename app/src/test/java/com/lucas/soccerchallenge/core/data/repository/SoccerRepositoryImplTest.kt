@@ -55,7 +55,7 @@ class SoccerRepositoryImplTest {
     }
 
     @Test
-    fun `should receive fixture from network when refresh false and data is empty`() = runTest {
+    fun `should receive fixture from network when refresh false and local data is empty`() = runTest {
         val fixtureResponse = ModelCreator.fixture
         val fixture = fixtureResponse.map { it.toMatch() }
         val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
@@ -75,7 +75,7 @@ class SoccerRepositoryImplTest {
     }
 
     @Test
-    fun `should receive fixture from database when refresh false and data is not empty`() = runTest {
+    fun `should receive fixture from database when refresh false and local data is not empty`() = runTest {
         val fixtureResponse = ModelCreator.fixture
         val fixture = fixtureResponse.map { it.toMatch() }
         val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
@@ -90,7 +90,7 @@ class SoccerRepositoryImplTest {
     @Test
     fun `should receive results from network when refresh true and fetch results success`() = runTest {
         val resultsResponse = ModelCreator.results
-        val results = resultsResponse.map { it.toMatch() }
+        val results = resultsResponse.map { it.toMatch() }.sortedBy { it.date }
         val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
 
         coEvery { remoteDataSource.fetchMatchResults() } returns resultsResponse
@@ -106,9 +106,9 @@ class SoccerRepositoryImplTest {
     }
 
     @Test
-    fun `should receive results from network when refresh false and data is empty`() = runTest {
+    fun `should receive results from network when refresh false and local data is empty`() = runTest {
         val resultsResponse = ModelCreator.results
-        val results = resultsResponse.map { it.toMatch() }
+        val results = resultsResponse.map { it.toMatch() }.sortedBy { it.date }
         val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
 
         coEvery { localDataSource.fetchMatchResultsFromLocal() } returns emptyList()
@@ -126,7 +126,7 @@ class SoccerRepositoryImplTest {
     }
 
     @Test
-    fun `should receive results from database when refresh false and data is not empty`() = runTest {
+    fun `should receive results from database when refresh false and local data is not empty`() = runTest {
         val resultsResponse = ModelCreator.results
         val results = resultsResponse.map { it.toMatch() }
         val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
