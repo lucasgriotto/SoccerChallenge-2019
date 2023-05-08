@@ -8,4 +8,6 @@ interface SoccerRepository {
 
     suspend fun fetchMatchResults(forceRefresh: Boolean): List<Match>
 
+    suspend fun fetchMatch(matchId: Int): Match
+
 }

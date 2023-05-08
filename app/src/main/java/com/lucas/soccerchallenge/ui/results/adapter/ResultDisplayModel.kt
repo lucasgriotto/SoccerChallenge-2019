@@ -1,14 +1,11 @@
 package com.lucas.soccerchallenge.ui.results.adapter
 
-import android.os.Parcelable
 import androidx.annotation.ColorRes
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.core.model.Match
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.utils.DateUtils
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class ResultDisplayModel(
     val id: Int,
     val competitionName: String,
@@ -20,7 +17,7 @@ data class ResultDisplayModel(
     val teamAwayScore: String?,
     @ColorRes val scoreHomeColor: Int,
     @ColorRes val scoreAwayColor: Int
-) : MatchItemDisplayModel, Parcelable
+) : MatchItemDisplayModel
 
 fun Match.toResultDisplayModel(): ResultDisplayModel {
     @ColorRes val scoreHomeColor: Int

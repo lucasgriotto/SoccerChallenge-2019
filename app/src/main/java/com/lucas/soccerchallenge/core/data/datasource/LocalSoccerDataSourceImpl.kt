@@ -20,4 +20,7 @@ class LocalSoccerDataSourceImpl @Inject constructor(
     override suspend fun deleteMatches(matchType: MatchType) {
         matchDao.deleteMatches(matchType)
     }
+
+    override suspend fun fetchMatchFromLocal(matchId: Int) = matchDao.getMatch(matchId)
+
 }

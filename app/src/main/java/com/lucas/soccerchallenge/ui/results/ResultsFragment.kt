@@ -66,7 +66,7 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
 
     private fun initView() {
         adapter.onMatchClick = { matchResult ->
-            HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(matchResult = matchResult)
+            HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(matchResult.id)
                 .also { navAction -> findNavController().navigate(navAction) }
         }
         // To keep scroll position when rotating device

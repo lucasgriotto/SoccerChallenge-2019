@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.lucas.soccerchallenge.core.data.repository.SoccerRepository
 import com.lucas.soccerchallenge.core.network.model.mapper.toMatch
 import com.lucas.soccerchallenge.ui.base.Resource
-import com.lucas.soccerchallenge.utils.MainDispatcherRule
 import com.lucas.soccerchallenge.utils.ModelCreator
 import com.lucas.soccerchallenge.utils.errorfactory.AppError
 import io.mockk.MockKAnnotations
@@ -17,15 +16,11 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsInstanceOf.instanceOf
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import java.net.ConnectException
 
 @ExperimentalCoroutinesApi
 class FetchFixtureUseCaseTest {
-
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var useCase: FetchFixtureUseCase
 

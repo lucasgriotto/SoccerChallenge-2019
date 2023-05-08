@@ -13,4 +13,6 @@ interface LocalSoccerDataSource {
 
     suspend fun deleteMatches(matchType: MatchType)
 
+    suspend fun fetchMatchFromLocal(matchId: Int): MatchEntity
+
 }

@@ -19,4 +19,7 @@ interface MatchDao {
     @Query("SELECT * FROM matches WHERE type = :type ORDER BY date ASC")
     suspend fun getMatches(type: MatchType): List<MatchEntity>
 
+    @Query("SELECT * FROM matches WHERE id = :matchId")
+    suspend fun getMatch(matchId: Int): MatchEntity
+
 }

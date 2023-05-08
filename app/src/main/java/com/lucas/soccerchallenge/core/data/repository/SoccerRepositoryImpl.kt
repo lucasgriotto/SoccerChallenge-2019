@@ -18,6 +18,11 @@ class SoccerRepositoryImpl @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : SoccerRepository {
 
+    override suspend fun fetchMatch(matchId: Int): Match {
+        val matchEntity = localDataSource.fetchMatchFromLocal(matchId)
+        return MatchEntityMapper.asDomain(matchEntity)
+    }
+
     @WorkerThread
     override suspend fun fetchFixture(forceRefresh: Boolean): List<Match> =
         if (forceRefresh) fetchFixtureRemotely() else fetchFixtureLocally()

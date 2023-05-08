@@ -66,7 +66,7 @@ class FixtureFragment : BaseFragment(R.layout.fragment_list) {
 
     private fun initView() {
         adapter.onMatchClick = { matchFixture ->
-            HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(matchFixture = matchFixture)
+            HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(matchFixture.id)
                 .also { navAction -> findNavController().navigate(navAction) }
         }
         // To keep scroll position when rotating device
