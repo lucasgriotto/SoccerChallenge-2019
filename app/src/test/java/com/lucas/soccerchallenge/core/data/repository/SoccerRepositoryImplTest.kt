@@ -138,4 +138,13 @@ class SoccerRepositoryImplTest {
         assertEquals(results, matches)
     }
 
+    @Test
+    fun `should receive match from database when fetching match`() = runTest {
+        val resultMatch = ModelCreator.results.first().toMatch()
+        val resultEntity = MatchEntityMapper.asEntity(resultMatch)
+        coEvery { localDataSource.fetchMatchFromLocal(resultEntity.id) } returns resultEntity
+        val match = repository.fetchMatch(resultEntity.id)
+        assertEquals(resultMatch, match)
+    }
+
 }

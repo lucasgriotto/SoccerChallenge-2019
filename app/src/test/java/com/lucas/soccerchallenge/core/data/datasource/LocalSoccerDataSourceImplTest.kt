@@ -63,4 +63,13 @@ class LocalSoccerDataSourceImplTest {
         coVerify { matchDao.deleteMatches(MatchType.RESULT) }
     }
 
+    @Test
+    fun `should receive match when getting a match`() = runTest {
+        val results = ModelCreator.results.map { it.toMatch() }
+        val resultEntity = MatchEntityMapper.asEntity(results.first())
+        coEvery { matchDao.getMatch(resultEntity.id) } returns resultEntity
+        val match = dataSource.fetchMatchFromLocal(resultEntity.id)
+        assertEquals(match, resultEntity)
+    }
+
 }
