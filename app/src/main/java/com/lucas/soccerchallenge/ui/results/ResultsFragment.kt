@@ -58,7 +58,9 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
                 }
 
                 launch {
-                    matchFilterViewModel.filteredMatches.collect { matches -> adapter.setMatches(matches) }
+                    matchFilterViewModel.filteredMatches.collect { matches ->
+                        adapter.setMatches(matches)
+                    }
                 }
             }
         }
@@ -105,16 +107,18 @@ class ResultsFragment : BaseFragment(R.layout.fragment_list) {
     }
 
     private fun displaySuccessState(matches: List<Match>) {
-        binding.apply {
-            swipeRefresh.isEnabled = true
-            swipeRefresh.isRefreshing = false
-            hideView(listLoading.root)
-            hideView(errorRetry.root)
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
-            matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFilters) {
-                it.toResultDisplayModel()
+            binding.apply {
+                if (listLoading.root.isVisible || swipeRefresh.isRefreshing) {
+                    matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFilters) {
+                        it.toResultDisplayModel()
+                    }
+                }
+
+                swipeRefresh.isEnabled = true
+                swipeRefresh.isRefreshing = false
+                hideView(listLoading.root)
+                hideView(errorRetry.root)
             }
 
             competitionFilterViewModel.filter

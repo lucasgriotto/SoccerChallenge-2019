@@ -37,6 +37,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         setupAppBarMenu()
         binding.apply {
+            homeViewpager.offscreenPageLimit = 1
             homeViewpager.adapter = HomeFragmentStateAdapter(this@HomeFragment)
             TabLayoutMediator(homeTabLayout, homeViewpager) { tab, position ->
                 tab.setText(HomeFragmentStateAdapter.tabs[position])
