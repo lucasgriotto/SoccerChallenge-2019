@@ -16,8 +16,8 @@ fun MatchResponse.toMatch(): Match {
     return Match(
         id,
         matchType,
-        Team(homeTeam.name),
-        Team(awayTeam.name),
+        Team(homeTeam.id, homeTeam.name),
+        Team(awayTeam.id, awayTeam.name),
         date,
         Competition(competitionStage.competition.id, competitionStage.competition.name),
         venue.name,

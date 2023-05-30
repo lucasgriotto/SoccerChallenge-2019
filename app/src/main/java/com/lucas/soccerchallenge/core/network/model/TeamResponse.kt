@@ -8,7 +8,7 @@ data class TeamResponse(
     @SerializedName("alias")
     val alias: String? = null,
     @SerializedName("id")
-    val id: Int? = null,
+    val id: Int,
     @SerializedName("shortName")
     val shortName: String? = null,
     @SerializedName("abbr")

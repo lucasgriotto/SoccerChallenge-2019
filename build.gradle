@@ -40,6 +40,7 @@ ext {
     timberVersion = '5.0.1'
     roomVersion = '2.5.1'
     swipeRefreshLayoutVersion = '1.1.0'
+    glideVersion = '4.15.1'
 
     // Unit Testing
     mockkVersion = '1.13.4'
