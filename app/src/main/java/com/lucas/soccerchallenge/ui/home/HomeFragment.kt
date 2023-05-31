@@ -48,6 +48,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 competitionFilterViewModel.updateFilters(competitionFilterAdapter.filters)
                 toggleFilterVisibility()
             }
+            competitionFilter.filterContainer.setOnClickListener {
+                toggleFilterVisibility()
+            }
         }
     }
 
