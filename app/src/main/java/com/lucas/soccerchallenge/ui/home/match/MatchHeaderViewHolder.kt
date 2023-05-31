@@ -1,4 +1,4 @@
-package com.lucas.soccerchallenge.ui.home.matchfilter
+package com.lucas.soccerchallenge.ui.home.match
 
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding

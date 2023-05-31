@@ -22,11 +22,11 @@ class MatchFilterViewModel @Inject constructor(
 
     private val _filteredMatches = MutableStateFlow<List<MatchItemDisplayModel>>(emptyList())
     val filteredMatches: StateFlow<List<MatchItemDisplayModel>> = _filteredMatches
+    lateinit var matchMapper: (Match) -> MatchItemDisplayModel
 
     suspend fun filterMatches(
         newMatches: List<Match>? = null,
-        filters: Set<Competition>,
-        matchMapper: (Match) -> MatchItemDisplayModel
+        filters: Set<Competition>
     ) {
         withContext(dispatcher) {
             newMatches?.let { matches ->
