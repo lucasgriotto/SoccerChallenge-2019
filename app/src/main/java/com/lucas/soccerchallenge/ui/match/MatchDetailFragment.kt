@@ -19,6 +19,7 @@ import com.lucas.soccerchallenge.ui.fixture.adapter.FixtureDisplayModel
 import com.lucas.soccerchallenge.ui.results.adapter.ResultDisplayModel
 import com.lucas.soccerchallenge.utils.extension.color
 import com.lucas.soccerchallenge.utils.extension.loadImageUrl
+import com.lucas.soccerchallenge.utils.extension.openWebPage
 import com.lucas.soccerchallenge.utils.extension.viewBinding
 import kotlinx.coroutines.launch
 
@@ -56,6 +57,34 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
         97 to "https://1.bp.blogspot.com/-Fctgq6m0q-U/WVJ2HAX3ehI/AAAAAAABJ4c/r3u9t2yJifoLxpR_PY4d3hnHZH3-F3RKgCLcBGAs/s1600/Cardiff%2BCity%2BFC.png",
         993 to "https://1.bp.blogspot.com/-_NwrWI8WkgU/W7gzgQq8ttI/AAAAAAABSLE/rdxjnRY2mgI1xD6jW9G_5CfeaT9uKbhQQCLcBGAs/s1600/Malmo%2BFF.png",
         2714 to "https://1.bp.blogspot.com/-FTfZ_3-tAec/XStT_JpcelI/AAAAAAABVoM/gvz9nA2YyYowQDhTlL-F29503abXAnwBgCLcBGAs/s1600/MOL%2BFehervar%2BFC.png"
+    )
+
+    // Don't have an endpoint to get team website url, had to hardcode
+    private val teamUrlMap = mapOf(
+        1 to "https://www.manutd.com",
+        3 to "https://www.arsenal.com",
+        4 to "https://www.nufc.co.uk",
+        6 to "https://www.tottenhamhotspur.com",
+        8 to "https://www.chelseafc.com",
+        11 to "https://www.evertonfc.com",
+        13 to "https://www.lcfc.com",
+        14 to "https://www.liverpoolfc.com",
+        17 to "https://www.nottinghamforest.co.uk",
+        19 to "https://www.swfc.co.uk",
+        20 to "https://www.southamptonfc.com",
+        21 to "https://www.whufc.com",
+        31 to "https://www.cpfc.co.uk",
+        36 to "https://www.brightonandhovealbion.com",
+        38 to "https://www.htafc.com",
+        39 to "https://www.wolves.co.uk",
+        43 to "https://www.mancity.com",
+        54 to "https://www.fulhamfc.com",
+        57 to "https://www.watfordfc.com",
+        90 to "https://www.burnleyfootballclub.com",
+        91 to "https://www.afcb.co.uk",
+        97 to "https://www.cardiffcityfc.co.uk",
+        993 to "https://www.mff.se",
+        2714 to "https://www.molfehervarfc.hu"
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,10 +151,16 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
         binding.homeTeam.apply {
             teamLogo.loadImageUrl(teamLogosMap[teamHomeId], placeholder = R.drawable.ic_team_logo_placeholder)
             team.text = teamHomeName
+            root.setOnClickListener {
+                teamUrlMap[teamHomeId]?.let { requireActivity().openWebPage(it) }
+            }
         }
         binding.awayTeam.apply {
             teamLogo.loadImageUrl(teamLogosMap[teamAwayId], placeholder = R.drawable.ic_team_logo_placeholder)
             team.text = teamAwayName
+            root.setOnClickListener {
+                teamUrlMap[teamAwayId]?.let { requireActivity().openWebPage(it) }
+            }
         }
     }
 
