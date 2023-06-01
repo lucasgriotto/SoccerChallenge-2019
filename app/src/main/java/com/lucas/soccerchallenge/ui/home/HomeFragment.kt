@@ -11,6 +11,7 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,6 +21,7 @@ import com.lucas.soccerchallenge.ui.base.BaseFragment
 import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilterAdapter
 import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilterViewModel
 import com.lucas.soccerchallenge.utils.extension.viewBinding
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val FILTER_DURATION_ANIM_MS = 300L
@@ -36,6 +38,16 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAppBarMenu()
+        viewLifecycleOwner.lifecycleScope.launch {
+            competitionFilterViewModel.competitionFiltersLoaded.collect { isLoaded ->
+                if (isLoaded) {
+                    initView()
+                }
+            }
+        }
+    }
+
+    private fun initView() {
         binding.apply {
             homeViewpager.offscreenPageLimit = 1
             homeViewpager.adapter = HomeFragmentStateAdapter(this@HomeFragment)
@@ -89,7 +101,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun updateFilterAdapter() {
-        competitionFilterAdapter.setFilters(competitionFilterViewModel.allFilters)
+        competitionFilterAdapter.setFilters(competitionFilterViewModel.allFilterCompetitionDisplayModels)
     }
 
 }

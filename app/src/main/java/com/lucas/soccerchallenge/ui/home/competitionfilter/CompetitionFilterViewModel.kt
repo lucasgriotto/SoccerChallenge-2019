@@ -2,30 +2,47 @@ package com.lucas.soccerchallenge.ui.home.competitionfilter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lucas.soccerchallenge.core.data.repository.UserPreferencesRepository
 import com.lucas.soccerchallenge.core.model.Competition
 import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilters.ALL_FILTER_INDEX
 import com.lucas.soccerchallenge.ui.home.competitionfilter.model.FilterCompetitionDisplayModel
 import com.lucas.soccerchallenge.ui.home.competitionfilter.model.toCompetition
 import com.lucas.soccerchallenge.ui.home.competitionfilter.model.toFilterCompetitionDisplayModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CompetitionFilterViewModel @Inject constructor() : ViewModel() {
+class CompetitionFilterViewModel @Inject constructor(
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
     private val _filter = MutableSharedFlow<Set<Competition>>()
-    val filter: SharedFlow<Set<Competition>> = _filter
+    val filter = _filter.asSharedFlow()
 
-    var selectedFilters = CompetitionFilters.defaultSelectedCompetition
+    private val _competitionFiltersLoaded = MutableStateFlow(false)
+    val competitionFiltersLoaded = _competitionFiltersLoaded.asStateFlow()
+
+    lateinit var selectedFilters: Set<Competition>
         private set
 
-    var allFilters = CompetitionFilters.competitionFilter.map { competition ->
-        competition.toFilterCompetitionDisplayModel(
-            isSelected = CompetitionFilters.defaultSelectedCompetition.contains(competition)
-        )
+    lateinit var allFilterCompetitionDisplayModels: List<FilterCompetitionDisplayModel>
+        private set
+
+    init {
+        viewModelScope.launch {
+            val selectedCompetitionsIds = userPreferencesRepository.getSelectedCompetitionsFilterIds()
+            allFilterCompetitionDisplayModels = CompetitionFilters.competitionFilter.map { competition ->
+                competition.toFilterCompetitionDisplayModel(
+                    isSelected = selectedCompetitionsIds.contains(competition.id)
+                )
+            }
+            selectedFilters = CompetitionFilters.getCompetitionsFromIds(selectedCompetitionsIds)
+            _competitionFiltersLoaded.emit(true)
+        }
     }
-        private set
 
     fun updateFilters(newFilters: List<FilterCompetitionDisplayModel>) {
         val filters = hashSetOf<Competition>()
@@ -45,9 +62,17 @@ class CompetitionFilterViewModel @Inject constructor() : ViewModel() {
         }
 
         selectedFilters = filters
-        allFilters = newFilters
+        allFilterCompetitionDisplayModels = newFilters
         viewModelScope.launch {
             _filter.emit(filters)
+        }
+        saveSelectedCompetitionsFilterIds()
+    }
+
+    private fun saveSelectedCompetitionsFilterIds() {
+        viewModelScope.launch {
+            val selectedFiltersIds = selectedFilters.map { it.id }.toSet()
+            userPreferencesRepository.saveSelectedCompetitionsFilterIds(selectedFiltersIds)
         }
     }
 

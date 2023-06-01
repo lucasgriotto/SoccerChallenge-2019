@@ -1,10 +1,13 @@
 package com.lucas.soccerchallenge.ui.home.filtercompetition
 
 import app.cash.turbine.test
+import com.lucas.soccerchallenge.core.data.repository.UserPreferencesRepository
 import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilterViewModel
 import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilters
 import com.lucas.soccerchallenge.ui.home.competitionfilter.model.toFilterCompetitionDisplayModel
 import com.lucas.soccerchallenge.utils.MainDispatcherRule
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -20,9 +23,13 @@ class CompetitionFilterViewModelTest {
 
     private lateinit var viewModel: CompetitionFilterViewModel
 
+    @MockK
+    private lateinit var userPreferencesRepository: UserPreferencesRepository
+
     @Before
     fun setUp() {
-        viewModel = CompetitionFilterViewModel()
+        MockKAnnotations.init(this, relaxed = true)
+        viewModel = CompetitionFilterViewModel(userPreferencesRepository)
     }
 
     @Test
@@ -33,7 +40,7 @@ class CompetitionFilterViewModelTest {
         val expectedFilter = setOf(CompetitionFilters.allFilterCompetition)
         viewModel.filter.test {
             viewModel.updateFilters(filters)
-            assertEquals(filters, viewModel.allFilters)
+            assertEquals(filters, viewModel.allFilterCompetitionDisplayModels)
             assertEquals(expectedFilter, viewModel.selectedFilters)
             val filter = awaitItem()
             assertEquals(expectedFilter, filter)
@@ -50,7 +57,7 @@ class CompetitionFilterViewModelTest {
         val expectedFilter = setOf(CompetitionFilters.allFilterCompetition)
         viewModel.filter.test {
             viewModel.updateFilters(filters)
-            assertEquals(filters, viewModel.allFilters)
+            assertEquals(filters, viewModel.allFilterCompetitionDisplayModels)
             assertEquals(expectedFilter, viewModel.selectedFilters)
             val filter = awaitItem()
             assertEquals(expectedFilter, filter)
@@ -66,7 +73,7 @@ class CompetitionFilterViewModelTest {
         }
         viewModel.filter.test {
             viewModel.updateFilters(filters)
-            assertEquals(filters, viewModel.allFilters)
+            assertEquals(filters, viewModel.allFilterCompetitionDisplayModels)
             assertEquals(CompetitionFilters.defaultSelectedCompetition, viewModel.selectedFilters)
             val filter = awaitItem()
             assertEquals(CompetitionFilters.defaultSelectedCompetition, filter)
