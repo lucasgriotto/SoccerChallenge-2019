@@ -1,7 +1,6 @@
 package com.lucas.soccerchallenge.ui.home.match
 
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -22,7 +21,9 @@ abstract class MatchFragment : BaseFragment(R.layout.fragment_list) {
 
     protected val matchFilterViewModel: MatchFilterViewModel by viewModels { viewModelFactory }
 
-    private val competitionFilterViewModel: CompetitionFilterViewModel by activityViewModels { viewModelFactory }
+    private val competitionFilterViewModel: CompetitionFilterViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    ) { viewModelFactory }
 
     abstract fun adapterItemCount(): Int
 

@@ -9,7 +9,7 @@ import android.view.View
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
@@ -28,7 +28,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
 
-    private val competitionFilterViewModel: CompetitionFilterViewModel by activityViewModels { viewModelFactory }
+    private val competitionFilterViewModel: CompetitionFilterViewModel by viewModels { viewModelFactory }
 
     @Inject
     lateinit var competitionFilterAdapter: CompetitionFilterAdapter
