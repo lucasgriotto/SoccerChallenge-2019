@@ -9,8 +9,8 @@ import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
 import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
 import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
-import com.lucas.soccerchallenge.ui.home.matchfilter.MatchDiffCallBack
 import com.lucas.soccerchallenge.ui.home.match.MatchHeaderViewHolder
+import com.lucas.soccerchallenge.ui.home.matchfilter.MatchDiffCallBack
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchHeaderDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.utils.extension.color
