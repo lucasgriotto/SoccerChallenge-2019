@@ -17,8 +17,8 @@ class MatchResponseMapperTest {
         val expectedMatch = Match(
             matchResponse.id,
             MatchType.FIXTURE,
-            Team(matchResponse.homeTeam.name),
-            Team(matchResponse.awayTeam.name),
+            Team(matchResponse.homeTeam.id, matchResponse.homeTeam.name),
+            Team(matchResponse.awayTeam.id, matchResponse.awayTeam.name),
             matchResponse.date,
             Competition(matchResponse.competitionStage.competition.id, matchResponse.competitionStage.competition.name),
             matchResponse.venue.name,
@@ -36,8 +36,8 @@ class MatchResponseMapperTest {
         val expectedMatch = Match(
             matchResponse.id,
             MatchType.RESULT,
-            Team(matchResponse.homeTeam.name),
-            Team(matchResponse.awayTeam.name),
+            Team(matchResponse.homeTeam.id, matchResponse.homeTeam.name),
+            Team(matchResponse.awayTeam.id, matchResponse.awayTeam.name),
             matchResponse.date,
             Competition(matchResponse.competitionStage.competition.id, matchResponse.competitionStage.competition.name),
             matchResponse.venue.name,

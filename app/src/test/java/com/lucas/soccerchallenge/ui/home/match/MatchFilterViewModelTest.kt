@@ -34,13 +34,14 @@ class MatchFilterViewModelTest {
     @Before
     fun setUp() {
         viewModel = MatchFilterViewModel(UnconfinedTestDispatcher())
+        viewModel.matchMapper = { it.toResultDisplayModel() }
     }
 
     @Test
     fun `should return only Premier League matches when that filter is set`() = runTest {
         CompetitionFilters.competitionFilter.find { it.name == PREMIER_LEAGUE }?.also { competition ->
             val filters = hashSetOf(competition)
-            viewModel.filterMatches(matches, filters) { it.toResultDisplayModel() }
+            viewModel.filterMatches(matches, filters)
             viewModel.filteredMatches.test {
                 val data = awaitItem()
                 data.forEach { displayModel ->
@@ -58,7 +59,7 @@ class MatchFilterViewModelTest {
     fun `should return only FA Cup matches when that filter is set`() = runTest {
         CompetitionFilters.competitionFilter.find { it.name == FA_CUP }?.also { competition ->
             val filters = hashSetOf(competition)
-            viewModel.filterMatches(matches, filters) { it.toResultDisplayModel() }
+            viewModel.filterMatches(matches, filters)
             viewModel.filteredMatches.test {
                 val data = awaitItem()
                 data.forEach { displayModel ->
@@ -76,7 +77,7 @@ class MatchFilterViewModelTest {
     fun `should return only Carabao Cup matches when that filter is set`() = runTest {
         CompetitionFilters.competitionFilter.find { it.name == CARABAO_CUP }?.also { competition ->
             val filters = hashSetOf(competition)
-            viewModel.filterMatches(matches, filters) { it.toResultDisplayModel() }
+            viewModel.filterMatches(matches, filters)
             viewModel.filteredMatches.test {
                 val data = awaitItem()
                 data.forEach { displayModel ->
@@ -97,8 +98,9 @@ class MatchFilterViewModelTest {
                 if (competitions.isEmpty()) {
                     competitionNotFound()
                 } else {
+                    viewModel.matchMapper = { it.toResultDisplayModel() }
                     val filters = competitions.toHashSet()
-                    viewModel.filterMatches(matches, filters) { it.toResultDisplayModel() }
+                    viewModel.filterMatches(matches, filters)
                     viewModel.filteredMatches.test {
                         val data = awaitItem()
                         data.forEach { displayModel ->
