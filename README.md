@@ -6,7 +6,7 @@ You should implement a one screen application with 2 tabs (fixtures and results)
 
 ![Screenshot](SoccerAppDesign.png?raw=true "Optional Title")
 
-1. Both screens should contain list of matches divided by month
+1. Both screens should contain a list of matches divided by month
 
 2. Every match item must contain the following info: \
     a. Competition name \
@@ -28,13 +28,32 @@ Despite task low complexity please try to apply specific architecture approach f
 
 Please avoid using code generation frameworks (like AndroidAnnotation) which massively alter your code. Dagger framework is an exception. Use any other libraries and languages(java/kotlin) you want. UI does not have to be exactly the same, it’s up to you. Result code should be well written and structured.
 
-Do you want to contribute?
---------------------------
+### Requirements beyond the scope of the statement
 
-Feel free to report or add any useful feature, I will be glad to improve it with your help.
+6. Add a match detail screen where: \
+    a. All match info is displayed \
+    b. Teams logos are displayed \
+    c. When team logo is clicked, the team's website should open
 
+7. Store matches locally: \
+    a. Add the possibility to swipe-refresh matches's lists 
 
-Developed By
-------------
+8. Store selected competition filters locally 
 
-* Lucas Griotto  - <lucasgriotto@hotmail.com>
+9. Add unit tests
+
+## Solution
+
+ - The architecture used is MVVM with Clean Architecture
+ - All requirements have been developed
+ - Flows and coroutines are used
+ - The Jetpack navigation library is implemented
+ - Matches are stored locally using Room
+ - A shared ViewModel is used to handle competition filters
+ - Dagger2 is used for DI
+ - Glide is used to display team logos
+ - Selected competition filters are stored using [Preference DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
+
+## Developed By
+
+* Lucas Griotto  - <griottolucas@gmail.com>
