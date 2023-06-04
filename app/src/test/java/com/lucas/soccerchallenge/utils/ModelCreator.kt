@@ -2,7 +2,9 @@ package com.lucas.soccerchallenge.utils
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.lucas.soccerchallenge.core.network.model.MatchResponse
+import com.soccerchallenge.data.network.model.MatchResponse
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 object ModelCreator {
 
@@ -11,7 +13,7 @@ object ModelCreator {
     val fixture: List<MatchResponse> by lazy {
         val type = object : TypeToken<List<MatchResponse>>() {}.type
         gson.fromJson(
-            TestUtils.jsonToString("fixtures.json"),
+            jsonToString("fixtures.json"),
             type
         )
     }
@@ -19,9 +21,18 @@ object ModelCreator {
     val results: List<MatchResponse> by lazy {
         val type = object : TypeToken<List<MatchResponse>>() {}.type
         gson.fromJson(
-            TestUtils.jsonToString("results.json"),
+            jsonToString("results.json"),
             type
         )
+    }
+
+    private fun jsonToString(fileName: String): String {
+        return StringBuilder().also { builder ->
+            val bufferedReader = BufferedReader(
+                InputStreamReader(javaClass.getResource("/$fileName")?.openStream())
+            )
+            bufferedReader.use { builder.append(it.readText()) }
+        }.toString()
     }
 
 }

@@ -14,7 +14,6 @@
     <string name="postponed">Postponed</string>
 
     <string name="error_connection">Please check your internet connection</string>
-    <string name="error_empty">Wrong response from the server</string>
     <string name="error_general">Something went wrong</string>
     <string name="error_json">Conversion error</string>
     <string name="error_unknown">Unknown error</string>

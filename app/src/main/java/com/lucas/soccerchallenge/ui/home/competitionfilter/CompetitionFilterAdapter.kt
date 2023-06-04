@@ -4,21 +4,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.databinding.ItemFilterBinding
-import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilters.ALL_FILTER_INDEX
-import com.lucas.soccerchallenge.ui.home.competitionfilter.model.FilterCompetitionDisplayModel
+import com.lucas.soccerchallenge.ui.home.competitionfilter.model.CompetitionFilterDisplayModel
+import com.soccerchallenge.data.util.CompetitionFilters
+import com.soccerchallenge.data.util.CompetitionFilters.ALL_FILTER_INDEX
 import javax.inject.Inject
 
 class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<CompetitionFilterAdapter.ViewHolder>() {
 
-    private val _filters = mutableListOf<FilterCompetitionDisplayModel>()
-    val filters: List<FilterCompetitionDisplayModel>
+    private val _filters = mutableListOf<CompetitionFilterDisplayModel>()
+    val filters: List<CompetitionFilterDisplayModel>
         get() {
             // Copy is created because if we change filter options and we don't press apply we need to restore previous
             // state of the list
             return _filters.map { it.copy() }
         }
 
-    private var onFilterSelected: (FilterCompetitionDisplayModel) -> Unit = { filter ->
+    private var onFilterSelected: (CompetitionFilterDisplayModel) -> Unit = { filter ->
         when {
             filter.id == CompetitionFilters.ALL_FILTER_ID -> {
                 // If all is selected, we have to unselect the rest. That logic is handled here
@@ -41,7 +42,7 @@ class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<Comp
         }
     }
 
-    fun setFilters(newFilters: List<FilterCompetitionDisplayModel>) {
+    fun setFilters(newFilters: List<CompetitionFilterDisplayModel>) {
         if (_filters.isEmpty()) {
             // Copy is created because if we change filter options and we don't press apply we need to restore previous
             // state of the list
@@ -74,10 +75,10 @@ class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<Comp
 
     inner class ViewHolder(
         private val binding: ItemFilterBinding,
-        private val onFilterSelected: (FilterCompetitionDisplayModel) -> Unit
+        private val onFilterSelected: (CompetitionFilterDisplayModel) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(filter: FilterCompetitionDisplayModel) {
+        fun bind(filter: CompetitionFilterDisplayModel) {
             binding.apply {
                 title.text = filter.name
                 selectUnselectBtn.isSelected = filter.isSelected

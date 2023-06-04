@@ -2,8 +2,8 @@ package com.lucas.soccerchallenge.di.module
 
 import android.app.Application
 import android.content.Context
-import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
-import com.lucas.soccerchallenge.di.qualifier.IODispatcher
+import com.soccerchallenge.data.di.qualifier.DefaultDispatcher
+import com.soccerchallenge.data.di.qualifier.IODispatcher
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

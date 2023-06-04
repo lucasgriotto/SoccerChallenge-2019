@@ -1,12 +1,12 @@
 package com.lucas.soccerchallenge.ui.home.match
 
 import app.cash.turbine.test
-import com.lucas.soccerchallenge.core.network.model.mapper.toMatch
-import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilters
 import com.lucas.soccerchallenge.ui.home.matchfilter.MatchFilterViewModel
 import com.lucas.soccerchallenge.ui.results.adapter.ResultDisplayModel
 import com.lucas.soccerchallenge.ui.results.adapter.toResultDisplayModel
 import com.lucas.soccerchallenge.utils.ModelCreator
+import com.soccerchallenge.data.network.model.mapper.toMatch
+import com.soccerchallenge.data.util.CompetitionFilters
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -23,7 +23,7 @@ class MatchFilterViewModelTest {
 
 
     private lateinit var viewModel: MatchFilterViewModel
-    private val matches = ModelCreator.results.map { it.toMatch() }
+    private val matches = ModelCreator.results.map { it.toMatch() }.map { it.toResultDisplayModel() }
 
     companion object {
         private const val PREMIER_LEAGUE = "Premier League"
@@ -34,13 +34,12 @@ class MatchFilterViewModelTest {
     @Before
     fun setUp() {
         viewModel = MatchFilterViewModel(UnconfinedTestDispatcher())
-        viewModel.matchMapper = { it.toResultDisplayModel() }
     }
 
     @Test
     fun `should return only Premier League matches when that filter is set`() = runTest {
         CompetitionFilters.competitionFilter.find { it.name == PREMIER_LEAGUE }?.also { competition ->
-            val filters = hashSetOf(competition)
+            val filters = hashSetOf(competition.id)
             viewModel.filterMatches(matches, filters)
             viewModel.filteredMatches.test {
                 val data = awaitItem()
@@ -58,7 +57,7 @@ class MatchFilterViewModelTest {
     @Test
     fun `should return only FA Cup matches when that filter is set`() = runTest {
         CompetitionFilters.competitionFilter.find { it.name == FA_CUP }?.also { competition ->
-            val filters = hashSetOf(competition)
+            val filters = hashSetOf(competition.id)
             viewModel.filterMatches(matches, filters)
             viewModel.filteredMatches.test {
                 val data = awaitItem()
@@ -76,7 +75,7 @@ class MatchFilterViewModelTest {
     @Test
     fun `should return only Carabao Cup matches when that filter is set`() = runTest {
         CompetitionFilters.competitionFilter.find { it.name == CARABAO_CUP }?.also { competition ->
-            val filters = hashSetOf(competition)
+            val filters = hashSetOf(competition.id)
             viewModel.filterMatches(matches, filters)
             viewModel.filteredMatches.test {
                 val data = awaitItem()
@@ -98,8 +97,7 @@ class MatchFilterViewModelTest {
                 if (competitions.isEmpty()) {
                     competitionNotFound()
                 } else {
-                    viewModel.matchMapper = { it.toResultDisplayModel() }
-                    val filters = competitions.toHashSet()
+                    val filters = competitions.map { it.id }.toHashSet()
                     viewModel.filterMatches(matches, filters)
                     viewModel.filteredMatches.test {
                         val data = awaitItem()

@@ -17,10 +17,11 @@ plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0' apply false
 }
 
 ext {
-    baseUrl = '"https://storage.googleapis.com/cdn-og-test-api/"'
+    baseUrl = '"https://storage.googleapis.com/cdn-og-test-api/test-task/"'
 
     minSdkVersion = 24
     targetSdkVersion = 33
@@ -50,5 +51,5 @@ ext {
     kotlinCoroutinesTestVersion = '1.6.4'
     espressoCoreVersion = '3.5.1'
     archCoreVersion = "2.2.0"
-    turbineVersion = "0.12.1"
+    turbineVersion = "0.13.0"
 }

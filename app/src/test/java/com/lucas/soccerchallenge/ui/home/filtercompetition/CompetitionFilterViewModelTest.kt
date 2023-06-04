@@ -1,11 +1,12 @@
 package com.lucas.soccerchallenge.ui.home.filtercompetition
 
 import app.cash.turbine.test
-import com.lucas.soccerchallenge.core.data.repository.UserPreferencesRepository
 import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilterViewModel
-import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilters
 import com.lucas.soccerchallenge.ui.home.competitionfilter.model.toFilterCompetitionDisplayModel
 import com.lucas.soccerchallenge.utils.MainDispatcherRule
+import com.soccerchallenge.data.util.CompetitionFilters
+import com.soccerchallenge.domain.usecase.GetSelectedCompetitionsFilterIdsUseCase
+import com.soccerchallenge.domain.usecase.SaveSelectedCompetitionFilterIdsUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,12 +25,18 @@ class CompetitionFilterViewModelTest {
     private lateinit var viewModel: CompetitionFilterViewModel
 
     @MockK
-    private lateinit var userPreferencesRepository: UserPreferencesRepository
+    private lateinit var getSelectedCompetitionsFilterIdsUseCase: GetSelectedCompetitionsFilterIdsUseCase
+
+    @MockK
+    private lateinit var saveSelectedCompetitionFilterIdsUseCase: SaveSelectedCompetitionFilterIdsUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = CompetitionFilterViewModel(userPreferencesRepository)
+        viewModel = CompetitionFilterViewModel(
+            getSelectedCompetitionsFilterIdsUseCase,
+            saveSelectedCompetitionFilterIdsUseCase
+        )
     }
 
     @Test
@@ -37,11 +44,11 @@ class CompetitionFilterViewModelTest {
         val filters = CompetitionFilters.competitionFilter.map { competition ->
             competition.toFilterCompetitionDisplayModel(isSelected = false)
         }
-        val expectedFilter = setOf(CompetitionFilters.allFilterCompetition)
-        viewModel.filter.test {
+        val expectedFilter = setOf(CompetitionFilters.allFilterCompetition.id)
+        viewModel.filterIds.test {
             viewModel.updateFilters(filters)
             assertEquals(filters, viewModel.allFilterCompetitionDisplayModels)
-            assertEquals(expectedFilter, viewModel.selectedFilters)
+            assertEquals(expectedFilter, viewModel.selectedFiltersIds)
             val filter = awaitItem()
             assertEquals(expectedFilter, filter)
         }
@@ -54,11 +61,11 @@ class CompetitionFilterViewModelTest {
                 isSelected = CompetitionFilters.allFilterCompetition.id != competition.id
             )
         }
-        val expectedFilter = setOf(CompetitionFilters.allFilterCompetition)
-        viewModel.filter.test {
+        val expectedFilter = setOf(CompetitionFilters.allFilterCompetition.id)
+        viewModel.filterIds.test {
             viewModel.updateFilters(filters)
             assertEquals(filters, viewModel.allFilterCompetitionDisplayModels)
-            assertEquals(expectedFilter, viewModel.selectedFilters)
+            assertEquals(expectedFilter, viewModel.selectedFiltersIds)
             val filter = awaitItem()
             assertEquals(expectedFilter, filter)
         }
@@ -68,15 +75,15 @@ class CompetitionFilterViewModelTest {
     fun `should await default filters when default filter is selected`() = runTest {
         val filters = CompetitionFilters.competitionFilter.map { competition ->
             competition.toFilterCompetitionDisplayModel(
-                isSelected = CompetitionFilters.defaultSelectedCompetition.contains(competition)
+                isSelected = CompetitionFilters.defaultSelectedCompetitionIds.contains(competition.id)
             )
         }
-        viewModel.filter.test {
+        viewModel.filterIds.test {
             viewModel.updateFilters(filters)
             assertEquals(filters, viewModel.allFilterCompetitionDisplayModels)
-            assertEquals(CompetitionFilters.defaultSelectedCompetition, viewModel.selectedFilters)
+            assertEquals(CompetitionFilters.defaultSelectedCompetitionIds, viewModel.selectedFiltersIds)
             val filter = awaitItem()
-            assertEquals(CompetitionFilters.defaultSelectedCompetition, filter)
+            assertEquals(CompetitionFilters.defaultSelectedCompetitionIds, filter)
         }
     }
 

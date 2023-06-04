@@ -8,12 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.lucas.soccerchallenge.core.model.Match
-import com.lucas.soccerchallenge.ui.base.Resource
 import com.lucas.soccerchallenge.ui.home.HomeFragmentDirections
 import com.lucas.soccerchallenge.ui.home.match.MatchFragment
 import com.lucas.soccerchallenge.ui.results.adapter.ResultAdapter
-import com.lucas.soccerchallenge.ui.results.adapter.toResultDisplayModel
+import com.lucas.soccerchallenge.utils.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,7 +24,7 @@ class ResultsFragment : MatchFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        matchFilterViewModel.matchMapper = { match: Match -> match.toResultDisplayModel() }
+        viewModel.fetchMatchResults(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,7 +35,7 @@ class ResultsFragment : MatchFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
-                    viewModel.matchResultsResponse.collect { response ->
+                    viewModel.results.collect { response ->
                         when (response) {
                             is Resource.Error -> displayErrorState(response.error)
                             is Resource.Loading -> displayLoadingState()

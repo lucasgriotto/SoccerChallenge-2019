@@ -2,24 +2,24 @@ package com.lucas.soccerchallenge.ui.fixture.adapter
 
 import androidx.annotation.ColorRes
 import com.lucas.soccerchallenge.R
-import com.lucas.soccerchallenge.core.model.Match
+import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
-import com.lucas.soccerchallenge.utils.DateUtils
+import com.soccerchallenge.domain.model.Match
+import java.util.*
 
 data class FixtureDisplayModel(
     val id: Int,
+    override val competitionId: Int,
     val competitionName: String,
     val venueName: String,
-    val matchDate: String,
     @ColorRes val matchDateColor: Int,
     val teamHomeId: Int,
     val teamHomeName: String,
     val teamAwayId: Int,
     val teamAwayName: String,
-    val dayNum: String,
-    val dayName: String,
     val isPostponed: Boolean,
-) : MatchItemDisplayModel
+    override val date: Date
+) : MatchItemDisplayModel, MatchDisplayModel
 
 fun Match.toFixtureDisplayModel(): FixtureDisplayModel {
     @ColorRes val matchDateColor = if (isPostponed) {
@@ -29,16 +29,15 @@ fun Match.toFixtureDisplayModel(): FixtureDisplayModel {
     }
     return FixtureDisplayModel(
         id = id,
+        competitionId = competition.id,
         competitionName = competition.name,
         venueName = venueName,
-        matchDate = DateUtils.getUIFormattedDate(date),
         matchDateColor = matchDateColor,
         teamHomeId = homeTeam.id,
         teamHomeName = homeTeam.name,
         teamAwayId = awayTeam.id,
         teamAwayName = awayTeam.name,
-        dayNum = DateUtils.getMonthDayNumber(date),
-        dayName = DateUtils.getWeekDayNameShort(date),
-        isPostponed = isPostponed
+        isPostponed = isPostponed,
+        date = date
     )
 }

@@ -10,7 +10,6 @@ sealed class AppError(
 ) {
     class Connection : AppError(fallbackMessage = R.string.error_connection)
     class JsonConversion : AppError(fallbackMessage = R.string.error_json)
-    class EmptyBody : AppError(fallbackMessage = R.string.error_empty)
     class GeneralError : AppError(fallbackMessage = R.string.error_general)
 
     fun getErrorMessage(context: Context): String {

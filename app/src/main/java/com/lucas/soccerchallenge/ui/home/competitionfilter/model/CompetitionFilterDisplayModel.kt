@@ -1,20 +1,14 @@
 package com.lucas.soccerchallenge.ui.home.competitionfilter.model
 
-import com.lucas.soccerchallenge.core.model.Competition
-
-data class FilterCompetitionDisplayModel(
+data class CompetitionFilterDisplayModel(
     val id: Int,
     val name: String,
     var isSelected: Boolean
 )
 
-fun Competition.toFilterCompetitionDisplayModel(isSelected: Boolean) = FilterCompetitionDisplayModel(
-    id,
-    name,
-    isSelected
-)
-
-fun FilterCompetitionDisplayModel.toCompetition() = Competition(
-    id,
-    name
-)
+fun com.soccerchallenge.domain.model.Competition.toFilterCompetitionDisplayModel(isSelected: Boolean) =
+    CompetitionFilterDisplayModel(
+        id,
+        name,
+        isSelected
+    )

@@ -6,11 +6,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.lucas.soccerchallenge.R
-import com.lucas.soccerchallenge.core.model.Match
 import com.lucas.soccerchallenge.databinding.FragmentListBinding
 import com.lucas.soccerchallenge.ui.base.BaseFragment
 import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilterViewModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.MatchFilterViewModel
+import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchDisplayModel
 import com.lucas.soccerchallenge.utils.errorfactory.AppError
 import com.lucas.soccerchallenge.utils.extension.viewBinding
 import kotlinx.coroutines.launch
@@ -55,11 +55,11 @@ abstract class MatchFragment : BaseFragment(R.layout.fragment_list) {
         }
     }
 
-    protected fun displaySuccessState(matches: List<Match>) {
+    protected fun displaySuccessState(matches: List<MatchDisplayModel>) {
         viewLifecycleOwner.lifecycleScope.launch {
             binding.apply {
                 if (listLoading.root.isVisible || swipeRefresh.isRefreshing) {
-                    matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFilters)
+                    matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFiltersIds)
                 }
                 swipeRefresh.isEnabled = true
                 swipeRefresh.isRefreshing = false
@@ -69,10 +69,12 @@ abstract class MatchFragment : BaseFragment(R.layout.fragment_list) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            competitionFilterViewModel.filter.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .collect { filters ->
-                    matchFilterViewModel.filterMatches(filters = filters)
-                }
+            competitionFilterViewModel.filterIds.flowWithLifecycle(
+                viewLifecycleOwner.lifecycle,
+                Lifecycle.State.STARTED
+            ).collect { filters ->
+                matchFilterViewModel.filterMatches(filtersIds = filters)
+            }
         }
     }
 

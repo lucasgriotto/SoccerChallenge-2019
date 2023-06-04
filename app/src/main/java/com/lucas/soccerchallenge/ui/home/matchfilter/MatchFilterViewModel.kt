@@ -1,13 +1,12 @@
 package com.lucas.soccerchallenge.ui.home.matchfilter
 
 import androidx.lifecycle.ViewModel
-import com.lucas.soccerchallenge.core.model.Competition
-import com.lucas.soccerchallenge.core.model.Match
-import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
-import com.lucas.soccerchallenge.ui.home.competitionfilter.CompetitionFilters
+import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchHeaderDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.utils.DateUtils
+import com.soccerchallenge.data.di.qualifier.DefaultDispatcher
+import com.soccerchallenge.data.util.CompetitionFilters
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,24 +17,25 @@ class MatchFilterViewModel @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private var allMatches: List<Match> = emptyList()
+    private var allMatches: List<MatchDisplayModel> = emptyList()
 
     private val _filteredMatches = MutableStateFlow<List<MatchItemDisplayModel>>(emptyList())
     val filteredMatches: StateFlow<List<MatchItemDisplayModel>> = _filteredMatches
-    lateinit var matchMapper: (Match) -> MatchItemDisplayModel
 
     suspend fun filterMatches(
-        newMatches: List<Match>? = null,
-        filters: Set<Competition>
+        newMatches: List<MatchDisplayModel>? = null,
+        filtersIds: Set<Int>
     ) {
         withContext(dispatcher) {
             newMatches?.let { matches ->
                 allMatches = matches
             }
-            val filtered = if (filters.size == 1 && filters.contains(CompetitionFilters.allFilterCompetition))
-                allMatches
-            else
-                allMatches.filter { filters.contains(it.competition) }
+            val filtered =
+                if (filtersIds.size == 1 && filtersIds.contains(CompetitionFilters.allFilterCompetition.id)) {
+                    allMatches
+                } else {
+                    allMatches.filter { filtersIds.contains(it.competitionId) }
+                }
 
             val matchWithHeaders = mutableListOf<MatchItemDisplayModel>()
 
@@ -45,7 +45,7 @@ class MatchFilterViewModel @Inject constructor(
                     val date = DateUtils.getMonthYear(match.date)
                     matchWithHeaders.add(MatchHeaderDisplayModel(date))
                 }
-                matchWithHeaders.add(matchMapper(match))
+                matchWithHeaders.add(match as MatchItemDisplayModel)
             }
 
             _filteredMatches.value = matchWithHeaders

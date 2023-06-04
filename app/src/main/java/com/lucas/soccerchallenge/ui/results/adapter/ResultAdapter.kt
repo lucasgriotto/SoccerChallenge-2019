@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
 import com.lucas.soccerchallenge.databinding.ItemMatchResultBinding
-import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
 import com.lucas.soccerchallenge.ui.home.match.MatchHeaderViewHolder
 import com.lucas.soccerchallenge.ui.home.matchfilter.MatchDiffCallBack
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchHeaderDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.utils.DateUtils
 import com.lucas.soccerchallenge.utils.extension.color
+import com.soccerchallenge.data.di.qualifier.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -84,7 +85,8 @@ class ResultAdapter @Inject constructor(
                     onMatchClick(match)
                 }
                 competition.text = match.competitionName
-                venueDate.text = match.venueName.plus(" | ").plus(match.matchDate)
+                val stringDate = DateUtils.getUIFormattedDate(match.date)
+                venueDate.text = match.venueName.plus(" | ").plus(stringDate)
 
                 homeTeam.text = match.teamHomeName
                 awayTeam.text = match.teamAwayName

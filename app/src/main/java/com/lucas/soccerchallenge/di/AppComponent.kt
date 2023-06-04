@@ -2,12 +2,12 @@ package com.lucas.soccerchallenge.di
 
 import android.app.Application
 import com.lucas.soccerchallenge.SoccerChallengeApp
-import com.lucas.soccerchallenge.core.data.di.DataModule
-import com.lucas.soccerchallenge.core.database.di.DatabaseModule
-import com.lucas.soccerchallenge.core.network.di.NetworkModule
 import com.lucas.soccerchallenge.di.module.ActivityModule
 import com.lucas.soccerchallenge.di.module.ApplicationModule
 import com.lucas.soccerchallenge.di.module.ViewModelModule
+import com.soccerchallenge.data.database.di.DatabaseModule
+import com.soccerchallenge.data.di.DataModule
+import com.soccerchallenge.data.network.di.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

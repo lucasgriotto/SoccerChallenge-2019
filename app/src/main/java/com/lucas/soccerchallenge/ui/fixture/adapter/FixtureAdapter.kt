@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.databinding.ItemMatchFixtureBinding
 import com.lucas.soccerchallenge.databinding.ItemMatchHeaderBinding
-import com.lucas.soccerchallenge.di.qualifier.DefaultDispatcher
 import com.lucas.soccerchallenge.ui.home.match.MatchHeaderViewHolder
 import com.lucas.soccerchallenge.ui.home.matchfilter.MatchDiffCallBack
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchHeaderDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
+import com.lucas.soccerchallenge.utils.DateUtils
 import com.lucas.soccerchallenge.utils.extension.color
+import com.soccerchallenge.data.di.qualifier.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -86,13 +87,13 @@ class FixtureAdapter @Inject constructor(
                 }
                 competition.text = match.competitionName
                 venue.text = match.venueName.plus(" | ")
-                date.text = match.matchDate
+                date.text = DateUtils.getUIFormattedDate(match.date)
 
                 homeTeam.text = match.teamHomeName
                 awayTeam.text = match.teamAwayName
 
-                dayNum.text = match.dayNum
-                dayName.text = match.dayName
+                dayNum.text = DateUtils.getMonthDayNumber(match.date)
+                dayName.text = DateUtils.getWeekDayNameShort(match.date)
 
                 postponed.isVisible = match.isPostponed
                 date.setTextColor(context.color(match.matchDateColor))

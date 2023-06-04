@@ -1,21 +1,21 @@
 package com.lucas.soccerchallenge.ui.match
 
 import app.cash.turbine.test
-import com.lucas.soccerchallenge.core.data.repository.SoccerRepository
-import com.lucas.soccerchallenge.core.network.model.mapper.toMatch
-import com.lucas.soccerchallenge.ui.base.Resource
 import com.lucas.soccerchallenge.ui.fixture.adapter.toFixtureDisplayModel
-import com.lucas.soccerchallenge.ui.match.usecase.FetchMatchUseCase
 import com.lucas.soccerchallenge.ui.results.adapter.toResultDisplayModel
 import com.lucas.soccerchallenge.utils.MainDispatcherRule
 import com.lucas.soccerchallenge.utils.ModelCreator
+import com.lucas.soccerchallenge.utils.Resource
+import com.soccerchallenge.data.network.model.mapper.toMatch
+import com.soccerchallenge.domain.usecase.FetchMatchUseCase
+import com.soccerchallenge.domain.util.Response
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsInstanceOf
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,42 +28,43 @@ class MatchDetailViewModelTest {
     private lateinit var viewModel: MatchDetailViewModel
 
     @MockK
-    private lateinit var repository: SoccerRepository
+    private lateinit var fetchMatchUseCase: FetchMatchUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        val fetchMatchUseCase = FetchMatchUseCase(repository)
         viewModel = MatchDetailViewModel(fetchMatchUseCase)
     }
 
     @Test
-    fun `should await FixtureDisplayModel when fetchMatchUseCase returns a match fixture`() = runTest {
-        val fixtureMatch = ModelCreator.fixture.first().toMatch()
-        coEvery { repository.fetchMatch(fixtureMatch.id) } returns fixtureMatch
-        viewModel.fixtureResponse.test {
-            viewModel.fetchMatch(fixtureMatch.id)
+    fun `should await result when fetch match is result type and success`() = runTest {
+        val match = ModelCreator.results.map { it.toMatch() }.first()
+        val expectedData = match.toResultDisplayModel()
+        coEvery { fetchMatchUseCase.execute(match.id) } returns Response.Success(match)
+        viewModel.result.test {
+            viewModel.fetchMatch(match.id)
             val initialize = awaitItem()
-            MatcherAssert.assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
+            assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
             val success = awaitItem()
-            MatcherAssert.assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
+            assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
             val data = (success as Resource.Success).data
-            Assert.assertEquals(fixtureMatch.toFixtureDisplayModel(), data)
+            assertEquals(expectedData, data)
         }
     }
 
     @Test
-    fun `should await ResultDisplayModel when fetchMatchUseCase returns a match result`() = runTest {
-        val resultMatch = ModelCreator.results.first().toMatch()
-        coEvery { repository.fetchMatch(resultMatch.id) } returns resultMatch
-        viewModel.resultResponse.test {
-            viewModel.fetchMatch(resultMatch.id)
+    fun `should await fixture when fetch match is fixture type and success`() = runTest {
+        val match = ModelCreator.fixture.map { it.toMatch() }.first()
+        val expectedData = match.toFixtureDisplayModel()
+        coEvery { fetchMatchUseCase.execute(match.id) } returns Response.Success(match)
+        viewModel.fixture.test {
+            viewModel.fetchMatch(match.id)
             val initialize = awaitItem()
-            MatcherAssert.assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
+            assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
             val success = awaitItem()
-            MatcherAssert.assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
+            assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
             val data = (success as Resource.Success).data
-            Assert.assertEquals(resultMatch.toResultDisplayModel(), data)
+            assertEquals(expectedData, data)
         }
     }
 

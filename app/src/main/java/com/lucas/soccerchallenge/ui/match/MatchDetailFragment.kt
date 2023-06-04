@@ -14,9 +14,10 @@ import androidx.navigation.fragment.navArgs
 import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.databinding.FragmentMatchDetailBinding
 import com.lucas.soccerchallenge.ui.base.BaseFragment
-import com.lucas.soccerchallenge.ui.base.Resource
 import com.lucas.soccerchallenge.ui.fixture.adapter.FixtureDisplayModel
 import com.lucas.soccerchallenge.ui.results.adapter.ResultDisplayModel
+import com.lucas.soccerchallenge.utils.DateUtils
+import com.lucas.soccerchallenge.utils.Resource
 import com.lucas.soccerchallenge.utils.extension.color
 import com.lucas.soccerchallenge.utils.extension.loadImageUrl
 import com.lucas.soccerchallenge.utils.extension.openWebPage
@@ -92,7 +93,7 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.fixtureResponse.collect { response ->
+                    viewModel.fixture.collect { response ->
                         when (response) {
                             is Resource.Success -> displayMatchFixture(response.data)
                             else -> Unit
@@ -101,7 +102,7 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
                 }
 
                 launch {
-                    viewModel.resultResponse.collect { response ->
+                    viewModel.result.collect { response ->
                         when (response) {
                             is Resource.Success -> displayMatchResult(response.data)
                             else -> Unit
@@ -118,11 +119,11 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
             displayTeamsData(match.teamHomeId, match.teamHomeName, match.teamAwayId, match.teamAwayName)
             competition.text = match.competitionName
             venue.text = match.venueName.plus(" | ")
-            date.text = match.matchDate
+            date.text = DateUtils.getUIFormattedDate(match.date)
 
-            dayNum.text = match.dayNum
+            dayNum.text = DateUtils.getMonthDayNumber(match.date)
             dayNum.isVisible = true
-            dayName.text = match.dayName
+            dayName.text = DateUtils.getWeekDayNameShort(match.date)
             dayName.isVisible = true
 
             postponed.isVisible = match.isPostponed
@@ -136,7 +137,7 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
             val context = requireContext()
             competition.text = match.competitionName
             venue.text = match.venueName.plus(" | ")
-            date.text = match.matchDate
+            date.text = DateUtils.getUIFormattedDate(match.date)
             val scoreText = SpannableString("${match.teamHomeScore} : ${match.teamAwayScore}")
             val scoreHomeColor = ForegroundColorSpan(context.color(match.scoreHomeColor))
             val scoreAwayColor = ForegroundColorSpan(context.color(match.scoreAwayColor))
