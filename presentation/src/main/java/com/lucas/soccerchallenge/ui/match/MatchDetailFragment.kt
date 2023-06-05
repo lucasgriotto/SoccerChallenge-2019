@@ -88,6 +88,11 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
         2714 to "https://www.molfehervarfc.hu"
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.fetchMatch(args.matchId)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
@@ -111,7 +116,6 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
                 }
             }
         }
-        viewModel.fetchMatch(args.matchId)
     }
 
     private fun displayMatchFixture(match: FixtureDisplayModel) {
