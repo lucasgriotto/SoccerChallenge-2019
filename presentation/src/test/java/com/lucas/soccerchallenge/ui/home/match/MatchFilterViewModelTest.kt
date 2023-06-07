@@ -13,8 +13,8 @@ import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 
@@ -118,7 +118,7 @@ class MatchFilterViewModelTest {
     }
 
     private fun competitionNotFound() {
-        Assert.fail("Competitions not found")
+        fail("Competitions not found")
     }
 
 }

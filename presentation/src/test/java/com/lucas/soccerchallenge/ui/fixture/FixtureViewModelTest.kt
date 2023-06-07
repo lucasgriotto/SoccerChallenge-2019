@@ -13,9 +13,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsInstanceOf
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -46,14 +46,14 @@ class FixtureViewModelTest {
         viewModel.fixture.test {
             viewModel.fetchFixture(true)
             val initialize = awaitItem()
-            MatcherAssert.assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
+            assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
             val loading = awaitItem()
-            MatcherAssert.assertThat(loading, IsInstanceOf.instanceOf(Resource.Loading::class.java))
+            assertThat(loading, IsInstanceOf.instanceOf(Resource.Loading::class.java))
             val success = awaitItem()
-            MatcherAssert.assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
+            assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
             val expectedData = fixture.map { it.toFixtureDisplayModel() }
             val data = (success as Resource.Success).data
-            Assert.assertEquals(expectedData, data)
+            assertEquals(expectedData, data)
         }
     }
 
@@ -64,13 +64,13 @@ class FixtureViewModelTest {
         viewModel.fixture.test {
             viewModel.fetchFixture(true)
             val initialize = awaitItem()
-            MatcherAssert.assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
+            assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
             val loading = awaitItem()
-            MatcherAssert.assertThat(loading, IsInstanceOf.instanceOf(Resource.Loading::class.java))
+            assertThat(loading, IsInstanceOf.instanceOf(Resource.Loading::class.java))
             val error = awaitItem()
-            MatcherAssert.assertThat(error, IsInstanceOf.instanceOf(Resource.Error::class.java))
+            assertThat(error, IsInstanceOf.instanceOf(Resource.Error::class.java))
             val appError = (error as Resource.Error).error
-            MatcherAssert.assertThat(appError, IsInstanceOf.instanceOf(AppError.Connection::class.java))
+            assertThat(appError, IsInstanceOf.instanceOf(AppError.Connection::class.java))
         }
     }
 

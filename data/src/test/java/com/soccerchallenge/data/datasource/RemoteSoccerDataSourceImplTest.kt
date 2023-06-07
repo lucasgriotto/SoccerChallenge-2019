@@ -7,7 +7,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -30,7 +30,7 @@ class RemoteSoccerDataSourceImplTest {
         val fixtureResponse = ModelCreator.fixture
         coEvery { soccerService.getFixture() } returns fixtureResponse
         val response = dataSource.fetchFixture()
-        Assert.assertEquals(fixtureResponse, response)
+        assertEquals(fixtureResponse, response)
     }
 
     @Test
@@ -38,7 +38,7 @@ class RemoteSoccerDataSourceImplTest {
         val resultsResponse = ModelCreator.results
         coEvery { soccerService.getResults() } returns resultsResponse
         val response = dataSource.fetchMatchResults()
-        Assert.assertEquals(resultsResponse, response)
+        assertEquals(resultsResponse, response)
     }
 
 }
