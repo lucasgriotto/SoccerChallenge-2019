@@ -43,12 +43,12 @@ ext {
     swipeRefreshLayoutVersion = '1.1.0'
     glideVersion = '4.15.1'
     datastorePreferencesVersion = '1.0.0'
+    kotlinCoroutinesVersion = '1.6.4'
 
     // Unit Testing
     mockkVersion = '1.13.4'
     junitVersion = '4.13.2'
     androidxJUnitVersion = '1.1.5'
-    kotlinCoroutinesTestVersion = '1.6.4'
     espressoCoreVersion = '3.5.1'
     archCoreVersion = "2.2.0"
     turbineVersion = "0.13.0"
