@@ -25,8 +25,9 @@ class FetchFixtureUseCaseTest {
 
     @Test
     fun `should execute fetch fixture`() = runTest {
-        useCase.execute(true)
-        coVerify { repository.fetchFixture(true) }
+        val forceRefresh = true
+        useCase.execute(forceRefresh)
+        coVerify { repository.fetchFixture(forceRefresh) }
     }
 
 }

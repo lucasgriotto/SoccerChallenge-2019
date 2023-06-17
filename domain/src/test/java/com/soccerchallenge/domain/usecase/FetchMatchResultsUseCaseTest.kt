@@ -25,8 +25,9 @@ class FetchMatchResultsUseCaseTest {
 
     @Test
     fun `should execute fetch match results`() = runTest {
-        useCase.execute(true)
-        coVerify { repository.fetchMatchResults(true) }
+        val forceRefresh = true
+        useCase.execute(forceRefresh)
+        coVerify { repository.fetchMatchResults(forceRefresh) }
     }
 
 }
