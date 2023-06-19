@@ -5,7 +5,6 @@ import com.lucas.soccerchallenge.ui.fixture.adapter.toFixtureDisplayModel
 import com.lucas.soccerchallenge.ui.results.adapter.toResultDisplayModel
 import com.lucas.soccerchallenge.utils.MainDispatcherRule
 import com.lucas.soccerchallenge.utils.ModelCreator
-import com.lucas.soccerchallenge.utils.Resource
 import com.soccerchallenge.data.network.model.mapper.toMatch
 import com.soccerchallenge.domain.usecase.FetchMatchUseCase
 import com.soccerchallenge.domain.util.Response
@@ -14,7 +13,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsInstanceOf
+import org.hamcrest.core.IsInstanceOf.instanceOf
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -41,13 +40,13 @@ class MatchDetailViewModelTest {
         val match = ModelCreator.results.map { it.toMatch() }.first()
         val expectedData = match.toResultDisplayModel()
         coEvery { fetchMatchUseCase.execute(match.id) } returns Response.Success(match)
-        viewModel.result.test {
+        viewModel.uiState.test {
             viewModel.fetchMatch(match.id)
-            val initialize = awaitItem()
-            assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
+            val idle = awaitItem()
+            assertThat(idle, instanceOf(MatchDetailScreenState.Idle::class.java))
             val success = awaitItem()
-            assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
-            val data = (success as Resource.Success).data
+            assertThat(success, instanceOf(MatchDetailScreenState.ResultData::class.java))
+            val data = (success as MatchDetailScreenState.ResultData).data
             assertEquals(expectedData, data)
         }
     }
@@ -57,13 +56,13 @@ class MatchDetailViewModelTest {
         val match = ModelCreator.fixture.map { it.toMatch() }.first()
         val expectedData = match.toFixtureDisplayModel()
         coEvery { fetchMatchUseCase.execute(match.id) } returns Response.Success(match)
-        viewModel.fixture.test {
+        viewModel.uiState.test {
             viewModel.fetchMatch(match.id)
-            val initialize = awaitItem()
-            assertThat(initialize, IsInstanceOf.instanceOf(Resource.Initialize::class.java))
+            val idle = awaitItem()
+            assertThat(idle, instanceOf(MatchDetailScreenState.Idle::class.java))
             val success = awaitItem()
-            assertThat(success, IsInstanceOf.instanceOf(Resource.Success::class.java))
-            val data = (success as Resource.Success).data
+            assertThat(success, instanceOf(MatchDetailScreenState.FixtureData::class.java))
+            val data = (success as MatchDetailScreenState.FixtureData).data
             assertEquals(expectedData, data)
         }
     }

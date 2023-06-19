@@ -2,9 +2,8 @@ package com.lucas.soccerchallenge.ui.results
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lucas.soccerchallenge.ui.results.adapter.ResultDisplayModel
+import com.lucas.soccerchallenge.ui.home.match.MatchScreenState
 import com.lucas.soccerchallenge.ui.results.adapter.toResultDisplayModel
-import com.lucas.soccerchallenge.utils.Resource
 import com.lucas.soccerchallenge.utils.errorfactory.ErrorFactory
 import com.soccerchallenge.domain.usecase.FetchMatchResultsUseCase
 import com.soccerchallenge.domain.util.Response
@@ -17,19 +16,19 @@ class ResultsViewModel @Inject constructor(
     private val fetchMatchResultsUseCase: FetchMatchResultsUseCase
 ) : ViewModel() {
 
-    private val _results = MutableStateFlow<Resource<List<ResultDisplayModel>>>(Resource.Initialize())
-    val results = _results.asStateFlow()
+    private val _uiState = MutableStateFlow<MatchScreenState>(MatchScreenState.Loading)
+    val uiState = _uiState.asStateFlow()
 
     fun fetchMatchResults(forceRefresh: Boolean) {
-        _results.value = Resource.Loading()
+        _uiState.value = MatchScreenState.Loading
         viewModelScope.launch {
             when (val response = fetchMatchResultsUseCase.execute(forceRefresh)) {
                 is Response.Success -> {
                     val resultDisplayModels = response.data.map { it.toResultDisplayModel() }
-                    _results.value = Resource.Success(resultDisplayModels)
+                    _uiState.value = MatchScreenState.Success(resultDisplayModels)
                 }
 
-                is Response.Error -> _results.value = Resource.Error(ErrorFactory.getError(response.error))
+                is Response.Error -> _uiState.value = MatchScreenState.Error(ErrorFactory.getError(response.error))
             }
         }
     }

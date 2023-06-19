@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lucas.soccerchallenge.ui.fixture.adapter.FixtureAdapter
 import com.lucas.soccerchallenge.ui.home.HomeFragmentDirections
 import com.lucas.soccerchallenge.ui.home.match.MatchFragment
-import com.lucas.soccerchallenge.utils.Resource
+import com.lucas.soccerchallenge.ui.home.match.MatchScreenState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,12 +35,11 @@ class FixtureFragment : MatchFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
-                    viewModel.fixture.collect { response ->
+                    viewModel.uiState.collect { response ->
                         when (response) {
-                            is Resource.Error -> displayErrorState(response.error)
-                            is Resource.Loading -> displayLoadingState()
-                            is Resource.Success -> displaySuccessState(response.data)
-                            is Resource.Initialize -> Unit
+                            is MatchScreenState.Error -> displayErrorState(response.error)
+                            is MatchScreenState.Success -> displaySuccessState(response.data)
+                            MatchScreenState.Loading -> displayLoadingState()
                         }
                     }
                 }

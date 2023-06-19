@@ -19,7 +19,6 @@ import com.lucas.soccerchallenge.ui.match.TeamData.teamLogosMap
 import com.lucas.soccerchallenge.ui.match.TeamData.teamUrlMap
 import com.lucas.soccerchallenge.ui.results.adapter.ResultDisplayModel
 import com.lucas.soccerchallenge.utils.DateUtils
-import com.lucas.soccerchallenge.utils.Resource
 import com.lucas.soccerchallenge.utils.extension.color
 import com.lucas.soccerchallenge.utils.extension.loadImageUrl
 import com.lucas.soccerchallenge.utils.extension.openWebPage
@@ -44,19 +43,11 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.fixture.collect { response ->
+                    viewModel.uiState.collect { response ->
                         when (response) {
-                            is Resource.Success -> displayMatchFixture(response.data)
-                            else -> Unit
-                        }
-                    }
-                }
-
-                launch {
-                    viewModel.result.collect { response ->
-                        when (response) {
-                            is Resource.Success -> displayMatchResult(response.data)
-                            else -> Unit
+                            is MatchDetailScreenState.FixtureData -> displayMatchFixture(response.data)
+                            is MatchDetailScreenState.ResultData -> displayMatchResult(response.data)
+                            MatchDetailScreenState.Idle -> Unit
                         }
                     }
                 }
