@@ -7,7 +7,7 @@ import com.soccerchallenge.domain.model.Competition
 import com.soccerchallenge.domain.model.MatchType
 import com.soccerchallenge.domain.model.Score
 import com.soccerchallenge.domain.model.Team
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "matches")
 data class MatchEntity(

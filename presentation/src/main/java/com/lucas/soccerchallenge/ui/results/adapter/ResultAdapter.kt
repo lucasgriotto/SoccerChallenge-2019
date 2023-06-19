@@ -67,6 +67,7 @@ class ResultAdapter @Inject constructor(
                 item is ResultDisplayModel && holder is MatchViewHolder -> {
                     holder.bind(item)
                 }
+
                 item is MatchHeaderDisplayModel && holder is MatchHeaderViewHolder -> {
                     holder.bind(item)
                 }

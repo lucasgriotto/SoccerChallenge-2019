@@ -1,6 +1,6 @@
 package com.soccerchallenge.domain.model
 
-import java.util.*
+import java.util.Date
 
 data class Match(
     val id: Int,

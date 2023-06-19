@@ -5,7 +5,7 @@ import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
 import com.soccerchallenge.domain.model.Match
-import java.util.*
+import java.util.Date
 
 data class ResultDisplayModel(
     val id: Int,
@@ -31,10 +31,12 @@ fun Match.toResultDisplayModel(): ResultDisplayModel {
             scoreHomeColor = R.color.blue
             scoreAwayColor = R.color.darkBlue
         }
+
         isAwayWinner -> {
             scoreHomeColor = R.color.darkBlue
             scoreAwayColor = R.color.blue
         }
+
         else -> {
             scoreHomeColor = R.color.darkBlue
             scoreAwayColor = R.color.darkBlue

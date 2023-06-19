@@ -81,6 +81,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                         toggleFilterVisibility()
                         true
                     }
+
                     else -> false
                 }
             }

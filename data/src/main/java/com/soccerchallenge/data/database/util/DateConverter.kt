@@ -1,7 +1,7 @@
 package com.soccerchallenge.data.database.util
 
 import androidx.room.TypeConverter
-import java.util.*
+import java.util.Date
 
 class DateConverter {
 

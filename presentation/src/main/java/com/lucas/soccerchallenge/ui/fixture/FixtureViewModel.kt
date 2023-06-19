@@ -28,6 +28,7 @@ class FixtureViewModel @Inject constructor(
                     val fixtureDisplayModels = response.data.map { it.toFixtureDisplayModel() }
                     _fixture.value = Resource.Success(fixtureDisplayModels)
                 }
+
                 is Response.Error -> _fixture.value = Resource.Error(ErrorFactory.getError(response.error))
             }
         }

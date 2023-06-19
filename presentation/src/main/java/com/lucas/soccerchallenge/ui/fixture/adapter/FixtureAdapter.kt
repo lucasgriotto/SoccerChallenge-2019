@@ -68,6 +68,7 @@ class FixtureAdapter @Inject constructor(
                 item is FixtureDisplayModel && holder is MatchViewHolder -> {
                     holder.bind(item)
                 }
+
                 item is MatchHeaderDisplayModel && holder is MatchHeaderViewHolder -> {
                     holder.bind(item)
                 }

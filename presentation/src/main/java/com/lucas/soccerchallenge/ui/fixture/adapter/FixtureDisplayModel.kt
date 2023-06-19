@@ -5,7 +5,7 @@ import com.lucas.soccerchallenge.R
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchDisplayModel
 import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
 import com.soccerchallenge.domain.model.Match
-import java.util.*
+import java.util.Date
 
 data class FixtureDisplayModel(
     val id: Int,

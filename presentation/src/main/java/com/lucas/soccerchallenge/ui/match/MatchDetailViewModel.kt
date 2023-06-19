@@ -34,6 +34,7 @@ class MatchDetailViewModel @Inject constructor(
                     MatchType.FIXTURE -> {
                         _fixture.value = Resource.Success(match.toFixtureDisplayModel())
                     }
+
                     MatchType.RESULT -> {
                         _result.value = Resource.Success(match.toResultDisplayModel())
                     }

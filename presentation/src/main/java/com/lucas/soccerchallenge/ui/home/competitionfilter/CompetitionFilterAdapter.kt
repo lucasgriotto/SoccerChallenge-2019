@@ -33,6 +33,7 @@ class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<Comp
                     }
                 }
             }
+
             filter.isSelected -> {
                 if (_filters[ALL_FILTER_INDEX].isSelected) {
                     _filters[ALL_FILTER_INDEX].isSelected = false

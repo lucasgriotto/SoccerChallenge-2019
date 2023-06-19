@@ -28,6 +28,7 @@ class ResultsViewModel @Inject constructor(
                     val resultDisplayModels = response.data.map { it.toResultDisplayModel() }
                     _results.value = Resource.Success(resultDisplayModels)
                 }
+
                 is Response.Error -> _results.value = Resource.Error(ErrorFactory.getError(response.error))
             }
         }
