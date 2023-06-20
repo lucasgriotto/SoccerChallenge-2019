@@ -47,11 +47,18 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
                         when (response) {
                             is MatchDetailScreenState.FixtureData -> displayMatchFixture(response.data)
                             is MatchDetailScreenState.ResultData -> displayMatchResult(response.data)
-                            MatchDetailScreenState.Idle -> Unit
+                            MatchDetailScreenState.Loading -> displayLoadingState()
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun displayLoadingState() {
+        binding.apply {
+            loading.root.isVisible = true
+            matchDetailGroup.isVisible = false
         }
     }
 
@@ -69,6 +76,8 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
 
             postponed.isVisible = match.isPostponed
             date.setTextColor(requireContext().color(match.matchDateColor))
+            loading.root.isVisible = false
+            matchDetailGroup.isVisible = true
         }
     }
 
@@ -86,6 +95,8 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
             scoreText.setSpan(scoreAwayColor, scoreText.lastIndex, scoreText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             score.text = scoreText
             score.isVisible = true
+            loading.root.isVisible = false
+            matchDetailGroup.isVisible = true
         }
     }
 

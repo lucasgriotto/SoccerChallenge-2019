@@ -5,7 +5,7 @@ import com.lucas.soccerchallenge.ui.results.adapter.ResultDisplayModel
 
 sealed class MatchDetailScreenState {
 
-    object Idle : MatchDetailScreenState()
+    object Loading : MatchDetailScreenState()
 
     data class FixtureData(val data: FixtureDisplayModel) : MatchDetailScreenState()
 

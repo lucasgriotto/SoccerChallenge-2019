@@ -16,7 +16,7 @@ class MatchDetailViewModel @Inject constructor(
     private val fetchMatchUseCase: FetchMatchUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<MatchDetailScreenState>(MatchDetailScreenState.Idle)
+    private val _uiState = MutableStateFlow<MatchDetailScreenState>(MatchDetailScreenState.Loading)
     val uiState = _uiState.asStateFlow()
 
     fun fetchMatch(matchId: Int) {

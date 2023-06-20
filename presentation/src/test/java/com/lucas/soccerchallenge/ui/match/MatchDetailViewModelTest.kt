@@ -42,8 +42,8 @@ class MatchDetailViewModelTest {
         coEvery { fetchMatchUseCase.execute(match.id) } returns Response.Success(match)
         viewModel.uiState.test {
             viewModel.fetchMatch(match.id)
-            val idle = awaitItem()
-            assertThat(idle, instanceOf(MatchDetailScreenState.Idle::class.java))
+            val loading = awaitItem()
+            assertThat(loading, instanceOf(MatchDetailScreenState.Loading::class.java))
             val success = awaitItem()
             assertThat(success, instanceOf(MatchDetailScreenState.ResultData::class.java))
             val data = (success as MatchDetailScreenState.ResultData).data
@@ -58,8 +58,8 @@ class MatchDetailViewModelTest {
         coEvery { fetchMatchUseCase.execute(match.id) } returns Response.Success(match)
         viewModel.uiState.test {
             viewModel.fetchMatch(match.id)
-            val idle = awaitItem()
-            assertThat(idle, instanceOf(MatchDetailScreenState.Idle::class.java))
+            val loading = awaitItem()
+            assertThat(loading, instanceOf(MatchDetailScreenState.Loading::class.java))
             val success = awaitItem()
             assertThat(success, instanceOf(MatchDetailScreenState.FixtureData::class.java))
             val data = (success as MatchDetailScreenState.FixtureData).data
