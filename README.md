@@ -27,8 +27,10 @@ You should implement a one screen application with 2 tabs (fixtures and results)
 
 Despite task low complexity please try to apply specific architecture approach for your solution.
 
-Please avoid using code generation frameworks (like AndroidAnnotation) which massively alter your code. Dagger framework
-is an exception. Use any other libraries and languages(java/kotlin) you want. UI does not have to be exactly the same,
+Please avoid using code generation frameworks (like AndroidAnnotation) which massively alter your
+code. Dagger framework
+is an exception. Use any other libraries and languages(java/kotlin) you want. UI does not have to be
+exactly the same,
 it’s up to you. Result code should be well written and structured.
 
 ### Requirements beyond the scope of the statement

@@ -35,7 +35,7 @@ class SoccerRepositoryImplTest {
     fun setUp() {
         MockKAnnotations.init(this)
         repository = SoccerRepositoryImpl(
-            remoteDataSource, localDataSource, UnconfinedTestDispatcher()
+                remoteDataSource, localDataSource, UnconfinedTestDispatcher()
         )
     }
 

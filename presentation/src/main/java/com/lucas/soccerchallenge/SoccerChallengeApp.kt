@@ -23,10 +23,10 @@ class SoccerChallengeApp : Application(), HasAndroidInjector {
         }
 
         DaggerAppComponent
-            .builder()
-            .applicationBind(this)
-            .build()
-            .inject(this)
+                .builder()
+                .applicationBind(this)
+                .build()
+                .inject(this)
     }
 
 }

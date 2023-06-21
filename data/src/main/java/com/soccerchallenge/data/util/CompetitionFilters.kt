@@ -9,11 +9,11 @@ object CompetitionFilters {
     val allFilterCompetition = Competition(ALL_FILTER_ID, "All")
 
     val competitionFilter = listOf(
-        allFilterCompetition,
-        Competition(8, "Premier League"),
-        Competition(2, "Carabao Cup"),
-        Competition(6, "UEFA Europa League"),
-        Competition(1, "FA Cup")
+            allFilterCompetition,
+            Competition(8, "Premier League"),
+            Competition(2, "Carabao Cup"),
+            Competition(6, "UEFA Europa League"),
+            Competition(1, "FA Cup")
     )
 
     private val defaultSelectedCompetition = setOf(allFilterCompetition)

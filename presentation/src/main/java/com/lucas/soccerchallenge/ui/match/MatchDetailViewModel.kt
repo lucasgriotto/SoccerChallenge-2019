@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MatchDetailViewModel @Inject constructor(
-    private val fetchMatchUseCase: FetchMatchUseCase
+        private val fetchMatchUseCase: FetchMatchUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MatchDetailScreenState>(MatchDetailScreenState.Loading)
@@ -24,14 +24,9 @@ class MatchDetailViewModel @Inject constructor(
             val response = fetchMatchUseCase.execute(matchId)
             if (response is Response.Success) {
                 val match = response.data
-                when (match.type) {
-                    MatchType.FIXTURE -> {
-                        _uiState.value = MatchDetailScreenState.FixtureData(match.toFixtureDisplayModel())
-                    }
-
-                    MatchType.RESULT -> {
-                        _uiState.value = MatchDetailScreenState.ResultData(match.toResultDisplayModel())
-                    }
+                _uiState.value = when (match.type) {
+                    MatchType.FIXTURE -> MatchDetailScreenState.FixtureData(match.toFixtureDisplayModel())
+                    MatchType.RESULT -> MatchDetailScreenState.ResultData(match.toResultDisplayModel())
                 }
             }
         }

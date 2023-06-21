@@ -75,8 +75,8 @@ class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<Comp
     }
 
     inner class ViewHolder(
-        private val binding: ItemFilterBinding,
-        private val onFilterSelected: (CompetitionFilterDisplayModel) -> Unit
+            private val binding: ItemFilterBinding,
+            private val onFilterSelected: (CompetitionFilterDisplayModel) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(filter: CompetitionFilterDisplayModel) {

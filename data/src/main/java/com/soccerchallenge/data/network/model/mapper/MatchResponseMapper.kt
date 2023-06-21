@@ -14,17 +14,17 @@ fun MatchResponse.toMatch(): Match {
         MatchTypeResponse.RESULT -> MatchType.RESULT
     }
     return Match(
-        id,
-        matchType,
-        Team(homeTeam.id, homeTeam.name),
-        Team(awayTeam.id, awayTeam.name),
-        date,
-        Competition(
-            competitionStage.competition.id,
-            competitionStage.competition.name
-        ),
-        venue.name,
-        state,
-        score?.let { Score(it.home, it.away, it.winner) }
+            id,
+            matchType,
+            Team(homeTeam.id, homeTeam.name),
+            Team(awayTeam.id, awayTeam.name),
+            date,
+            Competition(
+                    competitionStage.competition.id,
+                    competitionStage.competition.name
+            ),
+            venue.name,
+            state,
+            score?.let { Score(it.home, it.away, it.winner) }
     )
 }

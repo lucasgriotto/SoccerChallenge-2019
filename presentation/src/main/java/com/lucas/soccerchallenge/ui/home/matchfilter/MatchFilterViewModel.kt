@@ -9,33 +9,33 @@ import com.soccerchallenge.data.di.qualifier.DefaultDispatcher
 import com.soccerchallenge.data.util.CompetitionFilters
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MatchFilterViewModel @Inject constructor(
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+        @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private var allMatches: List<MatchDisplayModel> = emptyList()
 
     private val _filteredMatches = MutableStateFlow<List<MatchItemDisplayModel>>(emptyList())
-    val filteredMatches: StateFlow<List<MatchItemDisplayModel>> = _filteredMatches
+    val filteredMatches = _filteredMatches.asStateFlow()
 
     suspend fun filterMatches(
-        newMatches: List<MatchDisplayModel>? = null,
-        filtersIds: Set<Int>
+            newMatches: List<MatchDisplayModel>? = null,
+            filtersIds: Set<Int>
     ) {
         withContext(dispatcher) {
             newMatches?.let { matches ->
                 allMatches = matches
             }
             val filtered =
-                if (filtersIds.size == 1 && filtersIds.contains(CompetitionFilters.allFilterCompetition.id)) {
-                    allMatches
-                } else {
-                    allMatches.filter { filtersIds.contains(it.competitionId) }
-                }
+                    if (filtersIds.size == 1 && filtersIds.contains(CompetitionFilters.allFilterCompetition.id)) {
+                        allMatches
+                    } else {
+                        allMatches.filter { filtersIds.contains(it.competitionId) }
+                    }
 
             val matchWithHeaders = mutableListOf<MatchItemDisplayModel>()
 

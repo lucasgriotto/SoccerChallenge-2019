@@ -57,8 +57,8 @@
         tools:text="Qarabag" />
 
     <View
-        style="@style/HorizontalDivider"
         android:id="@+id/bottom_divider"
+        style="@style/HorizontalDivider"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

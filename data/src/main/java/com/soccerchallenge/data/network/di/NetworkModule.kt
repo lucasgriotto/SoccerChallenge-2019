@@ -25,34 +25,34 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesRetrofitClient(
-        loggingInterceptor: HttpLoggingInterceptor
+            loggingInterceptor: HttpLoggingInterceptor
     ): Retrofit {
         val httpClient = OkHttpClient.Builder()
         httpClient.connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(loggingInterceptor)
 
         val gsonDate = GsonBuilder()
-            .setDateFormat(DATE_FORMAT_SERVER)
-            .create()
+                .setDateFormat(DATE_FORMAT_SERVER)
+                .create()
 
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gsonDate))
-            .client(httpClient.build())
-            .build()
+                .baseUrl(BuildConfig.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gsonDate))
+                .client(httpClient.build())
+                .build()
     }
 
     @Provides
     @Singleton
     fun providesHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor()
-            .setLevel(
-                if (BuildConfig.DEBUG)
-                    HttpLoggingInterceptor.Level.BODY
-                else
-                    HttpLoggingInterceptor.Level.NONE
-            )
+                .setLevel(
+                        if (BuildConfig.DEBUG)
+                            HttpLoggingInterceptor.Level.BODY
+                        else
+                            HttpLoggingInterceptor.Level.NONE
+                )
     }
 
     companion object {

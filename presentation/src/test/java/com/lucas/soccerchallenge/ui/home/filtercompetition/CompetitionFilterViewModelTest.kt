@@ -34,8 +34,8 @@ class CompetitionFilterViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel = CompetitionFilterViewModel(
-            getSelectedCompetitionsFilterIdsUseCase,
-            saveSelectedCompetitionFilterIdsUseCase
+                getSelectedCompetitionsFilterIdsUseCase,
+                saveSelectedCompetitionFilterIdsUseCase
         )
     }
 
@@ -58,7 +58,7 @@ class CompetitionFilterViewModelTest {
     fun `should await all option filter when all competitions are selected but all option is not`() = runTest {
         val filters = CompetitionFilters.competitionFilter.map { competition ->
             competition.toFilterCompetitionDisplayModel(
-                isSelected = CompetitionFilters.allFilterCompetition.id != competition.id
+                    isSelected = CompetitionFilters.allFilterCompetition.id != competition.id
             )
         }
         val expectedFilter = setOf(CompetitionFilters.allFilterCompetition.id)
@@ -75,7 +75,7 @@ class CompetitionFilterViewModelTest {
     fun `should await default filters when default filter is selected`() = runTest {
         val filters = CompetitionFilters.competitionFilter.map { competition ->
             competition.toFilterCompetitionDisplayModel(
-                isSelected = CompetitionFilters.defaultSelectedCompetitionIds.contains(competition.id)
+                    isSelected = CompetitionFilters.defaultSelectedCompetitionIds.contains(competition.id)
             )
         }
         viewModel.filterIds.test {

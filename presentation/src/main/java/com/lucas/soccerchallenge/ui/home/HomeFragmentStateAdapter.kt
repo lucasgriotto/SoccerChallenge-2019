@@ -7,12 +7,12 @@ import com.lucas.soccerchallenge.ui.fixture.FixtureFragment
 import com.lucas.soccerchallenge.ui.results.ResultsFragment
 
 class HomeFragmentStateAdapter(homeFragment: HomeFragment) :
-    FragmentStateAdapter(homeFragment) {
+        FragmentStateAdapter(homeFragment) {
 
     companion object {
         val tabs = listOf(
-            R.string.fixture,
-            R.string.results
+                R.string.fixture,
+                R.string.results
         )
     }
 
@@ -26,4 +26,5 @@ class HomeFragmentStateAdapter(homeFragment: HomeFragment) :
             else -> ResultsFragment.newInstance()
         }
     }
+
 }

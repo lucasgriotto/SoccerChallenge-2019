@@ -12,4 +12,5 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(contentLayout)
     }
+
 }

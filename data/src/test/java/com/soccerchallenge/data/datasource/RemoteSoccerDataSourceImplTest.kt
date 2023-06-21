@@ -28,7 +28,7 @@ class RemoteSoccerDataSourceImplTest {
     @Test
     fun `should receive fixture when fetch fixture success`() = runTest {
         val fixtureResponse = ModelCreator.fixture
-        coEvery { soccerService.getFixture() } returns fixtureResponse
+        coEvery { soccerService.fetchFixture() } returns fixtureResponse
         val response = dataSource.fetchFixture()
         assertEquals(fixtureResponse, response)
     }
@@ -36,7 +36,7 @@ class RemoteSoccerDataSourceImplTest {
     @Test
     fun `should receive results when fetch results success`() = runTest {
         val resultsResponse = ModelCreator.results
-        coEvery { soccerService.getResults() } returns resultsResponse
+        coEvery { soccerService.fetchResults() } returns resultsResponse
         val response = dataSource.fetchMatchResults()
         assertEquals(resultsResponse, response)
     }

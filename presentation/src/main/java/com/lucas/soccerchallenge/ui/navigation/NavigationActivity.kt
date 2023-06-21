@@ -24,7 +24,7 @@ class NavigationActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+                supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.apply {

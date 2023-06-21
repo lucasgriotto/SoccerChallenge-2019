@@ -30,8 +30,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            style="@style/HorizontalDivider"
             android:id="@+id/div"
+            style="@style/HorizontalDivider"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

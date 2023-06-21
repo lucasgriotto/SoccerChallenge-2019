@@ -9,9 +9,9 @@ import com.soccerchallenge.data.database.util.DateConverter
 import com.soccerchallenge.data.database.util.MatchTypeConverter
 
 @Database(
-    entities = [MatchEntity::class],
-    version = SoccerDatabase.VERSION,
-    exportSchema = false
+        entities = [MatchEntity::class],
+        version = SoccerDatabase.VERSION,
+        exportSchema = false
 )
 @TypeConverters(value = [DateConverter::class, MatchTypeConverter::class])
 abstract class SoccerDatabase : RoomDatabase() {

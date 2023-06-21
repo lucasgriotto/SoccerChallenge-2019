@@ -93,28 +93,28 @@ class MatchFilterViewModelTest {
     @Test
     fun `should return only Carabao Cup and FA Cup matches when those filters are set`() = runTest {
         CompetitionFilters.competitionFilter.filter { it.name == CARABAO_CUP || it.name == FA_CUP }
-            .also { competitions ->
-                if (competitions.isEmpty()) {
-                    competitionNotFound()
-                } else {
-                    val filters = competitions.map { it.id }.toHashSet()
-                    viewModel.filterMatches(matches, filters)
-                    viewModel.filteredMatches.test {
-                        val data = awaitItem()
-                        data.forEach { displayModel ->
-                            if (displayModel is ResultDisplayModel) {
-                                assertThat(
-                                    displayModel.competitionName,
-                                    anyOf(
-                                        equalTo(CARABAO_CUP),
-                                        equalTo(FA_CUP)
+                .also { competitions ->
+                    if (competitions.isEmpty()) {
+                        competitionNotFound()
+                    } else {
+                        val filters = competitions.map { it.id }.toHashSet()
+                        viewModel.filterMatches(matches, filters)
+                        viewModel.filteredMatches.test {
+                            val data = awaitItem()
+                            data.forEach { displayModel ->
+                                if (displayModel is ResultDisplayModel) {
+                                    assertThat(
+                                            displayModel.competitionName,
+                                            anyOf(
+                                                    equalTo(CARABAO_CUP),
+                                                    equalTo(FA_CUP)
+                                            )
                                     )
-                                )
+                                }
                             }
                         }
                     }
                 }
-            }
     }
 
     private fun competitionNotFound() {
