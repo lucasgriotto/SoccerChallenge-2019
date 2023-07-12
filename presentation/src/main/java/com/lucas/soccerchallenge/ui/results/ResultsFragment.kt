@@ -24,7 +24,7 @@ class ResultsFragment : MatchFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.fetchMatchResults(false)
+        if (savedInstanceState == null) viewModel.fetchMatchResults(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

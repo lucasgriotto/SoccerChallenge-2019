@@ -35,7 +35,7 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.fetchMatch(args.matchId)
+        if (savedInstanceState == null) viewModel.fetchMatch(args.matchId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

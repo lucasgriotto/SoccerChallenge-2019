@@ -24,7 +24,7 @@ class FixtureFragment : MatchFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.fetchFixture(false)
+        if (savedInstanceState == null) viewModel.fetchFixture(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
