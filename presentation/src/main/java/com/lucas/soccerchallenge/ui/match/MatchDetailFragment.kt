@@ -64,7 +64,12 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
 
     private fun displayMatchFixture(match: FixtureDisplayModel) {
         binding.apply {
-            displayTeamsData(match.teamHomeId, match.teamHomeName, match.teamAwayId, match.teamAwayName)
+            displayTeamsData(
+                match.teamHomeId,
+                match.teamHomeName,
+                match.teamAwayId,
+                match.teamAwayName
+            )
             competition.text = match.competitionName
             venue.text = match.venueName.plus(" | ")
             date.text = DateUtils.getUIFormattedDate(match.date)
@@ -83,7 +88,12 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
 
     private fun displayMatchResult(match: ResultDisplayModel) {
         binding.apply {
-            displayTeamsData(match.teamHomeId, match.teamHomeName, match.teamAwayId, match.teamAwayName)
+            displayTeamsData(
+                match.teamHomeId,
+                match.teamHomeName,
+                match.teamAwayId,
+                match.teamAwayName
+            )
             val context = requireContext()
             competition.text = match.competitionName
             venue.text = match.venueName.plus(" | ")
@@ -92,7 +102,12 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
             val scoreHomeColor = ForegroundColorSpan(context.color(match.scoreHomeColor))
             val scoreAwayColor = ForegroundColorSpan(context.color(match.scoreAwayColor))
             scoreText.setSpan(scoreHomeColor, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            scoreText.setSpan(scoreAwayColor, scoreText.lastIndex, scoreText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            scoreText.setSpan(
+                scoreAwayColor,
+                scoreText.lastIndex,
+                scoreText.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             score.text = scoreText
             score.isVisible = true
             loading.root.isVisible = false
@@ -100,16 +115,27 @@ class MatchDetailFragment : BaseFragment(R.layout.fragment_match_detail) {
         }
     }
 
-    private fun displayTeamsData(teamHomeId: Int, teamHomeName: String, teamAwayId: Int, teamAwayName: String) {
+    private fun displayTeamsData(
+        teamHomeId: Int,
+        teamHomeName: String,
+        teamAwayId: Int,
+        teamAwayName: String
+    ) {
         binding.homeTeam.apply {
-            teamLogo.loadImageUrl(teamLogosMap[teamHomeId], placeholder = R.drawable.ic_team_logo_placeholder)
+            teamLogo.loadImageUrl(
+                teamLogosMap[teamHomeId],
+                placeholder = R.drawable.ic_team_logo_placeholder
+            )
             team.text = teamHomeName
             root.setOnClickListener {
                 teamUrlMap[teamHomeId]?.let { requireActivity().openWebPage(it) }
             }
         }
         binding.awayTeam.apply {
-            teamLogo.loadImageUrl(teamLogosMap[teamAwayId], placeholder = R.drawable.ic_team_logo_placeholder)
+            teamLogo.loadImageUrl(
+                teamLogosMap[teamAwayId],
+                placeholder = R.drawable.ic_team_logo_placeholder
+            )
             team.text = teamAwayName
             root.setOnClickListener {
                 teamUrlMap[teamAwayId]?.let { requireActivity().openWebPage(it) }

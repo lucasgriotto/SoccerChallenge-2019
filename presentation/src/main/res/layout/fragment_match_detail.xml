@@ -156,6 +156,6 @@
         android:id="@+id/match_detail_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="competition,venue,date,postponed,home_team,away_team,score_date_container" />
+        app:constraint_referenced_ids="competition,venue,date,home_team,away_team,score_date_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
