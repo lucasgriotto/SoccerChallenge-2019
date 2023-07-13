@@ -5,10 +5,10 @@ import retrofit2.http.GET
 
 interface SoccerService {
 
-    @GET("fixtures.json")
+    @GET("fixture")
     suspend fun fetchFixture(): List<MatchResponse>
 
-    @GET("results.json")
+    @GET("results")
     suspend fun fetchResults(): List<MatchResponse>
 
 }

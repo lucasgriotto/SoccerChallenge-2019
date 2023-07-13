@@ -21,7 +21,7 @@ plugins {
 }
 
 ext {
-    baseUrl = '"https://storage.googleapis.com/cdn-og-test-api/test-task/"'
+    baseUrl = '"https://soccerchallenge.free.beeceptor.com/"'
 
     minSdkVersion = 24
     targetSdkVersion = 33
