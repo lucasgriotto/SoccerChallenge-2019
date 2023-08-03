@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class UserPreferencesRepositoryImpl @Inject constructor(
-        private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>
 ) : UserPreferencesRepository {
 
     private object PreferencesKeys {

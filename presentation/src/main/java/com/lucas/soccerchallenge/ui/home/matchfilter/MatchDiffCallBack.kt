@@ -7,8 +7,8 @@ import com.lucas.soccerchallenge.ui.home.matchfilter.model.MatchItemDisplayModel
 import com.lucas.soccerchallenge.ui.results.adapter.ResultDisplayModel
 
 class MatchDiffCallBack(
-        private val oldList: List<MatchItemDisplayModel>,
-        private val newList: List<MatchItemDisplayModel>
+    private val oldList: List<MatchItemDisplayModel>,
+    private val newList: List<MatchItemDisplayModel>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldList.size

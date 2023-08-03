@@ -16,9 +16,9 @@ class DatabaseModule {
     @Singleton
     fun provideDatabase(context: Context): SoccerDatabase {
         return Room
-                .databaseBuilder(context, SoccerDatabase::class.java, SoccerDatabase.DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .build()
+            .databaseBuilder(context, SoccerDatabase::class.java, SoccerDatabase.DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides

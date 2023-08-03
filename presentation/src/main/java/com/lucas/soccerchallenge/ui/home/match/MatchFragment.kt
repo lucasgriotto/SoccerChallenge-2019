@@ -22,7 +22,7 @@ abstract class MatchFragment : BaseFragment(R.layout.fragment_list) {
     protected val matchFilterViewModel: MatchFilterViewModel by viewModels { viewModelFactory }
 
     private val competitionFilterViewModel: CompetitionFilterViewModel by viewModels(
-            ownerProducer = { requireParentFragment() }
+        ownerProducer = { requireParentFragment() }
     ) { viewModelFactory }
 
     abstract fun adapterItemCount(): Int
@@ -59,7 +59,10 @@ abstract class MatchFragment : BaseFragment(R.layout.fragment_list) {
         viewLifecycleOwner.lifecycleScope.launch {
             binding.apply {
                 if (listLoading.root.isVisible || swipeRefresh.isRefreshing) {
-                    matchFilterViewModel.filterMatches(matches, competitionFilterViewModel.selectedFiltersIds)
+                    matchFilterViewModel.filterMatches(
+                        matches,
+                        competitionFilterViewModel.selectedFiltersIds
+                    )
                 }
                 swipeRefresh.isEnabled = true
                 swipeRefresh.isRefreshing = false
@@ -70,8 +73,8 @@ abstract class MatchFragment : BaseFragment(R.layout.fragment_list) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             competitionFilterViewModel.filterIds.flowWithLifecycle(
-                    viewLifecycleOwner.lifecycle,
-                    Lifecycle.State.STARTED
+                viewLifecycleOwner.lifecycle,
+                Lifecycle.State.STARTED
             ).collect { filters ->
                 matchFilterViewModel.filterMatches(filtersIds = filters)
             }

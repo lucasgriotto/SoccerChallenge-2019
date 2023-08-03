@@ -56,10 +56,11 @@ class FixtureFragment : MatchFragment() {
     private fun initView() {
         adapter.onMatchClick = { matchFixture ->
             HomeFragmentDirections.actionHomeFragmentToMatchDetailFragment(matchFixture.id)
-                    .also { navAction -> findNavController().navigate(navAction) }
+                .also { navAction -> findNavController().navigate(navAction) }
         }
         // To keep scroll position when rotating device
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.apply {
             swipeRefresh.isEnabled = false
             swipeRefresh.setOnRefreshListener { viewModel.fetchFixture(true) }

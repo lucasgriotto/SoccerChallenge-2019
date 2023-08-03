@@ -5,8 +5,8 @@ import androidx.annotation.StringRes
 import com.lucas.soccerchallenge.R
 
 sealed class AppError(
-        private val message: String? = null,
-        @StringRes private val fallbackMessage: Int = R.string.error_unknown
+    private val message: String? = null,
+    @StringRes private val fallbackMessage: Int = R.string.error_unknown
 ) {
     class Connection : AppError(fallbackMessage = R.string.error_connection)
     class JsonConversion : AppError(fallbackMessage = R.string.error_json)

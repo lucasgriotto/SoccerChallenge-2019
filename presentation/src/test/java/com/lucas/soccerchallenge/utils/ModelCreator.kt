@@ -13,23 +13,23 @@ object ModelCreator {
     val fixture: List<MatchResponse> by lazy {
         val type = object : TypeToken<List<MatchResponse>>() {}.type
         gson.fromJson(
-                jsonToString("fixtures.json"),
-                type
+            jsonToString("fixtures.json"),
+            type
         )
     }
 
     val results: List<MatchResponse> by lazy {
         val type = object : TypeToken<List<MatchResponse>>() {}.type
         gson.fromJson(
-                jsonToString("results.json"),
-                type
+            jsonToString("results.json"),
+            type
         )
     }
 
     private fun jsonToString(fileName: String): String {
         return StringBuilder().also { builder ->
             val bufferedReader = BufferedReader(
-                    InputStreamReader(javaClass.getResource("/$fileName")?.openStream())
+                InputStreamReader(javaClass.getResource("/$fileName")?.openStream())
             )
             bufferedReader.use { builder.append(it.readText()) }
         }.toString()

@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ResultAdapter @Inject constructor(
-        @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var onMatchClick: (ResultDisplayModel) -> Unit
@@ -76,7 +76,7 @@ class ResultAdapter @Inject constructor(
     }
 
     inner class MatchViewHolder constructor(
-            private val binding: ItemMatchResultBinding
+        private val binding: ItemMatchResultBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(match: ResultDisplayModel) {

@@ -44,10 +44,10 @@ abstract class DataModule {
         @Provides
         fun providePreferencesDataStore(appContext: Context): DataStore<Preferences> {
             return PreferenceDataStoreFactory.create(
-                    corruptionHandler = ReplaceFileCorruptionHandler(
-                            produceNewData = { emptyPreferences() }
-                    ),
-                    produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES_NAME) }
+                corruptionHandler = ReplaceFileCorruptionHandler(
+                    produceNewData = { emptyPreferences() }
+                ),
+                produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES_NAME) }
             )
         }
 

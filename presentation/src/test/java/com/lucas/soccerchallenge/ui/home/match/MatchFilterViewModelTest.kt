@@ -23,7 +23,8 @@ class MatchFilterViewModelTest {
 
 
     private lateinit var viewModel: MatchFilterViewModel
-    private val matches = ModelCreator.results.map { it.toMatch() }.map { it.toResultDisplayModel() }
+    private val matches =
+        ModelCreator.results.map { it.toMatch() }.map { it.toResultDisplayModel() }
 
     companion object {
         private const val PREMIER_LEAGUE = "Premier League"
@@ -38,18 +39,19 @@ class MatchFilterViewModelTest {
 
     @Test
     fun `should return only Premier League matches when that filter is set`() = runTest {
-        CompetitionFilters.competitionFilter.find { it.name == PREMIER_LEAGUE }?.also { competition ->
-            val filters = hashSetOf(competition.id)
-            viewModel.filterMatches(matches, filters)
-            viewModel.filteredMatches.test {
-                val data = awaitItem()
-                data.forEach { displayModel ->
-                    if (displayModel is ResultDisplayModel) {
-                        assertEquals(competition.name, displayModel.competitionName)
+        CompetitionFilters.competitionFilter.find { it.name == PREMIER_LEAGUE }
+            ?.also { competition ->
+                val filters = hashSetOf(competition.id)
+                viewModel.filterMatches(matches, filters)
+                viewModel.filteredMatches.test {
+                    val data = awaitItem()
+                    data.forEach { displayModel ->
+                        if (displayModel is ResultDisplayModel) {
+                            assertEquals(competition.name, displayModel.competitionName)
+                        }
                     }
                 }
-            }
-        } ?: run {
+            } ?: run {
             competitionNotFound()
         }
     }
@@ -93,28 +95,28 @@ class MatchFilterViewModelTest {
     @Test
     fun `should return only Carabao Cup and FA Cup matches when those filters are set`() = runTest {
         CompetitionFilters.competitionFilter.filter { it.name == CARABAO_CUP || it.name == FA_CUP }
-                .also { competitions ->
-                    if (competitions.isEmpty()) {
-                        competitionNotFound()
-                    } else {
-                        val filters = competitions.map { it.id }.toHashSet()
-                        viewModel.filterMatches(matches, filters)
-                        viewModel.filteredMatches.test {
-                            val data = awaitItem()
-                            data.forEach { displayModel ->
-                                if (displayModel is ResultDisplayModel) {
-                                    assertThat(
-                                            displayModel.competitionName,
-                                            anyOf(
-                                                    equalTo(CARABAO_CUP),
-                                                    equalTo(FA_CUP)
-                                            )
+            .also { competitions ->
+                if (competitions.isEmpty()) {
+                    competitionNotFound()
+                } else {
+                    val filters = competitions.map { it.id }.toHashSet()
+                    viewModel.filterMatches(matches, filters)
+                    viewModel.filteredMatches.test {
+                        val data = awaitItem()
+                        data.forEach { displayModel ->
+                            if (displayModel is ResultDisplayModel) {
+                                assertThat(
+                                    displayModel.competitionName,
+                                    anyOf(
+                                        equalTo(CARABAO_CUP),
+                                        equalTo(FA_CUP)
                                     )
-                                }
+                                )
                             }
                         }
                     }
                 }
+            }
     }
 
     private fun competitionNotFound() {

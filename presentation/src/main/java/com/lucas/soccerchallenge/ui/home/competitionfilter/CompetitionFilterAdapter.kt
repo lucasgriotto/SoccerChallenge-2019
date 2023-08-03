@@ -9,7 +9,8 @@ import com.soccerchallenge.data.util.CompetitionFilters
 import com.soccerchallenge.data.util.CompetitionFilters.ALL_FILTER_INDEX
 import javax.inject.Inject
 
-class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<CompetitionFilterAdapter.ViewHolder>() {
+class CompetitionFilterAdapter @Inject constructor() :
+    RecyclerView.Adapter<CompetitionFilterAdapter.ViewHolder>() {
 
     private val _filters = mutableListOf<CompetitionFilterDisplayModel>()
     val filters: List<CompetitionFilterDisplayModel>
@@ -75,8 +76,8 @@ class CompetitionFilterAdapter @Inject constructor() : RecyclerView.Adapter<Comp
     }
 
     inner class ViewHolder(
-            private val binding: ItemFilterBinding,
-            private val onFilterSelected: (CompetitionFilterDisplayModel) -> Unit
+        private val binding: ItemFilterBinding,
+        private val onFilterSelected: (CompetitionFilterDisplayModel) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(filter: CompetitionFilterDisplayModel) {

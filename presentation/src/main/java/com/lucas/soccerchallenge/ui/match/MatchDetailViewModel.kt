@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MatchDetailViewModel @Inject constructor(
-        private val fetchMatchUseCase: FetchMatchUseCase
+    private val fetchMatchUseCase: FetchMatchUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MatchDetailScreenState>(MatchDetailScreenState.Loading)

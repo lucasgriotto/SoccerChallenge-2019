@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FixtureViewModel @Inject constructor(
-        private val fetchFixtureUseCase: FetchFixtureUseCase
+    private val fetchFixtureUseCase: FetchFixtureUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MatchScreenState>(MatchScreenState.Loading)
@@ -28,7 +28,8 @@ class FixtureViewModel @Inject constructor(
                     _uiState.value = MatchScreenState.Success(fixtureDisplayModels)
                 }
 
-                is Response.Error -> _uiState.value = MatchScreenState.Error(ErrorFactory.getError(response.error))
+                is Response.Error -> _uiState.value =
+                    MatchScreenState.Error(ErrorFactory.getError(response.error))
             }
         }
     }

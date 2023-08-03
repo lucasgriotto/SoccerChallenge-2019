@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompetitionFilterViewModel @Inject constructor(
-        private val getSelectedCompetitionsFilterIdsUseCase: GetSelectedCompetitionsFilterIdsUseCase,
-        private val saveSelectedCompetitionFilterIdsUseCase: SaveSelectedCompetitionFilterIdsUseCase
+    private val getSelectedCompetitionsFilterIdsUseCase: GetSelectedCompetitionsFilterIdsUseCase,
+    private val saveSelectedCompetitionFilterIdsUseCase: SaveSelectedCompetitionFilterIdsUseCase
 ) : ViewModel() {
 
     private val _filterIds = MutableSharedFlow<Set<Int>>()
@@ -35,11 +35,12 @@ class CompetitionFilterViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val selectedCompetitionsIds = getSelectedCompetitionsFilterIdsUseCase.execute()
-            allFilterCompetitionDisplayModels = CompetitionFilters.competitionFilter.map { competition ->
-                competition.toFilterCompetitionDisplayModel(
+            allFilterCompetitionDisplayModels =
+                CompetitionFilters.competitionFilter.map { competition ->
+                    competition.toFilterCompetitionDisplayModel(
                         isSelected = selectedCompetitionsIds.contains(competition.id)
-                )
-            }
+                    )
+                }
             selectedFiltersIds = selectedCompetitionsIds
             _competitionFiltersLoaded.emit(true)
         }

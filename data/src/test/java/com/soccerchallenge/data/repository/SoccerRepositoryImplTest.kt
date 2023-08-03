@@ -35,111 +35,117 @@ class SoccerRepositoryImplTest {
     fun setUp() {
         MockKAnnotations.init(this)
         repository = SoccerRepositoryImpl(
-                remoteDataSource, localDataSource, UnconfinedTestDispatcher()
+            remoteDataSource, localDataSource, UnconfinedTestDispatcher()
         )
     }
 
     @Test
-    fun `should receive fixture from network when refresh true and fetch fixture success`() = runTest {
-        val fixtureResponse = ModelCreator.fixture
-        val fixture = fixtureResponse.map { it.toMatch() }
-        val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
+    fun `should receive fixture from network when refresh true and fetch fixture success`() =
+        runTest {
+            val fixtureResponse = ModelCreator.fixture
+            val fixture = fixtureResponse.map { it.toMatch() }
+            val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
 
-        coEvery { remoteDataSource.fetchFixture() } returns fixtureResponse
-        coEvery { localDataSource.deleteMatches(MatchType.FIXTURE) } returns Unit
-        coEvery { localDataSource.insertMatches(fixtureEntities) } returns Unit
+            coEvery { remoteDataSource.fetchFixture() } returns fixtureResponse
+            coEvery { localDataSource.deleteMatches(MatchType.FIXTURE) } returns Unit
+            coEvery { localDataSource.insertMatches(fixtureEntities) } returns Unit
 
-        val matches = repository.fetchFixture(true)
+            val matches = repository.fetchFixture(true)
 
-        coVerify { localDataSource.deleteMatches(MatchType.FIXTURE) }
-        coVerify { localDataSource.insertMatches(fixtureEntities) }
+            coVerify { localDataSource.deleteMatches(MatchType.FIXTURE) }
+            coVerify { localDataSource.insertMatches(fixtureEntities) }
 
-        assertEquals(Response.Success(fixture), matches)
-    }
-
-    @Test
-    fun `should receive fixture from network when refresh false and local data is empty`() = runTest {
-        val fixtureResponse = ModelCreator.fixture
-        val fixture = fixtureResponse.map { it.toMatch() }
-        val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
-
-        coEvery { localDataSource.fetchFixtureFromLocal() } returns emptyList()
-        coEvery { remoteDataSource.fetchFixture() } returns fixtureResponse
-        coEvery { localDataSource.deleteMatches(MatchType.FIXTURE) } returns Unit
-        coEvery { localDataSource.insertMatches(fixtureEntities) } returns Unit
-
-        val matches = repository.fetchFixture(false)
-
-        coVerify { localDataSource.fetchFixtureFromLocal() }
-        coVerify { localDataSource.deleteMatches(MatchType.FIXTURE) }
-        coVerify { localDataSource.insertMatches(fixtureEntities) }
-
-        assertEquals(Response.Success(fixture), matches)
-    }
+            assertEquals(Response.Success(fixture), matches)
+        }
 
     @Test
-    fun `should receive fixture from database when refresh false and local data is not empty`() = runTest {
-        val fixtureResponse = ModelCreator.fixture
-        val fixture = fixtureResponse.map { it.toMatch() }
-        val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
+    fun `should receive fixture from network when refresh false and local data is empty`() =
+        runTest {
+            val fixtureResponse = ModelCreator.fixture
+            val fixture = fixtureResponse.map { it.toMatch() }
+            val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
 
-        coEvery { localDataSource.fetchFixtureFromLocal() } returns fixtureEntities
+            coEvery { localDataSource.fetchFixtureFromLocal() } returns emptyList()
+            coEvery { remoteDataSource.fetchFixture() } returns fixtureResponse
+            coEvery { localDataSource.deleteMatches(MatchType.FIXTURE) } returns Unit
+            coEvery { localDataSource.insertMatches(fixtureEntities) } returns Unit
 
-        val matches = repository.fetchFixture(false)
+            val matches = repository.fetchFixture(false)
 
-        assertEquals(Response.Success(fixture), matches)
-    }
+            coVerify { localDataSource.fetchFixtureFromLocal() }
+            coVerify { localDataSource.deleteMatches(MatchType.FIXTURE) }
+            coVerify { localDataSource.insertMatches(fixtureEntities) }
 
-    @Test
-    fun `should receive results from network when refresh true and fetch results success`() = runTest {
-        val resultsResponse = ModelCreator.results
-        val results = resultsResponse.map { it.toMatch() }.sortedBy { it.date }
-        val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
-
-        coEvery { remoteDataSource.fetchMatchResults() } returns resultsResponse
-        coEvery { localDataSource.deleteMatches(MatchType.RESULT) } returns Unit
-        coEvery { localDataSource.insertMatches(resultsEntities) } returns Unit
-
-        val matches = repository.fetchMatchResults(true)
-
-        coVerify { localDataSource.deleteMatches(MatchType.RESULT) }
-        coVerify { localDataSource.insertMatches(resultsEntities) }
-
-        assertEquals(Response.Success(results), matches)
-    }
+            assertEquals(Response.Success(fixture), matches)
+        }
 
     @Test
-    fun `should receive results from network when refresh false and local data is empty`() = runTest {
-        val resultsResponse = ModelCreator.results
-        val results = resultsResponse.map { it.toMatch() }.sortedBy { it.date }
-        val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
+    fun `should receive fixture from database when refresh false and local data is not empty`() =
+        runTest {
+            val fixtureResponse = ModelCreator.fixture
+            val fixture = fixtureResponse.map { it.toMatch() }
+            val fixtureEntities = fixture.map { MatchEntityMapper.asEntity(it) }
 
-        coEvery { localDataSource.fetchMatchResultsFromLocal() } returns emptyList()
-        coEvery { remoteDataSource.fetchMatchResults() } returns resultsResponse
-        coEvery { localDataSource.deleteMatches(MatchType.RESULT) } returns Unit
-        coEvery { localDataSource.insertMatches(resultsEntities) } returns Unit
+            coEvery { localDataSource.fetchFixtureFromLocal() } returns fixtureEntities
 
-        val matches = repository.fetchMatchResults(false)
+            val matches = repository.fetchFixture(false)
 
-        coVerify { localDataSource.fetchMatchResultsFromLocal() }
-        coVerify { localDataSource.deleteMatches(MatchType.RESULT) }
-        coVerify { localDataSource.insertMatches(resultsEntities) }
-
-        assertEquals(Response.Success(results), matches)
-    }
+            assertEquals(Response.Success(fixture), matches)
+        }
 
     @Test
-    fun `should receive results from database when refresh false and local data is not empty`() = runTest {
-        val resultsResponse = ModelCreator.results
-        val results = resultsResponse.map { it.toMatch() }
-        val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
+    fun `should receive results from network when refresh true and fetch results success`() =
+        runTest {
+            val resultsResponse = ModelCreator.results
+            val results = resultsResponse.map { it.toMatch() }.sortedBy { it.date }
+            val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
 
-        coEvery { localDataSource.fetchMatchResultsFromLocal() } returns resultsEntities
+            coEvery { remoteDataSource.fetchMatchResults() } returns resultsResponse
+            coEvery { localDataSource.deleteMatches(MatchType.RESULT) } returns Unit
+            coEvery { localDataSource.insertMatches(resultsEntities) } returns Unit
 
-        val matches = repository.fetchMatchResults(false)
+            val matches = repository.fetchMatchResults(true)
 
-        assertEquals(Response.Success(results), matches)
-    }
+            coVerify { localDataSource.deleteMatches(MatchType.RESULT) }
+            coVerify { localDataSource.insertMatches(resultsEntities) }
+
+            assertEquals(Response.Success(results), matches)
+        }
+
+    @Test
+    fun `should receive results from network when refresh false and local data is empty`() =
+        runTest {
+            val resultsResponse = ModelCreator.results
+            val results = resultsResponse.map { it.toMatch() }.sortedBy { it.date }
+            val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
+
+            coEvery { localDataSource.fetchMatchResultsFromLocal() } returns emptyList()
+            coEvery { remoteDataSource.fetchMatchResults() } returns resultsResponse
+            coEvery { localDataSource.deleteMatches(MatchType.RESULT) } returns Unit
+            coEvery { localDataSource.insertMatches(resultsEntities) } returns Unit
+
+            val matches = repository.fetchMatchResults(false)
+
+            coVerify { localDataSource.fetchMatchResultsFromLocal() }
+            coVerify { localDataSource.deleteMatches(MatchType.RESULT) }
+            coVerify { localDataSource.insertMatches(resultsEntities) }
+
+            assertEquals(Response.Success(results), matches)
+        }
+
+    @Test
+    fun `should receive results from database when refresh false and local data is not empty`() =
+        runTest {
+            val resultsResponse = ModelCreator.results
+            val results = resultsResponse.map { it.toMatch() }
+            val resultsEntities = results.map { MatchEntityMapper.asEntity(it) }
+
+            coEvery { localDataSource.fetchMatchResultsFromLocal() } returns resultsEntities
+
+            val matches = repository.fetchMatchResults(false)
+
+            assertEquals(Response.Success(results), matches)
+        }
 
     @Test
     fun `should receive match from database when fetching match`() = runTest {

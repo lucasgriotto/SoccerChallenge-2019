@@ -16,9 +16,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SoccerRepositoryImpl @Inject constructor(
-        private val remoteDataSource: RemoteSoccerDataSource,
-        private val localDataSource: LocalSoccerDataSource,
-        @IODispatcher private val dispatcher: CoroutineDispatcher
+    private val remoteDataSource: RemoteSoccerDataSource,
+    private val localDataSource: LocalSoccerDataSource,
+    @IODispatcher private val dispatcher: CoroutineDispatcher
 ) : SoccerRepository {
 
     @WorkerThread
@@ -31,11 +31,11 @@ class SoccerRepositoryImpl @Inject constructor(
         val matches = remoteDataSource.fetchFixture()
         return withContext(dispatcher) {
             matches.map { it.toMatch() }
-                    .sortedBy { it.date }
-                    .also { fixture ->
-                        localDataSource.deleteMatches(MatchType.FIXTURE)
-                        insertMatches(fixture)
-                    }
+                .sortedBy { it.date }
+                .also { fixture ->
+                    localDataSource.deleteMatches(MatchType.FIXTURE)
+                    insertMatches(fixture)
+                }
         }
     }
 
@@ -44,7 +44,7 @@ class SoccerRepositoryImpl @Inject constructor(
         val matches = localDataSource.fetchFixtureFromLocal()
         return withContext(dispatcher) {
             matches.map { MatchEntityMapper.asDomain(it) }
-                    .ifEmpty { fetchFixtureRemotely() }
+                .ifEmpty { fetchFixtureRemotely() }
         }
     }
 
@@ -57,11 +57,11 @@ class SoccerRepositoryImpl @Inject constructor(
         val matches = remoteDataSource.fetchMatchResults()
         return withContext(dispatcher) {
             matches.map { it.toMatch() }
-                    .sortedBy { it.date }
-                    .also { results ->
-                        localDataSource.deleteMatches(MatchType.RESULT)
-                        insertMatches(results)
-                    }
+                .sortedBy { it.date }
+                .also { results ->
+                    localDataSource.deleteMatches(MatchType.RESULT)
+                    insertMatches(results)
+                }
         }
     }
 
@@ -70,7 +70,7 @@ class SoccerRepositoryImpl @Inject constructor(
         val matches = localDataSource.fetchMatchResultsFromLocal()
         return withContext(dispatcher) {
             matches.map { MatchEntityMapper.asDomain(it) }
-                    .ifEmpty { fetchMatchResultsRemotely() }
+                .ifEmpty { fetchMatchResultsRemotely() }
         }
     }
 

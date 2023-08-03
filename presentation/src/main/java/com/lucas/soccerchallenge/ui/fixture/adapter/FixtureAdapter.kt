@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FixtureAdapter @Inject constructor(
-        @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var onMatchClick: (FixtureDisplayModel) -> Unit
@@ -77,7 +77,7 @@ class FixtureAdapter @Inject constructor(
     }
 
     inner class MatchViewHolder constructor(
-            private val binding: ItemMatchFixtureBinding
+        private val binding: ItemMatchFixtureBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(match: FixtureDisplayModel) {

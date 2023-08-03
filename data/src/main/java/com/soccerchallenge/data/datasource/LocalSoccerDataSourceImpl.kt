@@ -6,7 +6,7 @@ import com.soccerchallenge.domain.model.MatchType
 import javax.inject.Inject
 
 class LocalSoccerDataSourceImpl @Inject constructor(
-        private val matchDao: MatchDao
+    private val matchDao: MatchDao
 ) : LocalSoccerDataSource {
 
     override suspend fun fetchFixtureFromLocal() = matchDao.getMatches(MatchType.FIXTURE)
